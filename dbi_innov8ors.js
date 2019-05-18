@@ -4,11 +4,17 @@ var sections;
 var current_section = 0;
 var current_question = 0;
 
-// var question = sections["section" + current_section]["question" + current_question]
+var question;
 
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
-    // sections = JSON.parse("questions.json");
+
+    $.getJSON("./data/questions.json", function(json) {
+        console.log(json); // show the JSON file content into console
+        sections = json
+    });
+    
+    pickQuestion();
 
     $(".btn-first-choice").click(function () {
         $("#first-choice").toggleClass("hide");
@@ -23,7 +29,14 @@ $(document).ready(function () {
         console.log($(this).closest('label').text())
     });
 
+    loadQuestion();
+
 });
+
+var pickQuestion = function () {
+    //Pick the current question
+    question = sections["section" + current_section]["question" + current_question]
+}
 
 //Pick the next question
 var loadNextQuestion = function () {
@@ -37,8 +50,7 @@ var loadNextQuestion = function () {
         }
     }
 
-    //Pick the current question
-    question = sections["section" + current_section]["question" + current_question]
+    pickQuestion();
 
     //Load the question into the HTML
     loadQuestion();
@@ -49,7 +61,7 @@ var loadNextQuestion = function () {
  * 
  * gestisci il caricamento dinamico dei pesi consigliati
  * inserisci html per domanda con risposta booleana
- */ 
+ */
 var loadQuestion = function () {
 
     //Check if it is boolean
@@ -106,8 +118,8 @@ var calculateResult = function () {
 function computeStandardDev(myDict) {
     var arr = [];
 
-    for ((key, value) in myDict) {
-        arr.append("\(value)");
+    for (var key in sections) {
+        arr.append(sections[key].input);
     }
 
     //average computation
@@ -138,4 +150,3 @@ function computeStandardDev(myDict) {
 
     window.alert(d);
 }
-
