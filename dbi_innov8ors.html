@@ -14,15 +14,35 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="./dbi.css">
+    <link rel="stylesheet" href="./dbi_innov8ors.css">
 
     <title>Form</title>
 </head>
 
 <body class="bg-red">
 
+    <div class="container button-group-center">
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-danger">PESO1</button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-danger">PESO2</button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-danger">PESO3</button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-danger">PESO4</button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-danger">PESO5</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-3 d-flex justify-content-center">
-        <div class="card">
+        <div class="card" style="display: none">
             <div class="card-body">
                 <div class="row">
                     <div class="col">
@@ -45,7 +65,7 @@
         </div>
     </div>
 
-    <div class="container-fluid pt-5 pl-5 pr-5">
+    <div class="container-fluid pt-5 pl-5 pr-5" style="display: none">
         <div class="card">
             <div id="question" class="card-body">
                 <div class="row">
@@ -57,33 +77,27 @@
                         <h3>Classi</h3>
                         <div class="form-check pt-3">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio">Option 1
-                            </label>
+                                <input type="radio" class="form-check-input" name="optradio">Option 1</label>
                         </div>
                         <div class="form-check pt-3">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio">Option 1
-                            </label>
+                                <input type="radio" class="form-check-input" name="optradio">Option 2</label>
                         </div>
                         <div class="form-check pt-3">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio">Option 1
-                            </label>
+                                <input type="radio" class="form-check-input" name="optradio">Option 3</label>
                         </div>
                         <div class="form-check pt-3">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio">Option 1
-                            </label>
+                                <input type="radio" class="form-check-input" name="optradio">Option 4</label>
                         </div>
                         <div class="form-check pt-3">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio">Option 1
-                            </label>
+                                <input type="radio" class="form-check-input" name="optradio">Option 5</label>
                         </div>
                         <div class="form-check pt-3">
                             <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="optradio">Option 1
-                            </label>
+                                <input type="radio" class="form-check-input" name="optradio">Option 6</label>
                         </div>
                     </div>
                     <div class="col-sm-3">
@@ -95,7 +109,7 @@
                             <div class="dropdown m-2 btn-block">
                                 <button class="btn btn-danger btn-block p-3 dropdown-toggle" type="button"
                                     id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                    aria-expanded="false" id="dropdown-choice">
                                     Dropdown button
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -132,6 +146,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
+    <script src="./dbi_innov8ors.js"></script>
 </body>
 
 </html>

@@ -43,3 +43,12 @@ body {
     right: 2rem;
     bottom: 2rem;
 }
+
+.button-group-center {
+    position: absolute;
+    height: 100%;
+}
+
+.button-group-center > row {
+    bottom: 100px;
+}
