@@ -45,8 +45,7 @@ body {
 }
 
 .button-group-center {
-    position: absolute;
-    height: 100%;
+    
 }
 
 .button-group-center > row {
@@ -55,4 +54,10 @@ body {
 
 .hide {
     display: none;
+}
+
+.col-md-4, .col-md-6{
+    margin-top:15px;
+    margin-bottom: 15px;
+    text-align: center;
 }

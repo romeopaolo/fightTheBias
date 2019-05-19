@@ -14,8 +14,8 @@ $(document).ready(function () {
         console.log(sections);
     });
 
-    current_question = 3;
-    current_section = 3;
+    current_question = 1;
+    current_section = 2;
 
     $("button").click(function () {
         console.log("Righetti sei un coglione")
@@ -49,6 +49,7 @@ function dropdownClicked(button) {
 
 var pickQuestion = function () {
     //Pick the current question
+    console.log("PORCA MADONNA")
     console.log(sections["section" + current_section]["question" + current_question])
     question = sections["section" + current_section]["question" + current_question]
     loadQuestion();
@@ -93,7 +94,7 @@ var loadQuestion = function () {
             elem += '<div class="form-check pt-3"><label class="form-check-label"><input type="radio" class="form-check-input" name="optradio">' + question.classes[index] + '</label></div>'
         }
 
-        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">PESO5</button></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">PESO5</button></div><div class="row d-flex flex-row-reverse"><div class="dropdown m-2 btn-block"> <button class="btn btn-danger btn-block p-3 dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-choice">Dropdown button</button><div class="dropdown-menu" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" href="#" id="Ok">Zero</a><a class="dropdown-item" href="#">Very low</a><a class="dropdown-item" href="#">Low</a><a class="dropdown-item" href="#">Medium</a><a class="dropdown-item" href="#">High</a><a class="dropdown-item" href="#">Very High</a></div></div></div>'
+        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">PESO SUGGERITO</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div>'
 
         //Clear the html
 
@@ -145,3 +146,8 @@ function computeStandardDev(myDict) {
 
     window.alert(d);
 }
+
+ 
+ $("#submit").click(function (e) {
+      alert($("#weight").val());
+ });
