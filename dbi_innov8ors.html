@@ -7,95 +7,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+          integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
     <link href="https://fonts.googleapis.com/css?family=Dosis|Quicksand" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./dbi_innov8ors.css">
 
     <title>Form</title>
 </head>
 
 <body class="bg-red">
-    
 
-    <div class="row h-100" id="first-choice">
-        <div class="col-sm-12 my-auto">
-            <p>CHOOSE YOUR CONTEXT OF APPLICATION:</p>
+
+<div class="row h-100" id="first-choice">
+    <div class="col-sm-12 my-auto">
+        <p>CHOOSE YOUR CONTEXT OF APPLICATION:</p>
+        <div class="row">
+            <div class="col-xs-12 col-md-4">
+                <button type="button" class="btn btn-danger btn-first-choice">POLITICS</button>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <button type="button" class="btn btn-danger btn-first-choice">GENDER</button>
+            </div>
+            <div class="col-xs-12 col-md-4">
+                <button type="button" class="btn btn-danger btn-first-choice">EDUCATION</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <button type="button" class="btn btn-danger btn-first-choice">AUTONOMOUS VEHICLE</button>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <button type="button" class="btn btn-danger btn-first-choice">HEALTHCARE</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3 d-flex justify-content-center">
+    <div class="card hide" id="question-section">
+        <div class="card-body">
             <div class="row">
-                <div class="col-xs-12 col-md-4">
-                    <button type="button" class="btn btn-danger btn-first-choice">POLITICS</button>
+                <div class="col">
+                    <button type="button" class="btn btn-danger">PESO1</button>
                 </div>
-                <div class="col-xs-12 col-md-4">
-                    <button type="button" class="btn btn-danger btn-first-choice">GENDER</button>
+                <div class="col">
+                    <button type="button" class="btn btn-danger">PESO2</button>
                 </div>
-                <div class="col-xs-12 col-md-4">
-                    <button type="button" class="btn btn-danger btn-first-choice">EDUCATION</button>
+                <div class="col">
+                    <button type="button" class="btn btn-danger">PESO3</button>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-md-6">
-                    <button type="button" class="btn btn-danger btn-first-choice">AUTONOMOUS VEHICLE</button>
+                <div class="col">
+                    <button type="button" class="btn btn-danger">PESO4</button>
                 </div>
-                <div class="col-xs-12 col-md-6">
-                    <button type="button" class="btn btn-danger btn-first-choice">HEALTHCARE</button>
+                <div class="col">
+                    <button type="button" class="btn btn-danger">PESO5</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="container mt-3 d-flex justify-content-center">
-        <div class="card hide" id="question-section">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-danger">PESO1</button>
-                    </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-danger">PESO2</button>
-                    </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-danger">PESO3</button>
-                    </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-danger">PESO4</button>
-                    </div>
-                    <div class="col">
-                        <button type="button" class="btn btn-danger">PESO5</button>
-                    </div>
-                </div>
-            </div>
+<div class="container-fluid pt-5 pl-5 pr-5">
+    <div class="card hide" id="question-section-body">
+        <div class="card-body" id="question">
+
         </div>
     </div>
+</div>
 
-    <div class="container-fluid pt-5 pl-5 pr-5">
-        <div class="card hide" id="question-section-body">
-            <div class="card-body" id="question">
-                
-            </div>
-        </div>
-    </div>
-
-    <button type="button" class="btn btn-primary btn-circle btn-xl button-floating hide" id="submit">
+<button type="button" class="btn btn-primary btn-circle btn-xl button-floating hide" id="submit">
         <span>
             <i class="fas fa-arrow-right"></i>
         </span>
-    </button>
+</button>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
-    <script src="./dbi_innov8ors.js"></script>
+</script>
+<script src="./dbi_innov8ors.js"></script>
 </body>
 
 </html>

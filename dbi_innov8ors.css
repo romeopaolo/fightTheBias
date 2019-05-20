@@ -16,7 +16,7 @@ body {
 }
 
 .bg-red {
-    background-color: #e74c3c;
+    background-color: #d3e7c8;
 }
 
 .btn-circle {
@@ -56,8 +56,8 @@ body {
     display: none;
 }
 
-.col-md-4, .col-md-6{
-    margin-top:30px;
+.col-md-4, .col-md-6 {
+    margin-top: 30px;
     margin-bottom: 30px;
     text-align: center;
 }

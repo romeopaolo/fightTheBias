@@ -1,6 +1,6 @@
 //Dictionary containing all sections
 var sections;
-var suggweights="";
+var suggweights = "";
 var current_section;
 var current_question;
 
@@ -23,11 +23,11 @@ $(document).ready(function () {
     });
 
     $(".btn-first-choice").click(function () {
-        
-        var context=$(this).text();
+
+        var context = $(this).text();
         alert(context);
-        
-        var path="./data/suggested_weights_"+context+".json"
+
+        var path = "./data/suggested_weights_" + context + ".json"
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json
             console.log(suggweights);
@@ -63,7 +63,7 @@ var pickQuestion = function () {
     //Pick the current question
     console.log(sections["section" + current_section]["question" + current_question])
     question = sections["section" + current_section]["question" + current_question]
-    suggweight= suggweights["section" + current_section]["question" + current_question]
+    suggweight = suggweights["section" + current_section]["question" + current_question]
     loadQuestion();
 }
 
@@ -84,7 +84,7 @@ var loadNextQuestion = function () {
 
 /**
  * TODO:
- * 
+ *
  * gestisci il caricamento dinamico dei pesi consigliati
  * inserisci html per domanda con risposta booleana
  */
@@ -96,16 +96,16 @@ var loadQuestion = function () {
     } else {
 
         var elem = ""
-        elem += '<div class="row"><div class="col-sm-9"><h1>Question ' + (current_question) + '</h1><br><h2>' + question.description + '</h2><br><h3>'+ question.text+'</h3>'
+        elem += '<div class="row"><div class="col-sm-9"><h1>Question ' + (current_question) + '</h1><br><h2>' + question.description + '</h2><br><h3>' + question.text + '</h3>'
 
-        elem+='<ul>'
+        elem += '<ul>'
         for (var index in question.classes) {
             console.log(index)
-            elem += '<li>' + question.classes[index] + '<input type="text" id="input'+index+'" /></li>'
+            elem += '<li>' + question.classes[index] + '<input type="text" id="input' + index + '" /></li>'
         }
-        elem+='</ul>'
-        
-        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">'+suggweight+'</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div>'
+        elem += '</ul>'
+
+        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">' + suggweight + '</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div>'
 
         //Clear the html
 
@@ -119,49 +119,49 @@ var calculateResult = function () {
 }
 
 
-
-
-
-function computeStandardDev(myDict) {
+function evaluateVariable(myDict) {
     var arr = [];
 
     for (var key in sections) {
         arr.append(sections[key].input);
     }
 
-    //average computation
-    var k = 0;
-    for (var i = 0; i <= arr.length - 1; i++) {
-        k = arr[i] + k;
-    }
-    var lun = arr.length;
-    var average = k / lun;
+    let n = arr.length;
 
-    //devsq computation
+    //average computation
+    var sum = 0;
+    for (var i = 0; i < n; i++) {
+        sum = arr[i] + sum;
+    }
+    var average = sum / n;
+
+    //computation of the real standard deviation
     var r = 0;
     for (var l = 0; l <= arr.length - 1; l++) {
         r = Math.pow((arr[l] - average), 2) + r;
     }
 
-    //variance computation
-    var variance = r / lun;
+    var variance = r / n;
 
-    //max variance computation
-    var maxvar = Math.pow((100 - average), 2);
-
-    //max standard deviation computation
-    var maxdev = Math.sqrt(maxvar);
-
-    //standard deviation compute
     var dev = Math.sqrt(variance);
 
-    window.alert(d);
+    //computation of the maximum standard deviation
+    var avg = 100 / n;
+
+    var max_r = Math.pow((100 - avg), 2);
+    max_r = Math.pow(avg, 2) * (n - 1) + max_r;
+
+    var max_var = max_r / n;
+
+    var max_dev = Math.sqrt(max_var);
+
+    return (1 - dev / max_dev)
 }
 
- 
- $("#submit").click(function () {
-      //var value = $("#input0").val()
-      alert($("#input0").val());
-      //alert($("#weight").val());
-      loadNextQuestion();
- });
+
+$("#submit").click(function () {
+    //var value = $("#input0").val()
+    alert($("#input0").val());
+    //alert($("#weight").val());
+    loadNextQuestion();
+});
