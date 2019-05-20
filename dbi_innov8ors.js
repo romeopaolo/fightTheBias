@@ -16,7 +16,7 @@ $(document).ready(function () {
     });
 
     current_question = 1;
-    current_section = 2;
+    current_section = 1;
 
     $("button").click(function () {
         console.log("Righetti coglione")
@@ -27,9 +27,9 @@ $(document).ready(function () {
         var context = $(this).text();
         alert(context);
 
-        var path = "./data/suggested_weights_" + context + ".json"
+        var path = "./data/suggested_weights_" + context + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
-            suggweights = json
+            suggweights = json;
             console.log(suggweights);
         });
 
@@ -65,7 +65,7 @@ var pickQuestion = function () {
     question = sections["section" + current_section]["question" + current_question]
     suggweight = suggweights["section" + current_section]["question" + current_question]
     loadQuestion();
-}
+};
 
 //Pick the next question
 var loadNextQuestion = function () {

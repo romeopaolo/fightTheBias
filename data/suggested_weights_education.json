@@ -1,55 +1,55 @@
 {
   "section1": {
-    "question1": "0",
-    "question2": "1",
-    "question3": "2",
+    "question1": "5",
+    "question2": "3",
+    "question3": "5",
     "question4": "3",
     "question5": "4",
-    "question6": "5"
+    "question6": "3"
   },
   "section2": {
-    "question1": "0",
-    "question2": "1",
-    "question3": "2",
-    "question4": "3",
+    "question1": "3",
+    "question2": "3",
+    "question3": "3",
+    "question4": "4",
     "question5": "4",
-    "question6": "5",
+    "question6": "4",
     "question7": "5",
-    "question8": "5",
-    "question9": "5"
+    "question8": "4",
+    "question9": "1"
   },
   "section3": {
-    "question1": "0",
-    "question2": "1",
-    "question3": "2",
-    "question4": "3",
-    "question5": "4",
-    "question6": "5",
+    "question1": "2",
+    "question2": "3",
+    "question3": "0",
+    "question4": "0",
+    "question5": "1",
+    "question6": "0",
     "question7": "5",
-    "question8": "5"
+    "question8": "4"
   },
   "section4": {
-    "question1": "0",
-    "question2": "1",
-    "question3": "2",
+    "question1": "2",
+    "question2": "4",
+    "question3": "5",
     "question4": "3",
-    "question5": "4",
-    "question6": "5",
-    "question7": "5",
-    "question8": "5"
+    "question5": "5",
+    "question6": "4",
+    "question7": "3",
+    "question8": "4"
   },
   "section5": {
-    "question1": "0",
-    "question2": "1"
+    "question1": "3",
+    "question2": "3"
   },
   "section6": {
-    "question1": "0",
-    "question2": "1",
-    "question3": "2",
-    "question4": "3",
-    "question5": "4",
-    "question6": "5",
+    "question1": "3",
+    "question2": "3",
+    "question3": "3",
+    "question4": "2",
+    "question5": "1",
+    "question6": "3",
     "question7": "5",
-    "question8": "5"
+    "question8": "4"
   }
 } 

@@ -1,7 +1,7 @@
 {
   "section1": {
     "question1": {
-      "text": "Is there an Ethics Commitee that approved your AI project?",
+      "text": "Is there an Ethics Committee that approved your AI project?",
       "description": "d1",
       "boolean": true
     },
@@ -21,7 +21,7 @@
       "boolean": true
     },
     "question5": {
-      "text": "Does your AI project  promote justice and seek to eliminate discriminations?",
+      "text": "Does your AI project  promote justice and seek to eliminate discrimination?",
       "description": "d1",
       "boolean": true
     },
@@ -33,7 +33,7 @@
   },
   "section2": {
     "question1": {
-      "text": "Hetereogenity of gender ",
+      "text": "Heterogeneity of gender ",
       "description": "Please write here the number of males and females that compose your developing team.",
       "boolean": false,
       "classes": [
@@ -42,7 +42,7 @@
       ]
     },
     "question2": {
-      "text": "Hetereogenity of area of origin (on the basis of the scope: international)",
+      "text": "Heterogeneity of area of origin (on the basis of the scope: international)",
       "description": "d1",
       "boolean": false,
       "classes": [
@@ -54,7 +54,7 @@
       ]
     },
     "question3": {
-      "text": "Hetereogenity of age",
+      "text": "Heterogeneity of age",
       "description": "d1",
       "boolean": false,
       "classes": [
@@ -64,7 +64,7 @@
       ]
     },
     "question4": {
-      "text": "Hetereogenity of years of experience",
+      "text": "Heterogeneity of years of experience",
       "description": "d1",
       "boolean": false,
       "classes": [
@@ -112,7 +112,7 @@
   },
   "section3": {
     "question1": {
-      "text": "Hetereogenity of gender ",
+      "text": "Heterogeneity of gender ",
       "description": "d1",
       "boolean": false,
       "classes": [
@@ -121,7 +121,7 @@
       ]
     },
     "question2": {
-      "text": "Hetereogenity of area of origin (on the basis of the scope: international)",
+      "text": "Heterogeneity of area of origin (on the basis of the scope: international)",
       "description": "d1",
       "boolean": false,
       "classes": [
@@ -133,7 +133,7 @@
       ]
     },
     "question3": {
-      "text": "Hetereogenity of height",
+      "text": "Heterogeneity of height",
       "description": "d1",
       "boolean": false,
       "classes": [
@@ -144,7 +144,7 @@
       ]
     },
     "question4": {
-      "text": "Hetereogenity of weight",
+      "text": "Heterogeneity of weight",
       "description": "d1",
       "boolean": false,
       "classes": [
@@ -156,7 +156,7 @@
       ]
     },
     "question5": {
-      "text": "Hetereogenity of age",
+      "text": "Heterogeneity of age",
       "description": "d1",
       "boolean": false,
       "classes": [
@@ -166,7 +166,7 @@
       ]
     },
     "question6": {
-      "text": "Hetereogenity of hair color",
+      "text": "Heterogeneity of hair color",
       "description": "d1",
       "boolean": false,
       "classes": [
@@ -232,12 +232,12 @@
   },
   "section5": {
     "question1": {
-      "text": "Is the Dataset size significative with respect to the population of study size? ",
+      "text": "Is the data set size significative with respect to the population of study size? ",
       "description": "d1",
       "boolean": true
     },
     "question2": {
-      "text": "Is the Dataset size significative with respect to its context?",
+      "text": "Is the data set size significative with respect to its context?",
       "description": "d1",
       "boolean": true
     }
@@ -265,7 +265,7 @@
       "reverse": true
     },
     "question5": {
-      "text": "Is the alghoritm considering just reliable/significative features?",
+      "text": "Is the algorithm considering just reliable/significative features?",
       "description": "d1",
       "boolean": true
     },
