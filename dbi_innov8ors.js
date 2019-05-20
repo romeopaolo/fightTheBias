@@ -11,35 +11,28 @@ var suggweight;
 $(document).ready(function () {
 
     $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
-        sections = json
+        sections = json;
         console.log(sections);
     });
 
     current_question = 1;
-    current_section = 1;
+    current_section = 2;
 
     $("button").click(function () {
-        console.log("Righetti coglione")
+        console.log("Button clicked")
     });
 
     $(".btn-first-choice").click(function () {
 
         var context = $(this).text();
-        alert(context);
+        //alert(context);
 
-        var path = "./data/suggested_weights_" + context + ".json";
+        var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
             console.log(suggweights);
+            pickFirstQuestion();
         });
-
-        pickQuestion();
-        $("#first-choice").toggleClass("hide");
-        $("#question-section").toggleClass("hide");
-        // $("#question-section").toggleClass("scene_element scene_element--fadeinup");
-        $("#question-section-body").toggleClass("hide");
-        $("#submit").toggleClass("hide");
-        // $("#question-section-body").toggleClass("scene_element scene_element--fadeinup");
     });
 
     $("#Ok").click(function () {
@@ -59,10 +52,24 @@ function dropdownClicked(button) {
     $(".dropdown-toggle:first-child").val($(button).text());
 }*/
 
+var changeScenario = function () {
+    $("#first-choice").toggleClass("hide");
+    $("#question-section").toggleClass("hide");
+    // $("#question-section").toggleClass("scene_element scene_element--fadeinup");
+    $("#question-section-body").toggleClass("hide");
+    $("#submit").toggleClass("hide");
+    // $("#question-section-body").toggleClass("scene_element scene_element--fadeinup");
+};
+
+var pickFirstQuestion = function () {
+    changeScenario();
+    pickQuestion();
+};
+
 var pickQuestion = function () {
     //Pick the current question
-    console.log(sections["section" + current_section]["question" + current_question])
-    question = sections["section" + current_section]["question" + current_question]
+    console.log(sections["section" + current_section]["question" + current_question]);
+    question = sections["section" + current_section]["question" + current_question];
     suggweight = suggweights["section" + current_section]["question" + current_question]
     loadQuestion();
 };
@@ -80,7 +87,7 @@ var loadNextQuestion = function () {
     }
 
     pickQuestion();
-}
+};
 
 /**
  * TODO:
@@ -95,28 +102,50 @@ var loadQuestion = function () {
         console.log("boolean")
     } else {
 
-        var elem = ""
-        elem += '<div class="row"><div class="col-sm-9"><h1>Question ' + (current_question) + '</h1><br><h2>' + question.description + '</h2><br><h3>' + question.text + '</h3>'
+        var elem = "";
+        elem += '<div class="row">' +
+                    '<div class="col-sm-9">' +
+                        '<h1>Question ' + (current_question) + '</h1><br>' +
+                        '<h2>' + question.description + '</h2><br>' +
+                        '<h3>' + question.text + '</h3>';
 
-        elem += '<ul>'
+        // display the list of classes
+        elem += '<ul>';
         for (var index in question.classes) {
-            console.log(index)
+            console.log(index);
             elem += '<li>' + question.classes[index] + '<input type="text" id="input' + index + '" /></li>'
         }
-        elem += '</ul>'
+        elem += '</ul>';
 
-        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">' + suggweight + '</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div>'
+        elem += '</div>' +
+                '<div class="col-sm-3">' +
+                '<div class="row d-flex flex-row-reverse">' +
+                    '<button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button>' +
+                '</div>' +
+                '<div class="row d-flex flex-row-reverse">' +
+                    '<button type="button"class="btn btn-danger btn-block m-2 p-3">' + suggweight + '</button>' +
+                '</div>' +
+                '<select id="weight" class="btn-danger btn-block " >' +
+                    '<option value="0">Zero</option>' +
+                    '<option value="1">Low</option>' +
+                    '<option value="2">Very Low</option>' +
+                    '<option value="3">Medium</option>' +
+                    '<option value="4">High</option>' +
+                    '<option value="5">Very High</option>' +
+                    '<option value="" selected disabled hidden>Weight</option>' +
+                '</select>' +
+                '</div>';
 
         //Clear the html
 
         //Append the new question
         $("#question").append(elem)
     }
-}
+};
 
 var calculateResult = function () {
     //QUALCUNO DOVRA' SCRIVERE QUESTA MERDA
-}
+};
 
 
 function evaluateVariable(myDict) {
@@ -161,7 +190,7 @@ function evaluateVariable(myDict) {
 
 $("#submit").click(function () {
     //var value = $("#input0").val()
-    alert($("#input0").val());
+    //alert($("#input0").val());
     //alert($("#weight").val());
     loadNextQuestion();
 });
