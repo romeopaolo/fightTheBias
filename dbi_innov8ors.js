@@ -1,10 +1,11 @@
 //Dictionary containing all sections
 var sections;
-
+var suggweights="";
 var current_section;
 var current_question;
 
 var question;
+var suggweight;
 
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
@@ -25,6 +26,7 @@ $(document).ready(function () {
         
         var context=$(this).text();
         alert(context);
+        
         var path="./data/suggested_weights_"+context+".json"
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json
@@ -59,7 +61,6 @@ function dropdownClicked(button) {
 
 var pickQuestion = function () {
     //Pick the current question
-    console.log("PORCA MADONNA")
     console.log(sections["section" + current_section]["question" + current_question])
     question = sections["section" + current_section]["question" + current_question]
     suggweight= suggweights["section" + current_section]["question" + current_question]

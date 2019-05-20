@@ -1,55 +1,55 @@
 {
     "section1" : {
-        "question1" : "0",
-        "question2" : "1",
-        "question3" : "2",
-        "question4" : "3",
-        "question5" : "4",
-        "question6" : "5"
+        "question1" : "Zero",
+        "question2" : "Zero",
+        "question3" : "Zero",
+        "question4" : "Zero",
+        "question5" : "Zero",
+        "question6" : "Zero"
     },
     "section2" : {
-        "question1" : "0",
-        "question2" : "1",
-        "question3" : "2",
-        "question4" : "3",
-        "question5" : "4",
-        "question6" : "5",
-        "question7" : "5",
-        "question8" : "5",
-        "question9" : "5"
+        "question1" : "Very Low",
+        "question2" : "Low",
+        "question3" : "Very Low",
+        "question4" : "Very Low",
+        "question5" : "Very Low",
+        "question6" : "Very Low",
+        "question7" : "Very Low",
+        "question8" : "Very Low",
+        "question9" : "Very Low"
     },
     "section3" : {
-        "question1" : "0",
-        "question2" : "1",
-        "question3" : "2",
-        "question4" : "3",
-        "question5" : "4",
-        "question6" : "5",
-        "question7" : "5",
-        "question8" : "5"
+        "question1" : "Very Low",
+        "question2" : "Very Low",
+        "question3" : "Very Low",
+        "question4" : "Very Low",
+        "question5" : "Very Low",
+        "question6" : "Very Low",
+        "question7" : "Very Low",
+        "question8" : "Very Low"
     },
     "section4" : {
-        "question1" : "0",
-        "question2" : "1",
-        "question3" : "2",
-        "question4" : "3",
-        "question5" : "4",
-        "question6" : "5",
-        "question7" : "5",
-        "question8" : "5"
+        "question1" : "Low",
+        "question2" : "Low",
+        "question3" : "Low",
+        "question4" : "Low",
+        "question5" : "Low",
+        "question6" : "Low",
+        "question7" : "Low",
+        "question8" : "Low"
     },
     "section5" : {
-        "question1" : "0",
-        "question2" : "1"
+        "question1" : "Low",
+        "question2" : "Low"
     },
     "section6" : {
-        "question1" : "0",
-        "question2" : "1",
-        "question3" : "2",
-        "question4" : "3",
-        "question5" : "4",
-        "question6" : "5",
-        "question7" : "5",
-        "question8" : "5"
+        "question1" : "Low",
+        "question2" : "Low",
+        "question3" : "Low",
+        "question4" : "Low",
+        "question5" : "Low",
+        "question6" : "Low",
+        "question7" : "Low",
+        "question8" : "Low"
     }
 } 
