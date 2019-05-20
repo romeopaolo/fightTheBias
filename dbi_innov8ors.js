@@ -18,15 +18,25 @@ $(document).ready(function () {
     current_section = 2;
 
     $("button").click(function () {
-        console.log("Righetti sei un coglione")
+        console.log("Righetti coglione")
     });
 
     $(".btn-first-choice").click(function () {
+        
+        var context=$(this).text();
+        alert(context);
+        var path="./data/suggested_weights_"+context+".json"
+        $.getJSON(path, function (json) { // show the JSON file content into console
+            suggweights = json
+            console.log(suggweights);
+        });
+
         pickQuestion();
         $("#first-choice").toggleClass("hide");
         $("#question-section").toggleClass("hide");
         // $("#question-section").toggleClass("scene_element scene_element--fadeinup");
         $("#question-section-body").toggleClass("hide");
+        $("#submit").toggleClass("hide");
         // $("#question-section-body").toggleClass("scene_element scene_element--fadeinup");
     });
 
@@ -41,17 +51,18 @@ $(document).ready(function () {
     });
 
 });
-
+/*
 function dropdownClicked(button) {
     $(".dropdown-toggle:first-child").text($(button).text());
     $(".dropdown-toggle:first-child").val($(button).text());
-}
+}*/
 
 var pickQuestion = function () {
     //Pick the current question
     console.log("PORCA MADONNA")
     console.log(sections["section" + current_section]["question" + current_question])
     question = sections["section" + current_section]["question" + current_question]
+    suggweight= suggweights["section" + current_section]["question" + current_question]
     loadQuestion();
 }
 
@@ -68,9 +79,6 @@ var loadNextQuestion = function () {
     }
 
     pickQuestion();
-
-    //Load the question into the HTML
-    loadQuestion();
 }
 
 /**
@@ -87,14 +95,16 @@ var loadQuestion = function () {
     } else {
 
         var elem = ""
-        elem += '<div class="row"><div class="col-sm-9"><h1>DOMANDA ' + (current_question + 1) + '</h1><br><h2>' + question.description + '</h2><br><h3>Classi</h3>'
+        elem += '<div class="row"><div class="col-sm-9"><h1>Question ' + (current_question) + '</h1><br><h2>' + question.description + '</h2><br><h3>'+ question.text+'</h3>'
 
+        elem+='<ul>'
         for (var index in question.classes) {
             console.log(index)
-            elem += '<div class="form-check pt-3"><label class="form-check-label"><input type="radio" class="form-check-input" name="optradio">' + question.classes[index] + '</label></div>'
+            elem += '<li>' + question.classes[index] + '<input type="text" id="input'+index+'" /></li>'
         }
-
-        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">PESO SUGGERITO</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div>'
+        elem+='</ul>'
+        
+        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">'+suggweight+'</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div>'
 
         //Clear the html
 
@@ -148,6 +158,9 @@ function computeStandardDev(myDict) {
 }
 
  
- $("#submit").click(function (e) {
-      alert($("#weight").val());
+ $("#submit").click(function () {
+      //var value = $("#input0").val()
+      alert($("#input0").val());
+      //alert($("#weight").val());
+      loadNextQuestion();
  });

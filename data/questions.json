@@ -34,7 +34,7 @@
     "section2" : {
         "question1" : {
             "text" : "Hetereogenity of gender ",
-            "description" : "d1",
+            "description" : "Please write here the number of males and females that compose your developing team.",
             "boolean" : false,
             "classes" : [
                 "Number of males",
