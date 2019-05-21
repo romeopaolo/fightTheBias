@@ -20,10 +20,6 @@ $(document).ready(function () {
         displayThumbnails();
     });
 
-    $("button").click(function () {
-        console.log("Button clicked")
-    });
-
     $(".btn-first-choice").click(function () {
 
         var context = $(this).text();
@@ -37,22 +33,7 @@ $(document).ready(function () {
         });
     });
 
-    $("#Ok").click(function () {
-        console.log("Clicked")
-        $(".dropdown-toggle:first-child").text($(this).text());
-        $(".dropdown-toggle:first-child").val($(this).text());
-    });
-
-    $(".form-check-input").click(function () {
-        console.log($(this).closest('label').text())
-    });
-
 });
-/*
-function dropdownClicked(button) {
-    $(".dropdown-toggle:first-child").text($(button).text());
-    $(".dropdown-toggle:first-child").val($(button).text());
-}*/
 
 var changeScenario = function () {
     $("#first-choice").toggleClass("hide");
@@ -77,7 +58,7 @@ var displayThumbnails= function () {
         if (section.hasOwnProperty(question)) {
             ++numberOfQuestions;
             thumbnails+='<div class="col">'
-                        +'<button type="button" class="btn btn-danger" id="question'+numberOfQuestions+'">Q'+numberOfQuestions+'</button>'
+                        +'<button type="button" class="btn btn-danger thumbnail" id="thumbnail'+numberOfQuestions+'" onclick="thumbnailChosen('+numberOfQuestions+')">Q'+numberOfQuestions+'</button>'
                       +'</div>'
         
             $("#thumbnails").empty()
@@ -161,9 +142,6 @@ var loadQuestion = function () {
 
         elem += '</div>' +
             '<div class="col-sm-3">' +
-            '<div class="row d-flex flex-row-reverse">' +
-            '<button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button>' +
-            '</div>' +
             '<div class="row d-flex flex-row-reverse">' +
             '<button type="button"class="btn btn-danger btn-block m-2 p-3">' + suggweight + '</button>' +
             '</div>' +
@@ -262,7 +240,7 @@ $("#submit").click(function () {
    console.log("Weight: "+ weight)
    console.log("Missing input: "+missinginput)
     if (weight!=null&&!missinginput){
-        document.getElementById("question"+current_question).innerHTML = "Q"+current_question+ " W:"+$("#weight").val();
+        document.getElementById("thumbnail"+current_question).innerHTML = "Q"+current_question+ " W:"+$("#weight").val();
         loadNextQuestion();
         missinginput=false;
         weight=null;
@@ -299,3 +277,7 @@ function readMultipleInput() {
 }
 
 
+function thumbnailChosen (value) {
+    current_question=value;
+    pickQuestion();
+}
