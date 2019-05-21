@@ -6,6 +6,7 @@ var current_question;
 
 var question;
 var suggweight;
+var dataStructure;
 
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
@@ -15,8 +16,9 @@ $(document).ready(function () {
         console.log(sections);
     });
 
+    dataStructure = {};
     current_question = 1;
-    current_section = 1;
+    current_section = 2;
 
     $("button").click(function () {
         console.log("Button clicked")
@@ -100,16 +102,16 @@ var loadQuestion = function () {
     //Check if it is boolean
     if (question.boolean) {
         var elem = "";
-        elem += '<div class="row"><div class="col-sm-9"><h1>Question ' + (current_question) + '</h1><br><h2>' + question.description + '</h2><br><h3>'+ question.text+'</h3>'
-        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">'+suggweight+'</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div><form><table><tr><td><input type="radio" name="Y/N" class="checkboxClass" />Yes</td><td><input type="radio" name="Y/N" class="checkboxClass" />No</td> </tr></table></form>'
+        elem += '<div class="row"><div class="col-sm-9"><h1>Question ' + (current_question) + '</h1><br><h2>' + question.description + '</h2><br><h3>' + question.text + '</h3>'
+        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">' + suggweight + '</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div><form><table><tr><td><input type="radio" name="Y/N" class="checkboxClass" />Yes</td><td><input type="radio" name="Y/N" class="checkboxClass" />No</td> </tr></table></form>'
     } else {
 
         var elem = "";
         elem += '<div class="row">' +
-                    '<div class="col-sm-9">' +
-                        '<h1>Question ' + (current_question) + '</h1><br>' +
-                        '<h2>' + question.description + '</h2><br>' +
-                        '<h3>' + question.text + '</h3>';
+            '<div class="col-sm-9">' +
+            '<h1>Question ' + (current_question) + '</h1><br>' +
+            '<h2>' + question.description + '</h2><br>' +
+            '<h3>' + question.text + '</h3>';
 
         // display the list of classes
         elem += '<ul>';
@@ -120,23 +122,23 @@ var loadQuestion = function () {
         elem += '</ul>';
 
         elem += '</div>' +
-                '<div class="col-sm-3">' +
-                '<div class="row d-flex flex-row-reverse">' +
-                    '<button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button>' +
-                '</div>' +
-                '<div class="row d-flex flex-row-reverse">' +
-                    '<button type="button"class="btn btn-danger btn-block m-2 p-3">' + suggweight + '</button>' +
-                '</div>' +
-                '<select id="weight" class="btn-danger btn-block " >' +
-                    '<option value="0">Zero</option>' +
-                    '<option value="1">Low</option>' +
-                    '<option value="2">Very Low</option>' +
-                    '<option value="3">Medium</option>' +
-                    '<option value="4">High</option>' +
-                    '<option value="5">Very High</option>' +
-                    '<option value="" selected disabled hidden>Weight</option>' +
-                '</select>' +
-                '</div>';
+            '<div class="col-sm-3">' +
+            '<div class="row d-flex flex-row-reverse">' +
+            '<button type="button"class="btn btn-danger btn-block m-2 p-3">INPUT</button>' +
+            '</div>' +
+            '<div class="row d-flex flex-row-reverse">' +
+            '<button type="button"class="btn btn-danger btn-block m-2 p-3">' + suggweight + '</button>' +
+            '</div>' +
+            '<select id="weight" class="btn-danger btn-block " >' +
+            '<option value="0">Zero</option>' +
+            '<option value="1">Low</option>' +
+            '<option value="2">Very Low</option>' +
+            '<option value="3">Medium</option>' +
+            '<option value="4">High</option>' +
+            '<option value="5">Very High</option>' +
+            '<option value="" selected disabled hidden>Weight</option>' +
+            '</select>' +
+            '</div>';
     }
 
     //Clear the html
@@ -150,13 +152,7 @@ var calculateResult = function () {
 };
 
 
-function evaluateVariable(myDict) {
-    var arr = [];
-
-    for (var key in sections) {
-        arr.append(sections[key].input);
-    }
-
+function evaluateVariable(arr) {
     let n = arr.length;
 
     //average computation
@@ -190,13 +186,57 @@ function evaluateVariable(myDict) {
 }
 
 $("#submit").click(function () {
-    //var value = $("#input0").val()
-    //alert($("#input0").val());
-    //alert($("#weight").val());
+    var section = "section" + current_section;
+    var question = "question" + current_question;
+    var value;
+
+    // read classes
+    if(!question.boolean){
+        value = readMultipleInput();
+    } else {
+        value = readBooleanInput();
+    }
+
+    var weight = $("#weight").val();
+
+    console.log(value);
+
+    // if it is the first question of the section
+    if(!dataStructure.hasOwnProperty(section)){
+        dataStructure[section] = {};
+    }
+
+    // create the question
+    dataStructure[section][question] = {};
+
+    // fill the question
+    dataStructure[section][question]["data"] = value;
+    dataStructure[section][question]["weight"] = weight;
+    if(!question.boolean){
+        dataStructure[section][question]["result"] = evaluateVariable(value) * weight;
+    } else {
+        dataStructure[section][question]["result"] = value * weight;
+    }
+
+    console.log(dataStructure);
+
     loadNextQuestion();
 });
 
-$('#checkbox').on('click', function(e) {
+function readBooleanInput() {
+    var input;
+    input = $("input[name='Y/N']:checked").val();
+    return input;
+}
+function readMultipleInput() {
+    var inputs = [];
+    for (var i = 0; i < question.classes.length; i++) {
+        inputs.push($("#input" + i).val());
+    }
+    return inputs;
+}
+
+$('#checkbox').on('click', function () {
     console.log("PORCO")
     //alert($(this).val())
 });
