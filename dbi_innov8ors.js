@@ -3,7 +3,7 @@ var sections;
 var suggweights = "";
 var current_section;
 var current_question;
-
+var numberOfQuestions;
 var question;
 var suggweight;
 
@@ -13,10 +13,16 @@ $(document).ready(function () {
     $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
         sections = json;
         console.log(sections);
+
+    
+        current_section = 1;
+
+        displayThumbnails();
     });
 
-    current_question = 1;
-    current_section = 1;
+    
+
+
 
     $("button").click(function () {
         console.log("Button clicked")
@@ -66,6 +72,24 @@ var pickFirstQuestion = function () {
     pickQuestion();
 };
 
+var displayThumbnails= function () {
+    current_question = 1;
+    numberOfQuestions=0
+    section=sections["section" + current_section]
+    thumbnails=""
+    for (var question in section) {
+        if (section.hasOwnProperty(question)) {
+            ++numberOfQuestions;
+            thumbnails+='<div class="col">'
+                        +'<button type="button" class="btn btn-danger" id="question'+numberOfQuestions+'">#'+numberOfQuestions+'</button>'
+                      +'</div>'
+        
+            $("#thumbnails").empty()
+            $("#thumbnails").append(thumbnails)
+        }
+    }
+}
+
 var pickQuestion = function () {
     //Pick the current question
     console.log(sections["section" + current_section]["question" + current_question]);
@@ -77,11 +101,11 @@ var pickQuestion = function () {
 //Pick the next question
 var loadNextQuestion = function () {
     current_question++;
-
-    if (current_question > question.numberOfQuestions) {
+    if (current_question > numberOfQuestions) {
+        
         current_section++;
+        displayThumbnails()
         if (current_section == 7) {
-            //DONE PORCODIO FAMMI VEDERE QUESTI CAZZO DI RISULTATI DI MERDA SCHIFOSO GESU
             calculateResult();
         }
     }
@@ -100,8 +124,30 @@ var loadQuestion = function () {
     //Check if it is boolean
     if (question.boolean) {
         var elem = "";
-        elem += '<div class="row"><div class="col-sm-9"><h1>Question ' + (current_question) + '</h1><br><h2>' + question.description + '</h2><br><h3>'+ question.text+'</h3>'
-        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">'+suggweight+'</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div><form><table><tr><td><input type="radio" name="Y/N" class="checkboxClass" />Yes</td><td><input type="radio" name="Y/N" class="checkboxClass" />No</td> </tr></table></form>'
+        elem += '<div class="row">' +
+                    '<div class="col-sm-9">'
+                        +'<h1>Question ' + (current_question) + '</h1>'+'<br>'
+                        +'<h2>'+ question.description + '</h2>'+'<br>'
+                        +'<h3>'+ question.text+'</h3>'
+                        +'<label><input type="radio" name="choose" value="1"/>Yes</label>'
+                        +'<label><input type="radio" name="choose" value="0"/>No</label> '
+                    +'</div>'
+                    +'<div class="col-sm-3">'
+                        +'<div class="row d-flex flex-row-reverse">'
+                            +'<button type="button"class="btn btn-danger btn-block m-2 p-3">'+suggweight+'</button>'
+                        +'</div>'
+                    +'<select id="weight" class="btn-danger btn-block " >'
+                        +'<option value="0">Zero</option>'
+                        +'<option value="1">Low</option>'
+                        +'<option value="2">Very Low</option>'
+                        +'<option value="3">Medium</option>'
+                        +'<option value="4">High</option>'
+                        +'<option value="5">Very High</option>'
+                        +'<option value="" selected disabled hidden>Weight</option>'
+                    +'</select>'
+                +'</div>'
+
+
     } else {
 
         var elem = "";
@@ -193,10 +239,11 @@ $("#submit").click(function () {
     //var value = $("#input0").val()
     //alert($("#input0").val());
     //alert($("#weight").val());
+    var tuamamma=$("input[name='choose']:checked").val();
+    console.log(tuamamma)
+    console.log(current_question)
+    document.getElementById("question"+current_question).innerHTML = "#"+current_question+" weight:"+$("#weight").val();
     loadNextQuestion();
+
 });
 
-$('#checkbox').on('click', function(e) {
-    console.log("PORCO")
-    //alert($(this).val())
-});
