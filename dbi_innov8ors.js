@@ -16,7 +16,7 @@ $(document).ready(function () {
     });
 
     current_question = 1;
-    current_section = 2;
+    current_section = 1;
 
     $("button").click(function () {
         console.log("Button clicked")
@@ -70,7 +70,7 @@ var pickQuestion = function () {
     //Pick the current question
     console.log(sections["section" + current_section]["question" + current_question]);
     question = sections["section" + current_section]["question" + current_question];
-    suggweight = suggweights["section" + current_section]["question" + current_question]
+    suggweight = suggweights["section" + current_section]["question" + current_question];
     loadQuestion();
 };
 
@@ -99,7 +99,9 @@ var loadQuestion = function () {
 
     //Check if it is boolean
     if (question.boolean) {
-        console.log("boolean")
+        var elem = "";
+        elem += '<div class="row"><div class="col-sm-9"><h1>Question ' + (current_question) + '</h1><br><h2>' + question.description + '</h2><br><h3>'+ question.text+'</h3>'
+        elem += '</div><div class="col-sm-3"><div class="row d-flex flex-row-reverse"></div><div class="row d-flex flex-row-reverse"><button type="button"class="btn btn-danger btn-block m-2 p-3">'+suggweight+'</button></div><select id="weight" class="btn-danger btn-block " ><option value="0">Zero</option><option value="1">Low</option><option value="2">Very Low</option><option value="3">Medium</option><option value="4">High</option><option value="5">Very High</option><option value="" selected disabled hidden>Weight</option></select></div><form><table><tr><td><input type="radio" name="Y/N" class="checkboxClass" />Yes</td><td><input type="radio" name="Y/N" class="checkboxClass" />No</td> </tr></table></form>'
     } else {
 
         var elem = "";
@@ -135,12 +137,12 @@ var loadQuestion = function () {
                     '<option value="" selected disabled hidden>Weight</option>' +
                 '</select>' +
                 '</div>';
-
-        //Clear the html
-
-        //Append the new question
-        $("#question").append(elem)
     }
+
+    //Clear the html
+    $("#question").empty();
+    //Append the new question
+    $("#question").append(elem)
 };
 
 var calculateResult = function () {
@@ -187,10 +189,14 @@ function evaluateVariable(myDict) {
     return (1 - dev / max_dev)
 }
 
-
 $("#submit").click(function () {
     //var value = $("#input0").val()
     //alert($("#input0").val());
     //alert($("#weight").val());
     loadNextQuestion();
+});
+
+$('#checkbox').on('click', function(e) {
+    console.log("PORCO")
+    //alert($(this).val())
 });
