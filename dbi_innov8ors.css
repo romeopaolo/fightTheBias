@@ -16,7 +16,7 @@ body {
 }
 
 .bg-red {
-    background-color: #d3e7c8;
+    background-color: #e74c3c;
 }
 
 .btn-circle {
@@ -61,3 +61,15 @@ body {
     margin-bottom: 30px;
     text-align: center;
 }
+
+.radio-toolbar input[type=radio] + label {
+    margin:2%;
+    color:white;
+    background:#e74c3c;
+    border-radius: 30%;
+    padding:5px 5px;
+} 
+.radio-toolbar input[type=radio]:checked + label {
+  background: #dc3545;
+} 
+  
