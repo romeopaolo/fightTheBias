@@ -1,15 +1,15 @@
 //Dictionary containing all sections
 var sections;
 var suggweights;
-var current_section=1;
+var current_section = 1;
 var current_question;
 var current_section_name;
 var numberOfQuestions;
 var question;
 var suggweight;
-var suggweightname="";
-var dataStructure={};
-var missinginput=false;
+var suggweightname = "";
+var dataStructure = {};
+var missinginput = false;
 
 
 //Parse the JSON with the questions when the page is loaded
@@ -20,7 +20,7 @@ $(document).ready(function () {
         console.log(sections);
 
         displayThumbnails();
-        current_section_name=displayCurrentSection(1);
+        current_section_name = displayCurrentSection(1);
     });
 
     $(".btn-first-choice").click(function () {
@@ -52,31 +52,31 @@ var pickFirstQuestion = function () {
     pickQuestion();
 };
 
-var displayThumbnails= function () {
+var displayThumbnails = function () {
     current_question = 1;
-    numberOfQuestions=0
-    section=sections["section" + current_section]
-    thumbnails=""
+    numberOfQuestions = 0;
+    section = sections["section" + current_section];
+    thumbnails = "";
     for (var question in section) {
         if (section.hasOwnProperty(question)) {
             ++numberOfQuestions;
-            thumbnails+='<div class="col">'
-                        +'<button type="button" class="btn btn-danger thumbnail" id="thumbnail'+numberOfQuestions+'" onclick="thumbnailChosen('+numberOfQuestions+')">Q'+numberOfQuestions+'</button>'
-                      +'</div>'
-        
-            $("#thumbnails").empty()
-            $("#thumbnails").append(thumbnails)
+            thumbnails += '<div class="col">'
+                + '<button type="button" class="btn btn-danger thumbnail" id="thumbnail' + numberOfQuestions + '" onclick="thumbnailChosen(' + numberOfQuestions + ')">Q' + numberOfQuestions + '</button>'
+                + '</div>';
+
+            $("#thumbnails").empty();
+            $("#thumbnails").append(thumbnails);
         }
     }
-}
+};
 
 var pickQuestion = function () {
     //Pick the current question
     console.log(sections["section" + current_section]["question" + current_question]);
     question = sections["section" + current_section]["question" + current_question];
     suggweight = suggweights["section" + current_section]["question" + current_question];
-    
-    suggweightname= switchcaseOnWeights(suggweight);
+
+    suggweightname = switchcaseOnWeights(suggweight);
 
     loadQuestion();
 };
@@ -87,8 +87,8 @@ var loadNextQuestion = function () {
     if (current_question > numberOfQuestions) {
 
         current_section++;
-        current_section_name=displayCurrentSection(current_section);
-        displayThumbnails()
+        current_section_name = displayCurrentSection(current_section);
+        displayThumbnails();
         if (current_section == 7) {
             calculateResult();
         }
@@ -109,39 +109,39 @@ var loadQuestion = function () {
     if (question.boolean) {
         var elem = "";
         elem += '<div class="row">' +
-                    '<div class="col-sm-9">'
-                        +'<h1><b>'+current_section_name+' ~ Q' + (current_question) + '</b></h1>'+'<br>'
-                        +'<h4><b><i>Description:</i></b> '+ question.description + '</h4>'+'<br>'
-                        +'<h2>'+ question.text+'</h2>'
-                        +'<div class="radio-toolbar">'
-                            +'<input type="radio" name="Y/N" value="1"/>'
-                            +'<label>Yes</label>'
-                            +'<br/><input type="radio" name="Y/N" value="0"/>'
-                            +'<label>No</label>'
-                        +'</div>'
-                    +'</div>'
-                    +'<div class="col-sm-3">'
-                        +'<div class="row d-flex flex-row-reverse">'
-                            +'<button type="button"class="btn btn-danger btn-block m-2 p-3">Suggested Weight: '+suggweightname+'</button>'
-                        +'</div>'
-                    +'<select id="weight"  class="btn-danger btn-block m-2 p-3" >'
-                        +'<option value="0">Zero</option>'
-                        +'<option value="1">Very Low</option>'
-                        +'<option value="2">Low</option>'
-                        +'<option value="3">Medium</option>'
-                        +'<option value="4">High</option>'
-                        +'<option value="5">Very High</option>'
-                        +'<option value="" selected disabled hidden>Your Weight</option>'
-                    +'</select>'
-                +'</div>'
+            '<div class="col-sm-9">'
+            + '<h1><b>' + current_section_name + ' ~ Q' + (current_question) + '</b></h1>' + '<br>'
+            + '<h4><b><i>Description:</i></b> ' + question.description + '</h4>' + '<br>'
+            + '<h2>' + question.text + '</h2>'
+            + '<div class="radio-toolbar">'
+            + '<input type="radio" name="Y/N" value="1"/>'
+            + '<label>Yes</label>'
+            + '<br/><input type="radio" name="Y/N" value="-1"/>'
+            + '<label>No</label>'
+            + '</div>'
+            + '</div>'
+            + '<div class="col-sm-3">'
+            + '<div class="row d-flex flex-row-reverse">'
+            + '<button type="button"class="btn btn-danger btn-block m-2 p-3">Suggested Weight: ' + suggweightname + '</button>'
+            + '</div>'
+            + '<select id="weight"  class="btn-danger btn-block m-2 p-3" >'
+            + '<option value="0">Zero</option>'
+            + '<option value="1">Very Low</option>'
+            + '<option value="2">Low</option>'
+            + '<option value="3">Medium</option>'
+            + '<option value="4">High</option>'
+            + '<option value="5">Very High</option>'
+            + '<option value="" selected disabled hidden>Your Weight</option>'
+            + '</select>'
+            + '</div>'
     } else {
 
         var elem = "";
         elem += '<div class="row">' +
-                    '<div class="col-sm-9">' 
-                        +'<h1><b>'+current_section_name+' ~ Q' + (current_question) + '</b></h1>'+'<br>'
-                        +'<h4><b><i>Description:</i></b> '+ question.description + '</h4>'+'<br>'
-                        +'<h2>'+ question.text+'</h2>';
+            '<div class="col-sm-9">'
+            + '<h1><b>' + current_section_name + ' ~ Q' + (current_question) + '</b></h1>' + '<br>'
+            + '<h4><b><i>Description:</i></b> ' + question.description + '</h4>' + '<br>'
+            + '<h2>' + question.text + '</h2>';
 
         // display the list of classes
         elem += '<ul>';
@@ -150,7 +150,7 @@ var loadQuestion = function () {
             elem += '<li>' + question.classes[index] + '<input type="text" id="input' + index + '" /></li>'
         }
         elem += '</ul>';
-        
+
         elem += '</div>' +
             '<div class="col-sm-3">' +
             '<div class="row d-flex flex-row-reverse">' +
@@ -185,7 +185,8 @@ function evaluateVariable(arr) {
     //average computation
     var sum = 0;
     for (var i = 0; i < n; i++) {
-        sum = arr[i] + sum;
+        console.log("el " + i + ": " + arr[i]);
+        sum = parseInt(arr[i]) + sum;
     }
     var average = sum / n;
 
@@ -198,6 +199,7 @@ function evaluateVariable(arr) {
     var variance = r / n;
 
     var dev = Math.sqrt(variance);
+    console.log("Dev: " + dev);
 
     //computation of the maximum standard deviation
     var avg = 100 / n;
@@ -209,28 +211,28 @@ function evaluateVariable(arr) {
 
     var max_dev = Math.sqrt(max_var);
 
-    return (1 - dev / max_dev)
+    return (1 - (dev / max_dev))
 }
 
 $("#submit").click(function () {
-    
-    
+
+
     var sectionIndex = "section" + current_section;
     var questionIndex = "question" + current_question;
     var value;
 
     // read classes
-    if(!question.boolean){
+    if (!question.boolean) {
         value = readMultipleInput();
     } else {
         value = readBooleanInput();
     }
 
     var weight = $("#weight").val();
-    console.log(weight)
+    console.log(weight);
 
     // if it is the first question of the section
-    if(!dataStructure.hasOwnProperty(sectionIndex)){
+    if (!dataStructure.hasOwnProperty(sectionIndex)) {
         dataStructure[sectionIndex] = {};
     }
 
@@ -240,44 +242,45 @@ $("#submit").click(function () {
     // fill the question
     dataStructure[sectionIndex][questionIndex]["data"] = value;
     dataStructure[sectionIndex][questionIndex]["weight"] = weight;
-    if(!question.boolean){
+    if (!question.boolean) {
         dataStructure[sectionIndex][questionIndex]["result"] = evaluateVariable(value) * weight;
     } else {
         dataStructure[sectionIndex][questionIndex]["result"] = value * weight;
     }
 
     console.log(dataStructure);
-    
-   console.log("Weight: "+ weight)
-   console.log("Missing input: "+missinginput)
-    if (weight!=null&&!missinginput){
-        document.getElementById("thumbnail"+current_question).innerHTML = "Q"+current_question+ " ~ "+switchcaseOnWeights($("#weight").val());
+
+    console.log("Weight: " + weight);
+    console.log("Missing input: " + missinginput);
+    if (weight != null && !missinginput) {
+        document.getElementById("thumbnail" + current_question).innerHTML = "Q" + current_question + " ~ " + switchcaseOnWeights($("#weight").val());
         loadNextQuestion();
-        missinginput=false;
-        weight=null;
+        missinginput = false;
+        weight = null;
     }
-    else{
-        alert("Missing weight or input class!")
-        missinginput=false;
+    else {
+        alert("Missing weight or input class!");
+        missinginput = false;
     }
-    
+
 });
 
 function readBooleanInput() {
     var input;
     input = $("input[name='Y/N']:checked").val();
-    
-    if(input==undefined)
-        missinginput=true;
+
+    if (input == undefined)
+        missinginput = true;
     return input;
 }
+
 function readMultipleInput() {
     var inputs = [];
-    i=0;
+    i = 0;
     for (var singleclass in question.classes) {
         if (question.classes.hasOwnProperty(singleclass)) {
-            if($("#input" + i).val()==""){
-                missinginput=true;
+            if ($("#input" + i).val() == "") {
+                missinginput = true;
                 break;
             }
             inputs.push($("#input" + i).val());
@@ -289,44 +292,44 @@ function readMultipleInput() {
 }
 
 
-function thumbnailChosen (value) {
-    current_question=value;
+function thumbnailChosen(value) {
+    current_question = value;
     pickQuestion();
 }
 
-function switchcaseOnWeights(value){
-    switch(value*1) {
+function switchcaseOnWeights(value) {
+    switch (value * 1) {
         case 0:
-            return "Zero"
+            return "Zero";
         case 1:
-            return "Very Low"
+            return "Very Low";
         case 2:
-            return "Low"
+            return "Low";
         case 3:
-            return "Medium"
+            return "Medium";
         case 4:
-            return "High"
+            return "High";
         case 5:
-            return "Very High"
+            return "Very High";
         default:
             console.log("Problem with sugg. weights")
     }
 }
 
-function displayCurrentSection(value){
-    switch(value*1) {
+function displayCurrentSection(value) {
+    switch (value * 1) {
         case 1:
-            return "Preliminary Questions"
+            return "Preliminary Questions";
         case 2:
-            return "Team Organization"
+            return "Team Organization";
         case 3:
-            return "Data Gathering"
+            return "Data Gathering";
         case 4:
-            return "Data Quality"
+            return "Data Quality";
         case 5:
-            return "Dataset Dimension"
+            return "Dataset Dimension";
         case 6:
-            return "General Evaluation"
+            return "General Evaluation";
         default:
             console.log("Problem with sections")
     }
