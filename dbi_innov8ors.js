@@ -86,13 +86,23 @@ var pickQuestion = function () {
 //Pick the next question
 var loadNextQuestion = function () {
     current_question++;
+
+    // check if to change section
     if (current_question > numberOfQuestions) {
+
+        // TODO: display this result
+        // evaluation of the section result
+        var sectionIndex = "section" + current_section;
+        dataStructure[sectionIndex]["result"] = evaluateSection(sectionIndex);
+
+        console.log("Section result: " + evaluateSection(sectionIndex));
 
         current_section++;
         current_section_name = displayCurrentSection(current_section);
+
         displayThumbnails();
-        if (current_section == 7) {
-            calculateResult();
+        if (current_section > sections.length) {
+            dataStructure["finalResult"] = calculateFinalResult();
         }
     }
 
@@ -101,9 +111,6 @@ var loadNextQuestion = function () {
 
 /**
  * TODO:
- *
- * gestisci il caricamento dinamico dei pesi consigliati
- * inserisci html per domanda con risposta booleana
  */
 var loadQuestion = function () {
 
@@ -182,18 +189,12 @@ var loadQuestion = function () {
     $("#section").append(sectiondiv)
 };
 
-var calculateResult = function () {
-    //QUALCUNO DOVRA' SCRIVERE QUESTA MERDA
-};
-
-
 function evaluateVariable(arr) {
     let n = arr.length;
 
     //average computation
     var sum = 0;
     for (var i = 0; i < n; i++) {
-        console.log("el " + i + ": " + arr[i]);
         sum = parseInt(arr[i]) + sum;
     }
     var average = sum / n;
@@ -207,7 +208,6 @@ function evaluateVariable(arr) {
     var variance = r / n;
 
     var dev = Math.sqrt(variance);
-    console.log("Dev: " + dev);
 
     //computation of the maximum standard deviation
     var avg = 100 / n;
@@ -220,6 +220,59 @@ function evaluateVariable(arr) {
     var max_dev = Math.sqrt(max_var);
 
     return (1 - (dev / max_dev))
+}
+
+/**
+ * Evaluate the quality of the section. To transform into a probability of bias, divide by the weight of the section and subtract from 1.
+ * @param secName
+ * @returns {number} a measure of the quality of the section. The higher the better.
+ */
+function evaluateSection(secName) {
+    var res = 0;
+    var weights = 0;
+    var secData = dataStructure[secName];
+
+    console.log(secData);
+
+    // collect data
+    // TODO: non entra qui
+    for (var i = 0; i < secData.length; i++) {
+        if (secData["question" + i].hasOwnProperty("result") && secData["question" + i].hasOwnProperty("weight")) {
+            res = res + parseInt(secData["question" + i]["result"]);
+            weights = weights + parseInt(secData["question" + i]["weight"])
+        }
+        console.log("temporary res: " + res);
+        console.log("temporary weights: " + weights);
+    }
+
+    // evaluate
+    var sec_w = 1;
+    if (secData.hasOwnProperty("weight")) {
+        sec_w = parseInt(secData["weight"]);
+    }
+
+    console.log("result: " + (res/weights));
+    return res / weights * sec_w
+}
+
+/**
+ * Evaluate the overall quality
+ * @returns {number} the probability of bias. The lower the better
+ */
+function calculateFinalResult() {
+    var cum_res = 0;
+    var cum_weights = 0;
+
+    for (var i = 0; i < sections.length; i++) {
+        if (dataStructure["section" + i].hasOwnProperty("result") && dataStructure["section" + i].hasOwnProperty("weight")) {
+            cum_res = cum_res + parseInt(dataStructure["section" + i]["result"]);
+            cum_weights = cum_weights + parseInt(dataStructure["section" + i]["weights"]);
+        } else {
+            console.log("Weight not present for the current section");
+        }
+    }
+
+    return (1 - cum_res / cum_weights)
 }
 
 $("#submit").click(function () {
@@ -253,12 +306,11 @@ $("#submit").click(function () {
     if (!question.boolean) {
         dataStructure[sectionIndex][questionIndex]["result"] = evaluateVariable(value) * weight;
     } else {
-        dataStructure[sectionIndex][questionIndex]["result"] = value * weight;
+        dataStructure[sectionIndex][questionIndex]["result"] = value * weight; // TODO: check
     }
 
     console.log(dataStructure);
 
-    console.log("Weight: " + weight);
     console.log("Missing input: " + missinginput);
     if (weight != null && !missinginput) {
         document.getElementById("thumbnail" + current_question).innerHTML = "Q" + current_question + " ~ " + switchcaseOnWeights($("#weight").val());
@@ -338,6 +390,8 @@ function displayCurrentSection(value) {
             return "Dataset Dimension";
         case 6:
             return "General Evaluation";
+        case 7:
+            return "Results";
         default:
             console.log("Problem with sections")
     }
