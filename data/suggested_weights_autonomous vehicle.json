@@ -1,6 +1,6 @@
 {
   "section1": {
-    "weight": "1",
+    "weight": "5",
     "question1": "5",
     "question2": "3",
     "question3": "5",
@@ -9,6 +9,7 @@
     "question6": "3"
   },
   "section2": {
+    "weight": "3",
     "question1": "2",
     "question2": "3",
     "question3": "3",
@@ -20,6 +21,7 @@
     "question9": "1"
   },
   "section3": {
+    "weight": "3",
     "question1": "2",
     "question2": "5",
     "question3": "4",
@@ -30,6 +32,7 @@
     "question8": "4"
   },
   "section4": {
+    "weight": "5",
     "question1": "4",
     "question2": "4",
     "question3": "5",
@@ -40,10 +43,12 @@
     "question8": "4"
   },
   "section5": {
+    "weight": "4",
     "question1": "4",
     "question2": "5"
   },
   "section6": {
+    "weight": "4",
     "question1": "4",
     "question2": "5",
     "question3": "3",
