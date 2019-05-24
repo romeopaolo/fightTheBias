@@ -4,29 +4,216 @@ html, body {
 }
 
 body {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'SegoeUI', sans-serif;
+    color:#737373;
 }
 
 .card-full {
     width: 100%;
 }
 
-.card {
-    border-radius: 15px;
+#question-section{
+    height: 90px;
+    text-align: center;
 }
 
-.bg-red {
-    background-color: #e7dfba;
+#section{
+    margin-top:30px;
+    text-align: center;
 }
+
+#question-section-body{
+    height:400px;
+}
+
+#title{
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.btn.btn-first-choice{
+    border-radius: 0%;
+    color:white;
+    margin-top: 30px;
+    margin-bottom:30px;
+    width:200px;
+    height:90%;
+}
+
+.row{
+    height: 200px;
+}
+
+.row.d-flex{
+    height: 150px;
+}
+
+#leftup{
+    background-color: #f65314;
+    border-color: white;
+    border-width: 2px;
+}
+#leftup:hover {
+    background-color: white;
+    color: #f65314;
+    border-color: #f65314;
+    border-width: 2px;
+}
+#leftdown{
+    background-color: #00a1f1;
+    border-color: white;
+    border-width: 2px;
+}
+#leftdown:hover {
+    background-color: white;
+    color: #00a1f1;
+    border-color: #00a1f1;
+    border-width: 2px;
+}
+#rightup{
+    background-color: #7cbb00;
+    border-color: white;
+    border-width: 2px;
+}
+#rightup:hover {
+    background-color: white;
+    color: #7cbb00;
+    border-color: #7cbb00;
+    border-width: 2px;
+}
+#rightdown{
+    background-color: #ffbb00;
+    border-color: white;
+    border-width: 2px;
+}
+#rightdown:hover {
+    background-color: white;
+    color: #ffbb00;
+    border-color: #ffbb00;
+    border-width: 2px;
+}
+
+.card {
+    border-radius: 0px;
+}
+.btn.thumbnail.gender:hover{
+    background-color: #737373;
+    color:white;
+    border-radius: 0%;
+}
+.btn.thumbnail.autonomous:hover{
+    background-color: #737373;
+    color:white;
+    border-radius: 0%;
+}
+.btn.thumbnail.politics:hover{
+    background-color: #737373;
+    color:white;
+    border-radius: 0%;
+}
+.btn.thumbnail.healthcare:hover{
+    background-color: #737373;
+    color:white;
+    border-radius: 0%;
+}
+
+.btn.thumbnail.gender{
+    background-color: #7cbb00;
+    color:white;
+    border-radius: 0%;
+}
+.btn.thumbnail.healthcare{
+    background-color: #ffbb00;
+    color:white;
+    border-radius: 0%;
+}
+.btn.thumbnail.politics{
+    background-color: #f65314;
+    color:white;
+    border-radius: 0%;
+}
+.btn.thumbnail.autonomous{
+    background-color: #00a1f1;
+    color:white;
+    border-radius: 0%;
+}
+
+.btn.btn-block.suggweight.gender{
+    background-color: #7cbb00;
+    color:white;
+    border-radius: 0%;
+    height:100px;
+}
+
+.btn.btn-block.weight.gender{
+    background-color: #7cbb00;
+    margin-top:12px;
+    color:white;
+    border-radius: 0px;
+    height:40px;
+}
+
+.btn.btn-block.suggweight.healthcare{
+    background-color: #ffbb00;
+    color:white;
+    border-radius: 0%;
+    height:100px;
+}
+
+.btn.btn-block.weight.healthcare{
+    background-color: #ffbb00;
+    margin-top:12px;
+    color:white;
+    border-radius: 0px;
+    height:40px;
+}
+
+.btn.btn-block.suggweight.autonomous{
+    background-color: #00a1f1;
+    color:white;
+    border-radius: 0%;
+    height:100px;
+}
+
+.btn.btn-block.weight.autonomous{
+    background-color: #00a1f1;
+    margin-top:12px;
+    color:white;
+    border-radius: 0px;
+    height:40px;
+}
+
+.btn.btn-block.suggweight.politics{
+    background-color: #f65314;
+    margin-top:12px;
+    color:white;
+    border-radius: 0px;
+    height:40px;
+}
+
+.btn.btn-block.weight.politics{
+    background-color: #f65314;
+    margin-top:12px;
+    color:white;
+    border-radius: 0px;
+    height:40px;
+}
+
 
 .btn-circle {
+    background-color:#737373;
+    border-color:white;
     width: 50px;
     height: 50px;
-    padding: 6px 6px;
     text-align: center;
     font-size: 30px;
     line-height: 1.5;
     box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.24)
+}
+.btn-circle:hover {
+    background-color:white;
+    border-color:#737373;
+    color:#737373;
 }
 
 .btn-circle.btn-xl {
@@ -65,11 +252,45 @@ body {
 .radio-toolbar input[type=radio] + label {
     margin:2%;
     color:white;
-    background: #cbe7c5;
+    background: #ffbb00;
     border-radius: 30%;
     padding:5px 5px;
 } 
 .radio-toolbar input[type=radio]:checked + label {
-  background: #8786dc;
+   background: #737373;
 } 
+
+.inputboolean.healthcare{
+    border-color:#ffbb00;
+}
+.inputboolean.politcs{
+    border-color:#ffbb00;
+}
+.inputboolean.gender{
+    border-color:#ffbb00;
+}
+.inputboolean.autonomous{
+    border-color:#ffbb00;
+}
+
+.inputbox{
+    margin: 5px;
+    border-radius: 3%;
+}
+
+.inputbox.healthcare{
+    border-color:#ffbb00;
+}
+
+.inputbox.autonomous{
+    border-color:#00a1f1;
+}
+
+.inputbox.politcs{
+    border-color:#f65314;
+}
+
+.inputbox.gender{
+    border-color:#7cbb00;
+}
   

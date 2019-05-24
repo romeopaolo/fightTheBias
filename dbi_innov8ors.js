@@ -10,6 +10,7 @@ var suggweight;
 var suggweightname = "";
 var dataStructure = {};
 var missinginput = false;
+var context;
 
 
 //Parse the JSON with the questions when the page is loaded
@@ -19,15 +20,15 @@ $(document).ready(function () {
         sections = json;
         console.log(sections);
 
-        displayThumbnails();
+        
         current_section_name = displayCurrentSection(1);
     });
 
     $(".btn-first-choice").click(function () {
 
-        var context = $(this).text();
+        context = $(this).text();
         //alert(context);
-
+        displayThumbnails();
         var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
@@ -41,6 +42,7 @@ $(document).ready(function () {
 var changeScenario = function () {
     $("#first-choice").toggleClass("hide");
     $("#question-section").toggleClass("hide");
+    $("#section").toggleClass("hide");
     // $("#question-section").toggleClass("scene_element scene_element--fadeinup");
     $("#question-section-body").toggleClass("hide");
     $("#submit").toggleClass("hide");
@@ -61,7 +63,7 @@ var displayThumbnails = function () {
         if (section.hasOwnProperty(question)) {
             ++numberOfQuestions;
             thumbnails += '<div class="col">'
-                + '<button type="button" class="btn btn-danger thumbnail" id="thumbnail' + numberOfQuestions + '" onclick="thumbnailChosen(' + numberOfQuestions + ')">Q' + numberOfQuestions + '</button>'
+                + '<button type="button" class="btn thumbnail '+context.toLowerCase()+'" id="thumbnail' + numberOfQuestions + '" onclick="thumbnailChosen(' + numberOfQuestions + ')">Q' + numberOfQuestions + '</button>'
                 + '</div>';
 
             $("#thumbnails").empty();
@@ -105,26 +107,28 @@ var loadNextQuestion = function () {
  */
 var loadQuestion = function () {
 
+    var sectiondiv="";
+    sectiondiv+='<div><b>'+current_section_name+'</b></div>';
     //Check if it is boolean
     if (question.boolean) {
         var elem = "";
         elem += '<div class="row">' +
             '<div class="col-sm-9">'
-            + '<h1><b>' + current_section_name + ' ~ Q' + (current_question) + '</b></h1>' + '<br>'
-            + '<h4><b><i>Description:</i></b> ' + question.description + '</h4>' + '<br>'
+            + '<h1><b>Question #' + (current_question) + '</b></h1>' + '<br>'
+            + '<h5><i><b>Description:</b><br> ' + question.description + '</i></h5>' + '<br>'
             + '<h2>' + question.text + '</h2>'
             + '<div class="radio-toolbar">'
-            + '<input type="radio" name="Y/N" value="1"/>'
+            + '<input type="radio" class="inputboolean '+context.toLowerCase()+'" name="Y/N" value="1"/>'
             + '<label>Yes</label>'
-            + '<br/><input type="radio" name="Y/N" value="-1"/>'
+            + '<br/><input type="radio" class="inputboolean '+context.toLowerCase()+'" name="Y/N" value="-1"/>'
             + '<label>No</label>'
             + '</div>'
             + '</div>'
             + '<div class="col-sm-3">'
             + '<div class="row d-flex flex-row-reverse">'
-            + '<button type="button"class="btn btn-danger btn-block m-2 p-3">Suggested Weight: ' + suggweightname + '</button>'
+            + '<button type="button"class="btn btn-block suggweight '+context.toLowerCase()+' m-2 p-3">Suggested Weight: <br> <b>' + suggweightname + '</b></button>'
             + '</div>'
-            + '<select id="weight"  class="btn-danger btn-block m-2 p-3" >'
+            + '<select id="weight"  class="btn btn-block weight '+context.toLowerCase()+'" >'
             + '<option value="0">Zero</option>'
             + '<option value="1">Very Low</option>'
             + '<option value="2">Low</option>'
@@ -139,24 +143,24 @@ var loadQuestion = function () {
         var elem = "";
         elem += '<div class="row">' +
             '<div class="col-sm-9">'
-            + '<h1><b>' + current_section_name + ' ~ Q' + (current_question) + '</b></h1>' + '<br>'
-            + '<h4><b><i>Description:</i></b> ' + question.description + '</h4>' + '<br>'
+            + '<h1><b> Question #' + (current_question) + '</b></h1>' + '<br>'
+            + '<h4><i><b>Description:</b><br> ' + question.description + '</i></h4>' + '<br>'
             + '<h2>' + question.text + '</h2>';
 
         // display the list of classes
         elem += '<ul>';
         for (var index in question.classes) {
             //console.log(index);
-            elem += '<li>' + question.classes[index] + '<input type="text" id="input' + index + '" /></li>'
+            elem += '<li>' + question.classes[index] + '<input type="text" class="inputbox '+context.toLowerCase()+'" id="input' + index + '" /></li>'
         }
         elem += '</ul>';
 
         elem += '</div>' +
             '<div class="col-sm-3">' +
             '<div class="row d-flex flex-row-reverse">' +
-            '<button type="button"class="btn btn-danger btn-block m-2 p-3">' + suggweightname + '</button>' +
+            '<button type="button"class="btn btn-block suggweight '+context.toLowerCase()+' m-2 p-3 ">' + suggweightname + '</button>' +
             '</div>' +
-            '<select id="weight" class="btn-danger btn-block " >' +
+            '<select id="weight" class="btn btn-block weight '+context.toLowerCase()+'" >' +
             '<option value="0">Zero</option>' +
             '<option value="1">Low</option>' +
             '<option value="2">Very Low</option>' +
@@ -172,6 +176,10 @@ var loadQuestion = function () {
     $("#question").empty();
     //Append the new question
     $("#question").append(elem)
+
+    $("#section").empty();
+    //Append the new question
+    $("#section").append(sectiondiv)
 };
 
 var calculateResult = function () {
