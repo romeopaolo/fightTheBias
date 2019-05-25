@@ -21,12 +21,12 @@ $(document).ready(function () {
         sections = json;
         console.log(sections);
 
-        
+
         current_section_name = displayCurrentSection(1);
     });
 
     $(".btn-first-choice").click(function () {
-        
+
         context = $(this).text();
         //alert(context);
         displayThumbnails();
@@ -66,7 +66,7 @@ var displayThumbnails = function () {
         if (section.hasOwnProperty(question)) {
             ++numberOfQuestions;
             thumbnails += '<div class="col">'
-                + '<button type="button" class="btn thumbnail '+context.toLowerCase()+'" id="thumbnail' + numberOfQuestions + '" onclick="thumbnailChosen(' + numberOfQuestions + ')">Q' + numberOfQuestions + '</button>'
+                + '<button type="button" class="btn thumbnail ' + context.toLowerCase() + '" id="thumbnail' + numberOfQuestions + '" onclick="thumbnailChosen(' + numberOfQuestions + ')">Q' + numberOfQuestions + '</button>'
                 + '</div>';
 
             $("#thumbnails").empty();
@@ -77,7 +77,7 @@ var displayThumbnails = function () {
 
 var pickQuestion = function () {
     //Pick the current question
-    console.log(sections["section" + current_section]["question" + current_question]);
+    //console.log(sections["section" + current_section]["question" + current_question]);
     question = sections["section" + current_section]["question" + current_question];
     suggweight = suggweights["section" + current_section]["question" + current_question];
 
@@ -89,26 +89,25 @@ var pickQuestion = function () {
 //Pick the next question
 var loadNextQuestion = function () {
     current_question++;
-    
+
     sectionIndex = "section" + current_section;
     // check if to change section
     //dataStructure[sectionIndex].size = computeSize(dataStructure[sectionIndex])-1;
+    if (current_section <= numberOfQuestions) {
+        pickQuestion();
+    } else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions) {
 
-    if ( computeSize(dataStructure[sectionIndex])==numberOfQuestions) {
-
-        // TODO: display this result
         // evaluation of the section result
-        
+
         dataStructure[sectionIndex]["result"] = evaluateSection(sectionIndex);
 
-        console.log("Section result: " + evaluateSection(sectionIndex));
-
+        console.log("Section result: " + dataStructure[sectionIndex]["result"]);
 
         current_section++;
         current_section_name = displayCurrentSection(current_section);
 
         $("nav a").removeClass("active");
-        $('#'+current_section).addClass("active");
+        $('#' + current_section).addClass("active");
 
         displayThumbnails();
         if (current_section > sections.length) {
@@ -116,14 +115,14 @@ var loadNextQuestion = function () {
         }
 
         pickQuestion();
-        
+
     }
 
-    else if ((current_question > numberOfQuestions) && (computeSize(dataStructure[sectionIndex])!=numberOfQuestions)){
+    else if ((current_question > numberOfQuestions) && (computeSize(dataStructure[sectionIndex]) != numberOfQuestions)) {
         alertMX("You must answer all the questions in this section before leaving it!");
     }
-    
-    
+
+
 };
 
 function computeSize(obj) {
@@ -132,9 +131,7 @@ function computeSize(obj) {
         if (obj.hasOwnProperty(key)) localsize++;
     }
     return localsize;
-};
-
-
+}
 
 
 /**
@@ -142,62 +139,62 @@ function computeSize(obj) {
  */
 var loadQuestion = function () {
 
-    var sectiondiv="";
+    var sectiondiv = "";
     current_section_name = displayCurrentSection(current_section);
-    sectiondiv+='<div><b>'+current_section_name+'</b></div>';
+    sectiondiv += '<div><b>' + current_section_name + '</b></div>';
     //Check if it is boolean
     if (question.boolean) {
         var elem = "";
-        elem += '<div class="row">' 
-                    +'<div class="col-sm-9">'
-                        + '<h1><b>Question #' + (current_question) + '</b></h1>' + '<br>'
-                        + '<h2>' + question.text + '</h2><br>'
-                        + '<div class="radio-toolbar">'
-                                + '<input type="radio" class="inputboolean '+context.toLowerCase()+'" name="Y/N" value="1"/>'
-                                + '<label>Yes</label>'
-                                + '<br/><input type="radio" class="inputboolean '+context.toLowerCase()+'" name="Y/N" value="-1"/>'
-                                + '<label>No</label>'
-                        + '</div><br><br>'
-                        + '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>'
-                    + '</div>'
-                    + '<div class="col-sm-3">'
-                        + '<div class="row d-flex flex-row-reverse">'
-                            + '<button type="button"class="btn btn-block suggweight '+context.toLowerCase()+' m-2 p-3"><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>'
-                        + '</div>'
-                        + '<select id="weight" class="btn btn-block weight '+context.toLowerCase()+'" >'
-                            + '<option value="0">Zero</option>'
-                            + '<option value="1">Very Low</option>'
-                            + '<option value="2">Low</option>'
-                            + '<option value="3">Medium</option>'
-                            + '<option value="4">High</option>'
-                            + '<option value="5">Very High</option>'
-                            + '<option value="" selected disabled hidden>Choose Your Weight</option>'
-                        + '</select>'
-                    + '</div>'
-                + '</div>'
+        elem += '<div class="row">'
+            + '<div class="col-sm-9">'
+            + '<h1><b>Question #' + (current_question) + '</b></h1>' + '<br>'
+            + '<h2>' + question.text + '</h2><br>'
+            + '<div class="radio-toolbar">'
+            + '<input type="radio" class="inputboolean ' + context.toLowerCase() + '" name="Y/N" value="1"/>'
+            + '<label>Yes</label>'
+            + '<br/><input type="radio" class="inputboolean ' + context.toLowerCase() + '" name="Y/N" value="0"/>'
+            + '<label>No</label>'
+            + '</div><br><br>'
+            + '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>'
+            + '</div>'
+            + '<div class="col-sm-3">'
+            + '<div class="row d-flex flex-row-reverse">'
+            + '<button type="button"class="btn btn-block suggweight ' + context.toLowerCase() + ' m-2 p-3"><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>'
+            + '</div>'
+            + '<select id="weight" class="btn btn-block weight ' + context.toLowerCase() + '" >'
+            + '<option value="0">Zero</option>'
+            + '<option value="1">Very Low</option>'
+            + '<option value="2">Low</option>'
+            + '<option value="3">Medium</option>'
+            + '<option value="4">High</option>'
+            + '<option value="5">Very High</option>'
+            + '<option value="" selected disabled hidden>Choose Your Weight</option>'
+            + '</select>'
+            + '</div>'
+            + '</div>'
     } else {
 
         var elem = "";
         elem += '<div class="row">' +
             '<div class="col-sm-9">'
             + '<h1><b> Question #' + (current_question) + '</b></h1>' + '<br>'
-            
+
             + '<h2>' + question.text + '</h2><br>';
 
         // display the list of classes
         elem += '<ul>';
         for (var index in question.classes) {
             //console.log(index);
-            elem += '<li>' + question.classes[index] + '<input type="text" class="inputbox '+context.toLowerCase()+'" id="input' + index + '" /></li>'
+            elem += '<li>' + question.classes[index] + '<input type="text" class="inputbox ' + context.toLowerCase() + '" id="input' + index + '" /></li>'
         }
-        elem += '</ul><br><br>'+ '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>';
+        elem += '</ul><br><br>' + '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>';
 
         elem += '</div>' +
             '<div class="col-sm-3">' +
             '<div class="row d-flex flex-row-reverse">' +
-            '<button type="button"class="btn btn-block suggweight '+context.toLowerCase()+' m-2 p-3 "><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>' +
+            '<button type="button"class="btn btn-block suggweight ' + context.toLowerCase() + ' m-2 p-3 "><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>' +
             '</div>' +
-            '<select id="weight" class="btn btn-block weight '+context.toLowerCase()+'" >' +
+            '<select id="weight" class="btn btn-block weight ' + context.toLowerCase() + '" >' +
             '<option value="0">Zero</option>' +
             '<option value="1">Low</option>' +
             '<option value="2">Very Low</option>' +
@@ -206,14 +203,14 @@ var loadQuestion = function () {
             '<option value="5">Very High</option>' +
             '<option value="" selected disabled hidden>Choose Your Weight</option>' +
             '</select>' +
-            '</div>'+
+            '</div>' +
             '</div>'
     }
 
     //Clear the html
     $("#question").empty();
     //Append the new question
-    $("#question").append(elem)
+    $("#question").append(elem);
 
     $("#section").empty();
     //Append the new question
@@ -263,17 +260,12 @@ function evaluateSection(secName) {
     var weights = 0;
     var secData = dataStructure[secName];
 
-    console.log(secData);
-
     // collect data
-    // TODO: non entra qui
-    for (var i = 0; i < secData.length; i++) {
+    for (var i = 1; i <= numberOfQuestions; i++) {
         if (secData["question" + i].hasOwnProperty("result") && secData["question" + i].hasOwnProperty("weight")) {
             res = res + parseInt(secData["question" + i]["result"]);
             weights = weights + parseInt(secData["question" + i]["weight"])
         }
-        console.log("temporary res: " + res);
-        console.log("temporary weights: " + weights);
     }
 
     // evaluate
@@ -282,13 +274,12 @@ function evaluateSection(secName) {
         sec_w = parseInt(secData["weight"]);
     }
 
-    console.log("result: " + (res/weights));
     return res / weights * sec_w
 }
 
 /**
  * Evaluate the overall quality
- * @returns {number} the probability of bias. The lower the better
+ * @returns {number} the probability of positively facing bias. The higher the better
  */
 function calculateFinalResult() {
     var cum_res = 0;
@@ -303,14 +294,14 @@ function calculateFinalResult() {
         }
     }
 
-    return (1 - cum_res / cum_weights)
+    return (cum_res / cum_weights)
 }
 
-$("nav a").click(function() {
+$("nav a").click(function () {
     $("nav a").removeClass("active");
     $(this).addClass("active");
-    current_section=this.id;
-    current_question=1;
+    current_section = this.id;
+    current_question = 1;
     pickQuestion();
     displayThumbnails();
 });
@@ -329,7 +320,6 @@ $("#submit").click(function () {
     }
 
     var weight = $("#weight").val();
-    //console.log(weight);
 
     // if it is the first question of the section
     if (!dataStructure.hasOwnProperty(sectionIndex)) {
@@ -338,14 +328,11 @@ $("#submit").click(function () {
 
     //moved to line 326
 
-
-    console.log(dataStructure);
-
     console.log("Missing input: " + missinginput);
     if (weight != null && !missinginput) {
-        
 
-          // create the question
+
+        // create the question
         dataStructure[sectionIndex][questionIndex] = {};
 
         // fill the question
@@ -392,7 +379,6 @@ function readMultipleInput() {
             i++;
         }
     }
-    //console.log(inputs)
     return inputs;
 }
 
@@ -442,7 +428,7 @@ function displayCurrentSection(value) {
     }
 }
 
-$("#logo").click(function(){
+$("#logo").click(function () {
     $("#first-choice").toggleClass("hide");
     $(".leftbox").toggleClass("hide");
     $("#logo").toggleClass("hide");
@@ -451,20 +437,21 @@ $("#logo").click(function(){
     // $("#question-section").toggleClass("scene_element scene_element--fadeinup");
     $("#question-section-body").toggleClass("hide");
     $("#submit").toggleClass("hide");
-})
+});
 
 $("<style type='text/css'>#boxMX{display:none;background: #333;padding: 10px;border: 2px solid #ddd;float: left;font-size: 1.2em;position: fixed;top: 50%; left: 50%;z-index: 99999;box-shadow: 0px 0px 20px #999; -moz-box-shadow: 0px 0px 20px #999; -webkit-box-shadow: 0px 0px 20px #999; border-radius:6px 6px 6px 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; font:13px Arial, Helvetica, sans-serif; padding:6px 6px 4px;width:300px; color: white;}</style>").appendTo("head");
 
-function alertMX(t){
-    $( "body" ).append( $( "<div id='boxMX' align='center'><p class='msgMX'></p><p>Press<br><br><b>OK</b><br><br>to continue.</p></div>" ) );
-    $('.msgMX').text(t); var popMargTop = ($('#boxMX').height() + 24) / 2, popMargLeft = ($('#boxMX').width() + 24) / 2; 
-    $('#boxMX').css({ 'margin-top' : -popMargTop,'margin-left' : -popMargLeft}).fadeIn(600);
-    $("#boxMX").click(function(){
-        $(this).remove(); 
-    });  
-};
+function alertMX(t) {
+    $("body").append($("<div id='boxMX' align='center'><p class='msgMX'></p><p>Press<br><br><b>OK</b><br><br>to continue.</p></div>"));
+    $('.msgMX').text(t);
+    var popMargTop = ($('#boxMX').height() + 24) / 2, popMargLeft = ($('#boxMX').width() + 24) / 2;
+    $('#boxMX').css({'margin-top': -popMargTop, 'margin-left': -popMargLeft}).fadeIn(600);
+    $("#boxMX").click(function () {
+        $(this).remove();
+    });
+}
 
-function displayIntermediateSection(){
+function displayIntermediateSection() {
     $("#question-section").toggleClass("hide");
     $("#section").toggleClass("hide");
     $("#intermediate").toggleClass("hide");
