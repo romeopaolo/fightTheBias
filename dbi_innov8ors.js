@@ -621,7 +621,7 @@ function showDonut() {
 
     // responsiveness
     const redrawChart = () => {
-        const newDonutContainerWidth = bar_container.node() ? bar_container.node().getBoundingClientRect().width : false;
+        const newDonutContainerWidth = donut_container.node() ? donut_container.node().getBoundingClientRect().width : false;
 
         // Setting the new width on the chart
         if (donutChart.width > newDonutContainerWidth) {
