@@ -42,6 +42,8 @@ $(document).ready(function () {
 var changeScenario = function () {
     $("#first-choice").toggleClass("hide");
     $("#question-section").toggleClass("hide");
+    $("#logo").toggleClass("hide");
+    $(".leftbox").toggleClass("hide");
     $("#section").toggleClass("hide");
     // $("#question-section").toggleClass("scene_element scene_element--fadeinup");
     $("#question-section-body").toggleClass("hide");
@@ -97,15 +99,19 @@ var loadNextQuestion = function () {
 
         console.log("Section result: " + evaluateSection(sectionIndex));
 
+
         current_section++;
         current_section_name = displayCurrentSection(current_section);
+
+        $("nav a").removeClass("active");
+        $('#'+current_section).addClass("active");
 
         displayThumbnails();
         if (current_section > sections.length) {
             dataStructure["finalResult"] = calculateFinalResult();
         }
     }
-
+    
     pickQuestion();
 };
 
@@ -115,44 +121,46 @@ var loadNextQuestion = function () {
 var loadQuestion = function () {
 
     var sectiondiv="";
+    current_section_name = displayCurrentSection(current_section);
     sectiondiv+='<div><b>'+current_section_name+'</b></div>';
     //Check if it is boolean
     if (question.boolean) {
         var elem = "";
-        elem += '<div class="row">' +
-            '<div class="col-sm-9">'
-            + '<h1><b>Question #' + (current_question) + '</b></h1>' + '<br>'
-            + '<h5><i><b>Description:</b><br> ' + question.description + '</i></h5>' + '<br>'
-            + '<h2>' + question.text + '</h2>'
-            + '<div class="radio-toolbar">'
-            + '<input type="radio" class="inputboolean '+context.toLowerCase()+'" name="Y/N" value="1"/>'
-            + '<label>Yes</label>'
-            + '<br/><input type="radio" class="inputboolean '+context.toLowerCase()+'" name="Y/N" value="-1"/>'
-            + '<label>No</label>'
-            + '</div>'
-            + '</div>'
-            + '<div class="col-sm-3">'
-            + '<div class="row d-flex flex-row-reverse">'
-            + '<button type="button"class="btn btn-block suggweight '+context.toLowerCase()+' m-2 p-3">Suggested Weight: <br> <b>' + suggweightname + '</b></button>'
-            + '</div>'
-            + '<select id="weight"  class="btn btn-block weight '+context.toLowerCase()+'" >'
-            + '<option value="0">Zero</option>'
-            + '<option value="1">Very Low</option>'
-            + '<option value="2">Low</option>'
-            + '<option value="3">Medium</option>'
-            + '<option value="4">High</option>'
-            + '<option value="5">Very High</option>'
-            + '<option value="" selected disabled hidden>Your Weight</option>'
-            + '</select>'
-            + '</div>'
+        elem += '<div class="row">' 
+                    +'<div class="col-sm-9">'
+                        + '<h1><b>Question #' + (current_question) + '</b></h1>' + '<br>'
+                        + '<h2>' + question.text + '</h2><br>'
+                        + '<div class="radio-toolbar">'
+                                + '<input type="radio" class="inputboolean '+context.toLowerCase()+'" name="Y/N" value="1"/>'
+                                + '<label>Yes</label>'
+                                + '<br/><input type="radio" class="inputboolean '+context.toLowerCase()+'" name="Y/N" value="-1"/>'
+                                + '<label>No</label>'
+                        + '</div><br><br>'
+                        + '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>'
+                    + '</div>'
+                    + '<div class="col-sm-3">'
+                        + '<div class="row d-flex flex-row-reverse">'
+                            + '<button type="button"class="btn btn-block suggweight '+context.toLowerCase()+' m-2 p-3"><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>'
+                        + '</div>'
+                        + '<select id="weight"  class="btn btn-block weight '+context.toLowerCase()+'" >'
+                            + '<option value="0">Zero</option>'
+                            + '<option value="1">Very Low</option>'
+                            + '<option value="2">Low</option>'
+                            + '<option value="3">Medium</option>'
+                            + '<option value="4">High</option>'
+                            + '<option value="5">Very High</option>'
+                            + '<option value="" selected disabled hidden>Your Weight</option>'
+                        + '</select>'
+                    + '</div>'
+                + '</div>'
     } else {
 
         var elem = "";
         elem += '<div class="row">' +
             '<div class="col-sm-9">'
             + '<h1><b> Question #' + (current_question) + '</b></h1>' + '<br>'
-            + '<h4><i><b>Description:</b><br> ' + question.description + '</i></h4>' + '<br>'
-            + '<h2>' + question.text + '</h2>';
+            
+            + '<h2>' + question.text + '</h2><br>';
 
         // display the list of classes
         elem += '<ul>';
@@ -160,7 +168,7 @@ var loadQuestion = function () {
             //console.log(index);
             elem += '<li>' + question.classes[index] + '<input type="text" class="inputbox '+context.toLowerCase()+'" id="input' + index + '" /></li>'
         }
-        elem += '</ul>';
+        elem += '</ul><br><br>'+ '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>';
 
         elem += '</div>' +
             '<div class="col-sm-3">' +
@@ -176,7 +184,8 @@ var loadQuestion = function () {
             '<option value="5">Very High</option>' +
             '<option value="" selected disabled hidden>Weight</option>' +
             '</select>' +
-            '</div>';
+            '</div>'+
+            '</div>'
     }
 
     //Clear the html
@@ -275,8 +284,16 @@ function calculateFinalResult() {
     return (1 - cum_res / cum_weights)
 }
 
-$("#submit").click(function () {
+$("nav a").click(function() {
+    $("nav a").removeClass("active");
+    $(this).addClass("active");
+    current_section=this.id;
+    current_question=1;
+    pickQuestion();
+    displayThumbnails();
+});
 
+$("#submit").click(function () {
 
     var sectionIndex = "section" + current_section;
     var questionIndex = "question" + current_question;
@@ -319,7 +336,7 @@ $("#submit").click(function () {
         weight = null;
     }
     else {
-        alert("Missing weight or input class!");
+        alertMX("Missing weight or input class!");
         missinginput = false;
     }
 
@@ -397,4 +414,22 @@ function displayCurrentSection(value) {
     }
 }
 
+$("#logo").click(function(){
+    $("#first-choice").toggleClass("hide");
+    $(".leftbox").toggleClass("hide");
+    $("#logo").toggleClass("hide");
+    $("#question-section").toggleClass("hide");
+    $("#section").toggleClass("hide");
+    // $("#question-section").toggleClass("scene_element scene_element--fadeinup");
+    $("#question-section-body").toggleClass("hide");
+    $("#submit").toggleClass("hide");
+})
+
+$("<style type='text/css'>#boxMX{display:none;background: #333;padding: 10px;border: 2px solid #ddd;float: left;font-size: 1.2em;position: fixed;top: 50%; left: 50%;z-index: 99999;box-shadow: 0px 0px 20px #999; -moz-box-shadow: 0px 0px 20px #999; -webkit-box-shadow: 0px 0px 20px #999; border-radius:6px 6px 6px 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; font:13px Arial, Helvetica, sans-serif; padding:6px 6px 4px;width:300px; color: white;}</style>").appendTo("head");
+
+function alertMX(t){
+$( "body" ).append( $( "<div id='boxMX' align='center'><p class='msgMX'></p><p>Press<br><br><b>OK</b><br><br>to continue.</p></div>" ) );
+$('.msgMX').text(t); var popMargTop = ($('#boxMX').height() + 24) / 2, popMargLeft = ($('#boxMX').width() + 24) / 2; 
+$('#boxMX').css({ 'margin-top' : -popMargTop,'margin-left' : -popMargLeft}).fadeIn(600);
+$("#boxMX").click(function() { $(this).remove(); });  };
 
