@@ -5,6 +5,7 @@ var current_section = 1;
 var current_question;
 var current_section_name;
 var numberOfQuestions;
+var numberOfSections;
 var question;
 var suggweight;
 var suggweightname = "";
@@ -20,9 +21,21 @@ $(document).ready(function () {
     $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
         sections = json;
         console.log(sections);
-
-
         current_section_name = displayCurrentSection(1);
+
+        //showBar(); // TODO: put in the result section
+        //showDonut();
+
+        // count sections TODO: put in a better place
+        var stop = false;
+        numberOfSections = 0;
+        while (!stop) {
+            if (sections.hasOwnProperty("section" + (numberOfSections + 1))) {
+                numberOfSections++;
+            } else {
+                stop = true;
+            }
+        }
     });
 
     $(".btn-first-choice").click(function () {
@@ -38,30 +51,30 @@ $(document).ready(function () {
         var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
-            console.log(suggweights)
+            console.log(suggweights);
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
 
-            for (var j in suggweights){
-                console.log(j+"PORCA")
-                sect='<div class="row sections"><div class="col-sm-8"><b>'+displayCurrentSection(j.substr(7))+'</b><br> Description - Suggested weight: '+switchcaseOnWeights(suggweights[j]["weight"])+'</div>'
-                + '<div class="col-sm-4">'
-                    + '<select id='+j+' class="btn btn-block sectionweight">'
-                        + '<option value="0">Zero</option>'
-                        + '<option value="1">Very Low</option>'
-                        + '<option value="2">Low</option>'
-                        + '<option value="3">Medium</option>'
-                        + '<option value="4">High</option>'
-                        + '<option value="5">Very High</option>'
-                        + '<option value="" selected disabled hidden>Choose Your Weight</option>'
+            for (var j in suggweights) {
+                console.log(j);
+                sect = '<div class="row sections"><div class="col-sm-8"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> Description - Suggested weight: ' + switchcaseOnWeights(suggweights[j]["weight"]) + '</div>'
+                    + '<div class="col-sm-4">'
+                    + '<select id=' + j + ' class="btn btn-block sectionweight">'
+                    + '<option value="0">Zero</option>'
+                    + '<option value="1">Very Low</option>'
+                    + '<option value="2">Low</option>'
+                    + '<option value="3">Medium</option>'
+                    + '<option value="4">High</option>'
+                    + '<option value="5">Very High</option>'
+                    + '<option value="" selected disabled hidden>Choose Your Weight</option>'
                     + '</select>'
-                + '</div></div>'
+                    + '</div></div>'
                 $("#intermediateintro").append(sect);
             }
             //$("#intermediateintro").append('</div>');
             $("#intermediateintro").append('<button type="button" class="btn btn-sq btn-second-choice " id="btn-second-choice" onclick="startquestionnaire()"><b>Start the questionnaire!</b></button>');
         });
-        
+
         /*
         context = $(this).text();
         //alert(context);
@@ -75,35 +88,45 @@ $(document).ready(function () {
         */
     });
 
-    
 
 });
+
 function startquestionnaire() {
-    var weightsection1 = $("#section1").val();
-    console.log(weightsection1)
-    var weightsection2 = $("#section2").val();
-    var weightsection3 = $("#section3").val();
-    var weightsection4 = $("#section4").val();
-    var weightsection5 = $("#section5").val();
-    var weightsection6 = $("#section6").val();
-    if(weightsection1&&weightsection2&&weightsection3&&weightsection4&&weightsection5&&weightsection6){
+    for (let i = 1; i <= numberOfSections; i++) {
+        dataStructure["section" + i] = {};
+        dataStructure["section" + i]["weight"] = parseInt($("#section" + i).val());
+    }
+
+    if (checkSectionWeights()) {
         displayThumbnails();
         pickFirstQuestion();
         $('#logo').off('click');
     }
-    else{
-        alertMX("KEEP CALM: You have to choose a weight for each section if you want to proceed!")
+    else {
+        alertMX("You must choose a weight for each section before proceeding!")
     }
-    
-};
+}
 
-function displaySectionsPage(){
+function checkSectionWeights() {
+    let flag = true;
+
+    for (let i = 1; i <= numberOfSections && flag; i++) {
+        if (isNaN(dataStructure["section" + i]["weight"])) {
+            flag = false;
+        }
+    }
+
+    return flag;
+}
+
+function displaySectionsPage() {
     $("#first-choice").toggleClass("hide");
     $("#intermediate").toggleClass("hide");
     $("#question-section").toggleClass("hide");
     $(".leftbox").toggleClass("hide");
     $("#logo").toggleClass("hide");
-    
+    //$("#result").toggleClass("hide");
+
     //showIntroduction();
     //showIntermediateResults();
     //goAhead();
@@ -129,7 +152,7 @@ var changeScenario = function () {
 
 var pickQuestion = function () {
     //Pick the current question
-    console.log(sections["section" + current_section]["question" + current_question]);
+    //console.log(sections["section" + current_section]["question" + current_question]);
     question = sections["section" + current_section]["question" + current_question];
     suggweight = suggweights["section" + current_section]["question" + current_question];
 
@@ -157,7 +180,6 @@ var displayThumbnails = function () {
 };
 
 
-
 //Pick the next question
 var loadNextQuestion = function () {
     current_question++;
@@ -165,10 +187,10 @@ var loadNextQuestion = function () {
     sectionIndex = "section" + current_section;
     // check if to change section
     //dataStructure[sectionIndex].size = computeSize(dataStructure[sectionIndex])-1;
-    if (current_section &&computeSize(dataStructure[sectionIndex])!=numberOfQuestions){
+    if (current_section && computeSize(dataStructure[sectionIndex]) != numberOfQuestions) {
         pickQuestion();
     }
-    else if ( computeSize(dataStructure[sectionIndex])==numberOfQuestions) {
+    else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions) {
 
         // TODO: display this result
         // evaluation of the section result
@@ -191,7 +213,7 @@ var loadNextQuestion = function () {
         pickQuestion();
 
     }
-    else if ((current_question > numberOfQuestions) && (computeSize(dataStructure[sectionIndex])!=numberOfQuestions)){
+    else if ((current_question > numberOfQuestions) && (computeSize(dataStructure[sectionIndex]) != numberOfQuestions)) {
         alertMX("KEEP CALM: You must answer all the questions in this section before leaving it!");
         current_questi
     }
@@ -359,7 +381,7 @@ function calculateFinalResult() {
     var cum_res = 0;
     var cum_weights = 0;
 
-    for (var i = 0; i < sections.length; i++) {
+    for (var i = 0; i < numberOfSections; i++) {
         if (dataStructure["section" + i].hasOwnProperty("result") && dataStructure["section" + i].hasOwnProperty("weight")) {
             cum_res = cum_res + parseInt(dataStructure["section" + i]["result"]);
             cum_weights = cum_weights + parseInt(dataStructure["section" + i]["weights"]);
@@ -402,7 +424,7 @@ $("#submit").click(function () {
 
     //moved to line 326
 
-    console.log("Missing input: " + missinginput);
+    //console.log("Missing input: " + missinginput);
     if (weight != null && !missinginput) {
 
 
@@ -521,4 +543,94 @@ function alertMX(t) {
     $("#boxMX").click(function () {
         $(this).remove();
     });
+}
+
+// show charts
+function showBar() {
+    // container
+    const bar_container = d3.select('#bar');
+
+    // chart
+    const barChart = britecharts.bar();
+
+    // Dataset example
+    const barData = [
+        {name: 'Luminous', value: 2},
+        {name: 'Glittering', value: 5},
+        {name: 'Intense', value: 4},
+        {name: 'Radiant', value: 3}
+    ];
+
+    // configuration
+    barChart
+        .margin({left: 100})
+        .isHorizontal(true)
+        .height(400)
+        .width(600);
+
+    // fill with data and show
+    bar_container.datum(barData).call(barChart);
+
+    // responsiveness
+    const redrawChart = () => {
+        const newBarContainerWidth = bar_container.node() ? bar_container.node().getBoundingClientRect().width : false;
+
+        // Setting the new width on the chart
+        if (barChart.width > newBarContainerWidth) {
+            barChart.width(newBarContainerWidth);
+            // Rendering the chart again
+            bar_container.call(barChart);
+        }
+    };
+    const throttledRedraw = _.throttle(redrawChart, 200);
+
+    window.addEventListener("resize", throttledRedraw);
+}
+
+function showDonut() {
+    // container
+    const donut_container = d3.select('#donut');
+
+    // chart
+    const donutChart = britecharts.donut();
+
+    // Dataset example
+    const donutData = [
+        {
+            quantity: 1,
+            name: 'dataset',
+        },
+        {
+            quantity: 1,
+            name: 'algorithm',
+        },
+        {
+            quantity: 0.6,
+            name: 'general',
+        }
+    ];
+
+    // configuration
+    donutChart
+        .margin({left: 100})
+        .height(400)
+        .width(600);
+
+    // fill with data and show
+    donut_container.datum(donutData).call(donutChart);
+
+    // responsiveness
+    const redrawChart = () => {
+        const newDonutContainerWidth = bar_container.node() ? bar_container.node().getBoundingClientRect().width : false;
+
+        // Setting the new width on the chart
+        if (donutChart.width > newDonutContainerWidth) {
+            donutChart.width(newDonutContainerWidth);
+            // Rendering the chart again
+            donut_container.call(donutChart);
+        }
+    };
+    const throttledRedraw = _.throttle(redrawChart, 200);
+
+    window.addEventListener("resize", throttledRedraw);
 }
