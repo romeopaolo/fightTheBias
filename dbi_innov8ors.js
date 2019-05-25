@@ -26,7 +26,43 @@ $(document).ready(function () {
     });
 
     $(".btn-first-choice").click(function () {
+        $('#1').off('click');
+        $('#2').off('click');
+        $('#3').off('click');
+        $('#4').off('click');
+        $('#5').off('click');
+        $('#6').off('click');
+
+        context = $(this).text();
+        displaySectionsPage();
+        var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
+        $.getJSON(path, function (json) { // show the JSON file content into console
+            suggweights = json;
+            console.log(suggweights)
+            $("#intermediateintro").empty();
+            //$("#intermediateintro").append('<div class="row">')
+
+            for (var j in suggweights){
+                console.log(j+"PORCA")
+                sect='<div class="row sections"><div class="col-sm-8"><b>'+displayCurrentSection(j.substr(7))+'</b><br> Description - Suggested weight: '+switchcaseOnWeights(suggweights[j]["weight"])+'</div>'
+                + '<div class="col-sm-4">'
+                    + '<select id='+j+' class="btn btn-block sectionweight">'
+                        + '<option value="0">Zero</option>'
+                        + '<option value="1">Very Low</option>'
+                        + '<option value="2">Low</option>'
+                        + '<option value="3">Medium</option>'
+                        + '<option value="4">High</option>'
+                        + '<option value="5">Very High</option>'
+                        + '<option value="" selected disabled hidden>Choose Your Weight</option>'
+                    + '</select>'
+                + '</div></div>'
+                $("#intermediateintro").append(sect);
+            }
+            //$("#intermediateintro").append('</div>');
+            $("#intermediateintro").append('<button type="button" class="btn btn-sq btn-second-choice " id="btn-second-choice" onclick="startquestionnaire()"><b>Start the questionnaire!</b></button>');
+        });
         
+        /*
         context = $(this).text();
         //alert(context);
         displayThumbnails();
@@ -36,15 +72,54 @@ $(document).ready(function () {
             //console.log(suggweights);
             pickFirstQuestion();
         });
+        */
     });
 
+    
+
 });
+function startquestionnaire() {
+    var weightsection1 = $("#section1").val();
+    console.log(weightsection1)
+    var weightsection2 = $("#section2").val();
+    var weightsection3 = $("#section3").val();
+    var weightsection4 = $("#section4").val();
+    var weightsection5 = $("#section5").val();
+    var weightsection6 = $("#section6").val();
+    if(weightsection1&&weightsection2&&weightsection3&&weightsection4&&weightsection5&&weightsection6){
+        displayThumbnails();
+        pickFirstQuestion();
+        $('#logo').off('click');
+    }
+    else{
+        alertMX("KEEP CALM: You have to choose a weight for each section if you want to proceed!")
+    }
+    
+};
+
+function displaySectionsPage(){
+    $("#first-choice").toggleClass("hide");
+    $("#intermediate").toggleClass("hide");
+    $("#question-section").toggleClass("hide");
+    $(".leftbox").toggleClass("hide");
+    $("#logo").toggleClass("hide");
+    
+    //showIntroduction();
+    //showIntermediateResults();
+    //goAhead();
+}
+
+var pickFirstQuestion = function () {
+    changeScenario();
+    pickQuestion();
+};
 
 var changeScenario = function () {
-    $("#first-choice").toggleClass("hide");
-    $("#question-section").toggleClass("hide");
-    $("#logo").toggleClass("hide");
-    $(".leftbox").toggleClass("hide");
+    $("#intermediate").toggleClass("hide");
+    //$("#first-choice").toggleClass("hide");
+    //$("#question-section").toggleClass("hide");
+    //$("#logo").toggleClass("hide");
+    //$(".leftbox").toggleClass("hide");
     $("#section").toggleClass("hide");
     // $("#question-section").toggleClass("scene_element scene_element--fadeinup");
     $("#question-section-body").toggleClass("hide");
@@ -52,9 +127,15 @@ var changeScenario = function () {
     // $("#question-section-body").toggleClass("scene_element scene_element--fadeinup");
 };
 
-var pickFirstQuestion = function () {
-    changeScenario();
-    pickQuestion();
+var pickQuestion = function () {
+    //Pick the current question
+    console.log(sections["section" + current_section]["question" + current_question]);
+    question = sections["section" + current_section]["question" + current_question];
+    suggweight = suggweights["section" + current_section]["question" + current_question];
+
+    suggweightname = switchcaseOnWeights(suggweight);
+
+    loadQuestion();
 };
 
 var displayThumbnails = function () {
@@ -75,16 +156,7 @@ var displayThumbnails = function () {
     }
 };
 
-var pickQuestion = function () {
-    //Pick the current question
-    console.log(sections["section" + current_section]["question" + current_question]);
-    question = sections["section" + current_section]["question" + current_question];
-    suggweight = suggweights["section" + current_section]["question" + current_question];
 
-    suggweightname = switchcaseOnWeights(suggweight);
-
-    loadQuestion();
-};
 
 //Pick the next question
 var loadNextQuestion = function () {
@@ -94,7 +166,12 @@ var loadNextQuestion = function () {
     // check if to change section
     //dataStructure[sectionIndex].size = computeSize(dataStructure[sectionIndex])-1;
 
-    if ( computeSize(dataStructure[sectionIndex])==numberOfQuestions) {
+    if (current_question <= numberOfQuestions&&computeSize(dataStructure[sectionIndex])!=numberOfQuestions){
+        pickQuestion();
+    }
+
+
+    else if ( computeSize(dataStructure[sectionIndex])==numberOfQuestions) {
 
         // TODO: display this result
         // evaluation of the section result
@@ -120,7 +197,8 @@ var loadNextQuestion = function () {
     }
 
     else if ((current_question > numberOfQuestions) && (computeSize(dataStructure[sectionIndex])!=numberOfQuestions)){
-        alertMX("You must answer all the questions in this section before leaving it!");
+        alertMX("KEEP CALM: You must answer all the questions in this section before leaving it!");
+        current_questi
     }
     
     
@@ -364,7 +442,7 @@ $("#submit").click(function () {
         weight = null;
     }
     else {
-        alertMX("Missing weight or input class!");
+        alertMX("KEEP CALM: Missing weight or input class!");
         missinginput = false;
     }
 
@@ -447,10 +525,8 @@ $("#logo").click(function(){
     $(".leftbox").toggleClass("hide");
     $("#logo").toggleClass("hide");
     $("#question-section").toggleClass("hide");
-    $("#section").toggleClass("hide");
-    // $("#question-section").toggleClass("scene_element scene_element--fadeinup");
-    $("#question-section-body").toggleClass("hide");
-    $("#submit").toggleClass("hide");
+    $("#intermediate").toggleClass("hide");
+
 })
 
 $("<style type='text/css'>#boxMX{display:none;background: #333;padding: 10px;border: 2px solid #ddd;float: left;font-size: 1.2em;position: fixed;top: 50%; left: 50%;z-index: 99999;box-shadow: 0px 0px 20px #999; -moz-box-shadow: 0px 0px 20px #999; -webkit-box-shadow: 0px 0px 20px #999; border-radius:6px 6px 6px 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; font:13px Arial, Helvetica, sans-serif; padding:6px 6px 4px;width:300px; color: white;}</style>").appendTo("head");
@@ -464,11 +540,4 @@ function alertMX(t){
     });  
 };
 
-function displayIntermediateSection(){
-    $("#question-section").toggleClass("hide");
-    $("#section").toggleClass("hide");
-    $("#intermediate").toggleClass("hide");
-    //showIntroduction();
-    //showIntermediateResults();
-    //goAhead();
-}
+

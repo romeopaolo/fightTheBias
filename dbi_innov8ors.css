@@ -54,6 +54,10 @@ body {
     height: 200px;
 }
 
+.row.sections{
+    height: 100px;
+}
+
 .row.d-flex{
     height: 150px;
 }
@@ -118,33 +122,28 @@ body {
     border-radius: 10%;
 }
 
-.btn.btn-block.suggweight.gender{
-    background-color: #7cbb00;
-    color:white;
-    border-radius: 3%;
-    height:140px;
-    width: 50%;
-}
-
-.btn.btn-block.weight.gender{
-    background-color: #7cbb00;
-    color:white;
-    margin-top:12px;
-    height:40px;
-    width: 56%;
-    margin-left:47%;
-}
-
-.btn.btn-block.suggweight.healthcare{
+.btn.btn-sq.btn-second-choice{
     background-color: #00a1f1;
+    color:white;
+    float: right;
+}
+
+.btn.btn-block.sectionweight{
+    background-color: #00a1f1;
+    color:white;
+   
+    height:40px;
+
+}
+
+.btn.btn-block.suggweight{
     color:white;
     border-radius: 3%;
     height:140px;
     width: 60%;
 }
 
-.btn.btn-block.weight.healthcare{
-    background-color: #00a1f1;
+.btn.btn-block.weight{
     color:white;
     margin-top:12px;
     height:40px;
@@ -152,38 +151,37 @@ body {
     margin-left:36%;
 }
 
+.btn.btn-block.suggweight.gender{
+    background-color: #7cbb00;
+}
+
+.btn.btn-block.weight.gender{
+    background-color: #7cbb00;
+
+}
+
+.btn.btn-block.suggweight.healthcare{
+    background-color: #00a1f1;
+}
+
+.btn.btn-block.weight.healthcare{
+    background-color: #00a1f1;
+}
+
 .btn.btn-block.suggweight.autonomous{
     background-color: #ffbb00;
-    color:white;
-    border-radius: 3%;
-    height:140px;
-    width: 50%;
 }
 
 .btn.btn-block.weight.autonomous{
     background-color: #ffbb00;
-    color:white;
-    margin-top:12px;
-    height:40px;
-    width: 56%;
-    margin-left:47%;
 }
 
-.btn.btn-block.suggweight.politics{
+.btn.btn-block.suggweight.education{
     background-color: #f65314;
-    color:white;
-    border-radius: 3%;
-    height:140px;
-    width: 50%;
 }
 
-.btn.btn-block.weight.politics{
+.btn.btn-block.weight.education{
     background-color: #f65314;
-    color:white;
-    margin-top:12px;
-    height:40px;
-    width: 56%;
-    margin-left:47%;
 }
 
 .btn-circle {
@@ -272,7 +270,7 @@ body {
     border-radius: 5px 5px 5px 5px;
 }
 
-.inputbox.politcs{
+.inputbox.education{
     text-align: center;
     border-width: 1px;
     color:#f65314;
@@ -320,6 +318,13 @@ nav a :first-child {
 }
 
 #logo{
-    position: absolute;
-    
+    position: absolute;   
+}
+
+#intermediate{
+    margin-top:-112px;
+}
+
+li{
+    margin-top:-3px;
 }
