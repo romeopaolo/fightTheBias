@@ -23,9 +23,6 @@ $(document).ready(function () {
         console.log(sections);
         current_section_name = displayCurrentSection(1);
 
-        //showBar(); // TODO: put in the result section
-        //showDonut();
-
         // count sections TODO: put in a better place
         var stop = false;
         numberOfSections = 0;
@@ -45,13 +42,14 @@ $(document).ready(function () {
         $('#4').off('click');
         $('#5').off('click');
         $('#6').off('click');
+        $('#7').off('click');
 
         context = $(this).text();
         displaySectionsPage();
         var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
-            console.log(suggweights);
+            // console.log(suggweights);
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
 
@@ -192,12 +190,8 @@ var loadNextQuestion = function () {
     }
     else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions) {
 
-        // TODO: display this result
         // evaluation of the section result
-
         dataStructure[sectionIndex]["result"] = evaluateSection(sectionIndex);
-
-        console.log("Section result: " + dataStructure[sectionIndex]["result"]);
 
         current_section++;
         current_section_name = displayCurrentSection(current_section);
@@ -206,12 +200,13 @@ var loadNextQuestion = function () {
         $('#' + current_section).addClass("active");
 
         displayThumbnails();
+
         if (current_section > sections.length) {
             dataStructure["finalResult"] = calculateFinalResult();
+            // TODO: show the results' page
+        } else {
+            pickQuestion();
         }
-
-        pickQuestion();
-
     }
     else if ((current_question > numberOfQuestions) && (computeSize(dataStructure[sectionIndex]) != numberOfQuestions)) {
         alertMX("KEEP CALM: You must answer all the questions in this section before leaving it!");
@@ -312,6 +307,84 @@ var loadQuestion = function () {
     //Append the new question
     $("#section").append(sectiondiv)
 };
+
+function loadResults() {
+    // clear the html
+    $("#question").empty();
+    $("#section").empty();
+
+    var sectiondiv = "";
+    current_section_name = displayCurrentSection(current_section);
+    sectiondiv += '<div><b>' + current_section_name + '</b></div>';
+
+    var elem = "";
+
+    // display the final result
+    if (dataStructure.hasOwnProperty("finalResult")) {
+        elem += '<div class="row">' +
+            '<div class="col-sm-9">' +
+            '   <h1><b> Overall result</b></h1><br>' +
+            '   <h2>The overall quality is: ' + (dataStructure["finalResult"]) * 100 + '%</h2><br>' +
+            '</div>';
+    } else {
+        console.log("An error occurred in the final result");
+    }
+
+    // display the graphs
+    elem +=
+        //Overall result
+        '<div class="row">' +
+        '   <div class="col-sm-9">' +
+        '       <h2>Impact of the sections on the final result</h2><br>' +
+        '       <div class="" id="finalResult">' +
+        '           <div class="donut-container" id="sectionsDonut"></div>' +
+        '       </div><hr>' +
+        '   </div>' +
+        '</div>' +
+        // first 3 sections
+        '<div class="row">' +
+        '   <h2>Impact of the questions on each section</h2><br>' +
+        '   <div class="col-sm-3">' +
+        '       <div class="">' +
+        '           <div class="donut-container" id="sec1Donut"></div>' +
+        '       </div>' +
+        '   </div>' +
+        '   <div class="col-sm-3">' +
+        '       <div class="">' +
+        '           <div class="donut-container" id="sec2Donut"></div>' +
+        '       </div>' +
+        '   </div>' +
+        '   <div class="col-sm-3">' +
+        '       <div class="">' +
+        '           <div class="donut-container" id="sec3Donut"></div>' +
+        '       </div>' +
+        '   </div>' +
+        '</div>' +
+        // last 3 sections
+        '<div class="row">' +
+        '   <div class="col-sm-3">' +
+        '       <div class="">' +
+        '           <div class="donut-container" id="sec4Donut"></div>' +
+        '       </div>' +
+        '   </div>' +
+        '   <div class="col-sm-3">' +
+        '       <div class="">' +
+        '           <div class="donut-container" id="sec5Donut"></div>' +
+        '       </div>' +
+        '   </div>' +
+        '   <div class="col-sm-3">' +
+        '       <div class="">' +
+        '           <div class="donut-container" id="sec6Donut"></div>' +
+        '       </div><hr>' +
+        '   </div>' +
+        '</div>';
+
+    // load the results TODO: create a new html div called result
+    $("#question").append(elem);
+
+    // load the new section
+    $("#section").append(sectiondiv);
+}
 
 function evaluateVariable(arr) {
     let n = arr.length;
@@ -589,7 +662,7 @@ function showBar() {
 
 function showDonut() {
     // container
-    const donut_container = d3.select('#donut');
+    const donut_container = d3.select('#sectionsDonut');
 
     // chart
     const donutChart = britecharts.donut();
