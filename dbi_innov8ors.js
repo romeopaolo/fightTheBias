@@ -11,6 +11,7 @@ var suggweightname = "";
 var dataStructure = {};
 var missinginput = false;
 var context;
+var sectionIndex;
 
 
 //Parse the JSON with the questions when the page is loaded
@@ -25,7 +26,7 @@ $(document).ready(function () {
     });
 
     $(".btn-first-choice").click(function () {
-
+        
         context = $(this).text();
         //alert(context);
         displayThumbnails();
@@ -88,13 +89,16 @@ var pickQuestion = function () {
 //Pick the next question
 var loadNextQuestion = function () {
     current_question++;
-
+    
+    sectionIndex = "section" + current_section;
     // check if to change section
-    if (current_question > numberOfQuestions) {
+    //dataStructure[sectionIndex].size = computeSize(dataStructure[sectionIndex])-1;
+
+    if ( computeSize(dataStructure[sectionIndex])==numberOfQuestions) {
 
         // TODO: display this result
         // evaluation of the section result
-        var sectionIndex = "section" + current_section;
+        
         dataStructure[sectionIndex]["result"] = evaluateSection(sectionIndex);
 
         console.log("Section result: " + evaluateSection(sectionIndex));
@@ -110,10 +114,28 @@ var loadNextQuestion = function () {
         if (current_section > sections.length) {
             dataStructure["finalResult"] = calculateFinalResult();
         }
+
+        pickQuestion();
+        
+    }
+
+    else if ((current_question > numberOfQuestions) && (computeSize(dataStructure[sectionIndex])!=numberOfQuestions)){
+        alertMX("You must answer all the questions in this section before leaving it!");
     }
     
-    pickQuestion();
+    
 };
+
+function computeSize(obj) {
+    var localsize = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) localsize++;
+    }
+    return localsize;
+};
+
+
+
 
 /**
  * TODO:
@@ -142,14 +164,14 @@ var loadQuestion = function () {
                         + '<div class="row d-flex flex-row-reverse">'
                             + '<button type="button"class="btn btn-block suggweight '+context.toLowerCase()+' m-2 p-3"><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>'
                         + '</div>'
-                        + '<select id="weight"  class="btn btn-block weight '+context.toLowerCase()+'" >'
+                        + '<select id="weight" class="btn btn-block weight '+context.toLowerCase()+'" >'
                             + '<option value="0">Zero</option>'
                             + '<option value="1">Very Low</option>'
                             + '<option value="2">Low</option>'
                             + '<option value="3">Medium</option>'
                             + '<option value="4">High</option>'
                             + '<option value="5">Very High</option>'
-                            + '<option value="" selected disabled hidden>Your Weight</option>'
+                            + '<option value="" selected disabled hidden>Choose Your Weight</option>'
                         + '</select>'
                     + '</div>'
                 + '</div>'
@@ -173,7 +195,7 @@ var loadQuestion = function () {
         elem += '</div>' +
             '<div class="col-sm-3">' +
             '<div class="row d-flex flex-row-reverse">' +
-            '<button type="button"class="btn btn-block suggweight '+context.toLowerCase()+' m-2 p-3 ">' + suggweightname + '</button>' +
+            '<button type="button"class="btn btn-block suggweight '+context.toLowerCase()+' m-2 p-3 "><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>' +
             '</div>' +
             '<select id="weight" class="btn btn-block weight '+context.toLowerCase()+'" >' +
             '<option value="0">Zero</option>' +
@@ -182,7 +204,7 @@ var loadQuestion = function () {
             '<option value="3">Medium</option>' +
             '<option value="4">High</option>' +
             '<option value="5">Very High</option>' +
-            '<option value="" selected disabled hidden>Weight</option>' +
+            '<option value="" selected disabled hidden>Choose Your Weight</option>' +
             '</select>' +
             '</div>'+
             '</div>'
@@ -307,29 +329,35 @@ $("#submit").click(function () {
     }
 
     var weight = $("#weight").val();
-    console.log(weight);
+    //console.log(weight);
 
     // if it is the first question of the section
     if (!dataStructure.hasOwnProperty(sectionIndex)) {
         dataStructure[sectionIndex] = {};
     }
 
-    // create the question
-    dataStructure[sectionIndex][questionIndex] = {};
+    //moved to line 326
 
-    // fill the question
-    dataStructure[sectionIndex][questionIndex]["data"] = value;
-    dataStructure[sectionIndex][questionIndex]["weight"] = weight;
-    if (!question.boolean) {
-        dataStructure[sectionIndex][questionIndex]["result"] = evaluateVariable(value) * weight;
-    } else {
-        dataStructure[sectionIndex][questionIndex]["result"] = value * weight; // TODO: check
-    }
 
     console.log(dataStructure);
 
     console.log("Missing input: " + missinginput);
     if (weight != null && !missinginput) {
+        
+
+          // create the question
+        dataStructure[sectionIndex][questionIndex] = {};
+
+        // fill the question
+        dataStructure[sectionIndex][questionIndex]["data"] = value;
+        dataStructure[sectionIndex][questionIndex]["weight"] = weight;
+        if (!question.boolean) {
+            dataStructure[sectionIndex][questionIndex]["result"] = evaluateVariable(value) * weight;
+        } else {
+            dataStructure[sectionIndex][questionIndex]["result"] = value * weight; // TODO: check
+        }
+
+
         document.getElementById("thumbnail" + current_question).innerHTML = "Q" + current_question + " ~ " + switchcaseOnWeights($("#weight").val());
         loadNextQuestion();
         missinginput = false;
@@ -428,8 +456,19 @@ $("#logo").click(function(){
 $("<style type='text/css'>#boxMX{display:none;background: #333;padding: 10px;border: 2px solid #ddd;float: left;font-size: 1.2em;position: fixed;top: 50%; left: 50%;z-index: 99999;box-shadow: 0px 0px 20px #999; -moz-box-shadow: 0px 0px 20px #999; -webkit-box-shadow: 0px 0px 20px #999; border-radius:6px 6px 6px 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; font:13px Arial, Helvetica, sans-serif; padding:6px 6px 4px;width:300px; color: white;}</style>").appendTo("head");
 
 function alertMX(t){
-$( "body" ).append( $( "<div id='boxMX' align='center'><p class='msgMX'></p><p>Press<br><br><b>OK</b><br><br>to continue.</p></div>" ) );
-$('.msgMX').text(t); var popMargTop = ($('#boxMX').height() + 24) / 2, popMargLeft = ($('#boxMX').width() + 24) / 2; 
-$('#boxMX').css({ 'margin-top' : -popMargTop,'margin-left' : -popMargLeft}).fadeIn(600);
-$("#boxMX").click(function() { $(this).remove(); });  };
+    $( "body" ).append( $( "<div id='boxMX' align='center'><p class='msgMX'></p><p>Press<br><br><b>OK</b><br><br>to continue.</p></div>" ) );
+    $('.msgMX').text(t); var popMargTop = ($('#boxMX').height() + 24) / 2, popMargLeft = ($('#boxMX').width() + 24) / 2; 
+    $('#boxMX').css({ 'margin-top' : -popMargTop,'margin-left' : -popMargLeft}).fadeIn(600);
+    $("#boxMX").click(function(){
+        $(this).remove(); 
+    });  
+};
 
+function displayIntermediateSection(){
+    $("#question-section").toggleClass("hide");
+    $("#section").toggleClass("hide");
+    $("#intermediate").toggleClass("hide");
+    //showIntroduction();
+    //showIntermediateResults();
+    //goAhead();
+}

@@ -140,7 +140,7 @@ body {
     color:white;
     border-radius: 3%;
     height:140px;
-    width: 50%;
+    width: 60%;
 }
 
 .btn.btn-block.weight.healthcare{
@@ -148,8 +148,8 @@ body {
     color:white;
     margin-top:12px;
     height:40px;
-    width: 56%;
-    margin-left:47%;
+    width: 66%;
+    margin-left:36%;
 }
 
 .btn.btn-block.suggweight.autonomous{
@@ -253,19 +253,6 @@ body {
    width: 45px;
 } 
 
-.inputboolean.healthcare{
-    border-color:#ffbb00;
-}
-.inputboolean.politcs{
-    border-color:#ffbb00;
-}
-.inputboolean.gender{
-    border-color:#ffbb00;
-}
-.inputboolean.autonomous{
-    border-color:#ffbb00;
-}
-
 .inputbox{
     margin: 5px;
     border-radius: 3%;
@@ -279,15 +266,24 @@ body {
 }
 
 .inputbox.autonomous{
-    border-color:#00a1f1;
+    text-align: center;
+    border-width: 1px;
+    color:#ffbb00;
+    border-radius: 5px 5px 5px 5px;
 }
 
 .inputbox.politcs{
-    border-color:#f65314;
+    text-align: center;
+    border-width: 1px;
+    color:#f65314;
+    border-radius: 5px 5px 5px 5px;
 }
 
 .inputbox.gender{
-    border-color:#7cbb00;
+    text-align: center;
+    border-width: 1px;
+    color:#7cbb00;
+    border-radius: 5px 5px 5px 5px;
 }
   
 nav a {
