@@ -18,7 +18,7 @@ var sectionIndex;
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
 
-    $.getJSON("./data/test_questions.json", function (json) { // show the JSON file content into console
+    $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
         sections = json;
         console.log(sections);
         console.log(sections.length);
@@ -37,18 +37,11 @@ $(document).ready(function () {
     });
 
     $(".btn-first-choice").click(function () {
-        /* TODO: disable sections
-        $('#1').off('click');
-        $('#2').off('click');
-        $('#3').off('click');
-        $('#4').off('click');
-        $('#5').off('click');
-        $('#6').off('click');
-        $('#7').off('click');
-        */
+        //TODO: disable sections
+        $('nav a').off('click');
         context = $(this).text();
         displaySectionsPage();
-        var path = "./data/test_suggested_weights_" + context.toLowerCase() + ".json";
+        var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
             // console.log(suggweights);
@@ -92,6 +85,20 @@ $(document).ready(function () {
 });
 
 function startquestionnaire() {
+    $("#1").addClass("active");
+        $('nav a').on('click',function () {
+            $("nav a").removeClass("active");
+            $(this).addClass("active");
+            current_section = this.id;
+            current_question = 1;
+            pickQuestion();
+            displayThumbnails();
+            for (var t = current_question; t <= numberOfQuestions; t++) {
+                if (!isNaN(getWeightFromDataStructure(current_section, t))) {
+                    document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
+                }
+            }
+        });
     for (let i = 1; i <= numberOfSections; i++) {
         dataStructure["section" + i] = {};
         dataStructure["section" + i]["weight"] = parseInt($("#section" + i).val());
@@ -207,7 +214,7 @@ var loadNextQuestion = function () {
         pickQuestion();
     }
 
-    else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions) {
+    else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions|| computeSize(dataStructure[sectionIndex])-1 == numberOfQuestions) {
 
         // evaluation of the section result
         dataStructure[sectionIndex]["result"] = evaluateSection(sectionIndex);
@@ -488,7 +495,7 @@ function calculateFinalResult() {
     return (Math.round((cum_res / cum_weights) * 100) / 100)
 }
 
-$("nav a").click(function () {
+/*$("nav a").click(function () {
     $("nav a").removeClass("active");
     $(this).addClass("active");
     current_section = this.id;
@@ -500,7 +507,7 @@ $("nav a").click(function () {
             document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
         }
     }
-});
+});*/
 
 $("#submit").click(function () {
 
