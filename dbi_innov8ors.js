@@ -185,9 +185,11 @@ var loadNextQuestion = function () {
     sectionIndex = "section" + current_section;
     // check if to change section
     //dataStructure[sectionIndex].size = computeSize(dataStructure[sectionIndex])-1;
-    if (current_section && computeSize(dataStructure[sectionIndex]) != numberOfQuestions) {
+    
+    if (current_question <= numberOfQuestions && computeSize(dataStructure[sectionIndex]) != numberOfQuestions) {
         pickQuestion();
     }
+    
     else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions) {
 
         // evaluation of the section result
@@ -210,7 +212,7 @@ var loadNextQuestion = function () {
     }
     else if ((current_question > numberOfQuestions) && (computeSize(dataStructure[sectionIndex]) != numberOfQuestions)) {
         alertMX("KEEP CALM: You must answer all the questions in this section before leaving it!");
-        current_questi
+        current_question--;
     }
 
 
@@ -221,7 +223,7 @@ function computeSize(obj) {
     for (key in obj) {
         if (obj.hasOwnProperty(key)) localsize++;
     }
-    return localsize;
+    return localsize-1;
 }
 
 
