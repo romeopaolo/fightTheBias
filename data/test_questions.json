@@ -9,6 +9,11 @@
       "text": "Does your AI project promote well-being, preserve dignity, or sustain the planet?",
       "description": "d1",
       "boolean": true
+    },
+    "question3": {
+      "text": "Does your AI project preserve the personal privacy and the security of the data?",
+      "description": "d1",
+      "boolean": true
     }
   },
   "section2": {
@@ -20,6 +25,30 @@
         "Number of males",
         "Number of females"
       ]
+    },
+    "question2": {
+      "text": "Heterogeneity of area of origin (on the basis of the scope: international)",
+      "description": "d1",
+      "boolean": false,
+      "classes": [
+        "Europe",
+        "America",
+        "Asia",
+        "Australia",
+        "Africa"
+      ]
+    }
+  },
+  "section3": {
+    "question1": {
+      "text": "Is the data set size significative with respect to the population of study size? ",
+      "description": "d1",
+      "boolean": true
+    },
+    "question2": {
+      "text": "Is the data set size significative with respect to its context?",
+      "description": "d1",
+      "boolean": true
     }
   }
 }

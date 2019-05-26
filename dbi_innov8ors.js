@@ -372,53 +372,37 @@ function loadResults() {
         '           <div class="donut-container" id="sectionsDonut"></div>' +
         '       </div><hr>' +
         '   </div>' +
-        '</div>' +
-        // first 3 sections
-        '<div class="row">' +
-        '   <h2>Impact of the questions on each section</h2><br>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec1Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec2Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec3Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '</div>' +
-        // last 3 sections
-        '<div class="row">' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec4Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec5Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec6Donut"></div>' +
-        '       </div><hr>' +
-        '   </div>' +
         '</div>';
 
-    // load the results TODO: create a new html div called result
+    // open row div
+    elem += '<div class="row">' +
+        '   <h2>Impact of the questions on each section</h2><br>';
+
+    // insert one div for each section graph
+    for (let i = 1; i <= numberOfSections; i++) {
+        elem +=
+            '   <div class="col-sm-3">' +
+            '       <div class="">' +
+            '           <div class="donut-container" id="section' + i + 'Donut"></div>' +
+            '       </div>' +
+            '   </div>';
+    }
+
+    // close row div
+    elem += '</div>';
+
+    // load the results
     $("#question").append(elem);
 
     // load the new section
     $("#section").append(sectiondiv);
 
     // render graphs
-    showSectionsDonut();
+    showOverallDonut();
+
+    for (let x = 1; x <= numberOfSections; x++) {
+        showSectionDonut(x);
+    }
 }
 
 function evaluateVariable(arr) {
@@ -699,7 +683,7 @@ function showBar() {
     window.addEventListener("resize", throttledRedraw);
 }
 
-function showSectionsDonut() {
+function showOverallDonut() {
     // container
     const donut_container = d3.select('#sectionsDonut');
 
@@ -707,8 +691,8 @@ function showSectionsDonut() {
     const donutChart = britecharts.donut();
 
     // load data
-    const donutData = extractSectionsData();
-    console.log(donutData);
+    const donutData = extractOverallData();
+
     // configuration
     donutChart
         .margin({left: 100})
@@ -734,31 +718,47 @@ function showSectionsDonut() {
     window.addEventListener("resize", throttledRedraw);
 }
 
-function extractSectionsData() {
-    /* Dataset example
-    const donutData = [
-        {
-            quantity: 1,
-            name: 'dataset',
-        },
-        {
-            quantity: 1,
-            name: 'algorithm',
-        },
-        {
-            quantity: 0.6,
-            name: 'general',
+function showSectionDonut(sectionNumber) {
+    // container
+    const donut_container = d3.select('#section' + sectionNumber + 'Donut');
+
+    // chart
+    const donutChart = britecharts.donut();
+
+    // load data
+    const donutData = getSectionResultFromDataStructure(sectionNumber);
+
+    // configuration
+    donutChart
+        .margin({left: 100})
+        .height(400)
+        .width(600);
+
+    // fill with data and show
+    donut_container.datum(donutData).call(donutChart);
+
+    // responsiveness
+    const redrawChart = () => {
+        const newDonutContainerWidth = donut_container.node() ? donut_container.node().getBoundingClientRect().width : false;
+
+        // Setting the new width on the chart
+        if (donutChart.width > newDonutContainerWidth) {
+            donutChart.width(newDonutContainerWidth);
+            // Rendering the chart again
+            donut_container.call(donutChart);
         }
-    ];
-    */
+    };
+    const throttledRedraw = _.throttle(redrawChart, 200);
+
+    window.addEventListener("resize", throttledRedraw);
+}
+
+function extractOverallData() {
     var data = [];
 
     for (var i = 1; i <= numberOfSections; i++) {
-        if (!(getSectionResultFromDataStructure(i) === -1)) {
-            data.push(getSectionResultFromDataStructure(i));
-            console.log("entra");
-        } else{
-            console.log("non entra");
+        if (!(getOverallResultFromDataStructure(i) === -1)) {
+            data.push(getOverallResultFromDataStructure(i));
         }
     }
 
@@ -802,16 +802,39 @@ function getResultFromDataStructure(section, question) {
     return NaN
 }
 
-function getSectionResultFromDataStructure(section) {
+function getOverallResultFromDataStructure(section) {
     let obj = {};
     if (dataStructure.hasOwnProperty("section" + section)) {
         if (dataStructure["section" + section].hasOwnProperty("result")) {
             obj["quantity"] = dataStructure["section" + section]["result"];
-            obj["name"] = "section" + section;
+            obj["name"] = "Section" + section;
             console.log(obj);
             return obj;
         }
     }
     console.log("Result not present");
+    return -1
+}
+
+function getSectionResultFromDataStructure(section) {
+    let arr = [];
+    let flag = true;
+    let i = 1;
+
+    if (dataStructure.hasOwnProperty("section" + section)) {
+        while (flag) {
+            if (dataStructure["section" + section].hasOwnProperty("question" + i)) {
+                arr.push({
+                    "quantity": dataStructure["section" + section]["question" + i]["result"],
+                    "name": ("Question" + i)
+                });
+                i += 1;
+            } else {
+                flag = false; // TODO: is it useful?
+                return arr;
+            }
+        }
+    }
+    console.log("Section not present");
     return -1
 }
