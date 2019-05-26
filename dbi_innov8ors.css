@@ -30,7 +30,6 @@ body {
 }
 
 #section{
-    font-size: 30px;
     margin-top:40px;
     margin-left:22px;
     border-width: 0px;
@@ -54,8 +53,13 @@ body {
     height: 200px;
 }
 
+#intermediate{
+    border-width: 0px;
+    margin-top:-20px;
+}
+
 .row.sections{
-    height: 100px;
+    height: 85px;
 }
 
 .row.d-flex{
@@ -286,7 +290,10 @@ body {
   
 nav a {
     list-style: none;
-    padding: 35px;
+    padding-right: 35px;
+    padding-left: 35px;
+    padding-bottom: 28px;
+    padding-top: 29px;
     color: white;
     font-size: 1.1em;
     display: block;
@@ -319,10 +326,8 @@ nav a :first-child {
 
 #logo{
     position: absolute;   
-}
-
-#intermediate{
-    margin-top:-112px;
+    height: 91px;
+    width: 91px;
 }
 
 li{

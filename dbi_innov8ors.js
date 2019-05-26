@@ -58,8 +58,8 @@ $(document).ready(function () {
 
             for (var j in suggweights) {
                 console.log(j);
-                sect = '<div class="row sections"><div class="col-sm-8"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> Description - Suggested weight: ' + switchcaseOnWeights(suggweights[j]["weight"]) + '</div>'
-                    + '<div class="col-sm-4">'
+                sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> Description - Suggested weight: ' + switchcaseOnWeights(suggweights[j]["weight"]) + '</div>'
+                    + '<div class="col-sm-3">'
                     + '<select id=' + j + ' class="btn btn-block sectionweight">'
                     + '<option value="0">Zero</option>'
                     + '<option value="1">Very Low</option>'
@@ -126,6 +126,8 @@ function displaySectionsPage() {
     $("#question-section").toggleClass("hide");
     $(".leftbox").toggleClass("hide");
     $("#logo").toggleClass("hide");
+    $("#thumbnails").append('<h1>Introductory Section</h1>');
+
     //$("#result").toggleClass("hide");
 
     //showIntroduction();
@@ -192,8 +194,9 @@ var loadNextQuestion = function () {
     // check if to change section
     //dataStructure[sectionIndex].size = computeSize(dataStructure[sectionIndex])-1;
 
+    console.log(computeSize(dataStructure[sectionIndex]))
+
     if (current_question <= numberOfQuestions && computeSize(dataStructure[sectionIndex]) != numberOfQuestions) {
-        console.log("entra qui");
         pickQuestion();
     }
 
@@ -243,12 +246,12 @@ var loadQuestion = function () {
 
     var sectiondiv = "";
     current_section_name = displayCurrentSection(current_section);
-    sectiondiv += '<div><b>' + current_section_name + '</b></div>';
+    sectiondiv += '<div><h2><b>' + current_section_name + '</b></h2></div>';
     //Check if it is boolean
     if (question.boolean) {
         var elem = "";
         elem += '<div class="row">'
-            + '<div class="col-sm-9">'
+            + '<div class="col-xs-12 col-md-9">'
             + '<h1><b>Question #' + (current_question) + '</b></h1>' + '<br>'
             + '<h2>' + question.text + '</h2><br>'
             + '<div class="radio-toolbar">'
@@ -259,7 +262,7 @@ var loadQuestion = function () {
             + '</div><br><br>'
             + '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>'
             + '</div>'
-            + '<div class="col-sm-3">'
+            + '<div class="col-xs-12 col-md-3">'
             + '<div class="row d-flex flex-row-reverse">'
             + '<button type="button"class="btn btn-block suggweight ' + context.toLowerCase() + ' m-2 p-3"><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>'
             + '</div>'
@@ -278,7 +281,7 @@ var loadQuestion = function () {
 
         var elem = "";
         elem += '<div class="row">' +
-            '<div class="col-sm-9">'
+            '<div class="col-xs-12 col-md-9">'
             + '<h1><b> Question #' + (current_question) + '</b></h1>' + '<br>'
 
             + '<h2>' + question.text + '</h2><br>';
@@ -292,7 +295,7 @@ var loadQuestion = function () {
         elem += '</ul><br><br>' + '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>';
 
         elem += '</div>' +
-            '<div class="col-sm-3">' +
+            '<div class="col-xs-12 col-md-3">' +
             '<div class="row d-flex flex-row-reverse">' +
             '<button type="button"class="btn btn-block suggweight ' + context.toLowerCase() + ' m-2 p-3 "><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>' +
             '</div>' +
