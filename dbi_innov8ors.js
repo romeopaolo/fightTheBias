@@ -21,6 +21,7 @@ $(document).ready(function () {
     $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
         sections = json;
         console.log(sections);
+        console.log(sections.length);
         current_section_name = displayCurrentSection(1);
 
         // count sections TODO: put in a better place
@@ -36,6 +37,7 @@ $(document).ready(function () {
     });
 
     $(".btn-first-choice").click(function () {
+        /*
         $('#1').off('click');
         $('#2').off('click');
         $('#3').off('click');
@@ -43,7 +45,7 @@ $(document).ready(function () {
         $('#5').off('click');
         $('#6').off('click');
         $('#7').off('click');
-
+        */
         context = $(this).text();
         displaySectionsPage();
         var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
@@ -148,13 +150,16 @@ var changeScenario = function () {
     // $("#question-section-body").toggleClass("scene_element scene_element--fadeinup");
 };
 
+//Pick the current question
 var pickQuestion = function () {
-    //Pick the current question
-    //console.log(sections["section" + current_section]["question" + current_question]);
-    question = sections["section" + current_section]["question" + current_question];
-    suggweight = suggweights["section" + current_section]["question" + current_question];
+    console.log("curr sec: " + current_section);
+    console.log("curr q: " + current_question);
 
-    suggweightname = switchcaseOnWeights(suggweight);
+    if(current_section <= numberOfSections){
+        question = sections["section" + current_section]["question" + current_question];
+        suggweight = suggweights["section" + current_section]["question" + current_question];
+        suggweightname = switchcaseOnWeights(suggweight);
+    }
 
     loadQuestion();
 };
@@ -187,6 +192,7 @@ var loadNextQuestion = function () {
     //dataStructure[sectionIndex].size = computeSize(dataStructure[sectionIndex])-1;
 
     if (current_question <= numberOfQuestions && computeSize(dataStructure[sectionIndex]) != numberOfQuestions) {
+        console.log("entra qui");
         pickQuestion();
     }
 
@@ -203,9 +209,11 @@ var loadNextQuestion = function () {
 
         displayThumbnails();
 
-        if (current_section > sections.length) {
+        if (current_section > numberOfSections) {
+            console.log("Calcolo dell'indice in corso");
             dataStructure["finalResult"] = calculateFinalResult();
-            // TODO: show the results' page
+            console.log("Finito, mostro i risultati");
+            loadResults();
         } else {
             pickQuestion();
         }
@@ -456,12 +464,13 @@ function calculateFinalResult() {
     var cum_res = 0;
     var cum_weights = 0;
 
-    for (var i = 0; i < numberOfSections; i++) {
-        if (dataStructure["section" + i].hasOwnProperty("result") && dataStructure["section" + i].hasOwnProperty("weight")) {
+    for (var i = 1; i <= numberOfSections; i++) {
+
+        if (dataStructure.hasOwnProperty("section" + i) && dataStructure["section" + i].hasOwnProperty("result") && dataStructure["section" + i].hasOwnProperty("weight")) {
             cum_res = cum_res + parseInt(dataStructure["section" + i]["result"]);
             cum_weights = cum_weights + parseInt(dataStructure["section" + i]["weights"]);
         } else {
-            console.log("Weight not present for the current section");
+            console.log("Section, weight or result not present");
         }
     }
 
@@ -745,8 +754,3 @@ function getResultFromDataStructure(section, question) {
     console.log("Result not present");
     return NaN
 }
-
-// TODO: test the access to DS
-//if(!isNaN(getDataFromDataStructure(1,1))){
-//    console.log("data: " + getDataFromDataStructure(1,1))
-//}
