@@ -18,7 +18,7 @@ var sectionIndex;
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
 
-    $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
+    $.getJSON("./data/test_questions.json", function (json) { // show the JSON file content into console
         sections = json;
         console.log(sections);
         console.log(sections.length);
@@ -37,7 +37,7 @@ $(document).ready(function () {
     });
 
     $(".btn-first-choice").click(function () {
-        /*
+        /* TODO: disable sections
         $('#1').off('click');
         $('#2').off('click');
         $('#3').off('click');
@@ -46,10 +46,9 @@ $(document).ready(function () {
         $('#6').off('click');
         $('#7').off('click');
         */
-
         context = $(this).text();
         displaySectionsPage();
-        var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
+        var path = "./data/test_suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
             // console.log(suggweights);
@@ -102,6 +101,14 @@ function startquestionnaire() {
         displayThumbnails();
         pickFirstQuestion();
         $('#logo').off('click');
+        /* TODO: activate sections
+        $('#1').bind('click');
+        $('#2').bind('click');
+        $('#3').bind('click');
+        $('#4').on('click');
+        $('#5').on('click');
+        $('#6').on('click');
+        */
     }
     else {
         alertMX("You must choose a weight for each section before proceeding!")
@@ -368,50 +375,37 @@ function loadResults() {
         '           <div class="donut-container" id="sectionsDonut"></div>' +
         '       </div><hr>' +
         '   </div>' +
-        '</div>' +
-        // first 3 sections
-        '<div class="row">' +
-        '   <h2>Impact of the questions on each section</h2><br>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec1Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec2Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec3Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '</div>' +
-        // last 3 sections
-        '<div class="row">' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec4Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec5Donut"></div>' +
-        '       </div>' +
-        '   </div>' +
-        '   <div class="col-sm-3">' +
-        '       <div class="">' +
-        '           <div class="donut-container" id="sec6Donut"></div>' +
-        '       </div><hr>' +
-        '   </div>' +
         '</div>';
 
-    // load the results TODO: create a new html div called result
+    // open row div
+    elem += '<div class="row">' +
+        '   <h2>Impact of the questions on each section</h2><br>';
+
+    // insert one div for each section graph
+    for (let i = 1; i <= numberOfSections; i++) {
+        elem +=
+            '   <div class="col-sm-3">' +
+            '       <div class="">' +
+            '           <div class="donut-container" id="section' + i + 'Donut"></div>' +
+            '       </div>' +
+            '   </div>';
+    }
+
+    // close row div
+    elem += '</div>';
+
+    // load the results
     $("#question").append(elem);
 
     // load the new section
     $("#section").append(sectiondiv);
+
+    // render graphs
+    showOverallDonut();
+
+    for (let x = 1; x <= numberOfSections; x++) {
+        showSectionDonut(x);
+    }
 }
 
 function evaluateVariable(arr) {
@@ -486,13 +480,12 @@ function calculateFinalResult() {
 
         if (dataStructure.hasOwnProperty("section" + i) && dataStructure["section" + i].hasOwnProperty("result") && dataStructure["section" + i].hasOwnProperty("weight")) {
             cum_res = cum_res + parseInt(dataStructure["section" + i]["result"]);
-            cum_weights = cum_weights + parseInt(dataStructure["section" + i]["weights"]);
+            cum_weights = cum_weights + parseInt(dataStructure["section" + i]["weight"]);
         } else {
             console.log("Section, weight or result not present");
         }
     }
-
-    return (cum_res / cum_weights)
+    return (Math.round((cum_res / cum_weights) * 100) / 100)
 }
 
 $("nav a").click(function () {
@@ -693,28 +686,15 @@ function showBar() {
     window.addEventListener("resize", throttledRedraw);
 }
 
-function showDonut() {
+function showOverallDonut() {
     // container
     const donut_container = d3.select('#sectionsDonut');
 
     // chart
     const donutChart = britecharts.donut();
 
-    // Dataset example
-    const donutData = [
-        {
-            quantity: 1,
-            name: 'dataset',
-        },
-        {
-            quantity: 1,
-            name: 'algorithm',
-        },
-        {
-            quantity: 0.6,
-            name: 'general',
-        }
-    ];
+    // load data
+    const donutData = extractOverallData();
 
     // configuration
     donutChart
@@ -739,6 +719,53 @@ function showDonut() {
     const throttledRedraw = _.throttle(redrawChart, 200);
 
     window.addEventListener("resize", throttledRedraw);
+}
+
+function showSectionDonut(sectionNumber) {
+    // container
+    const donut_container = d3.select('#section' + sectionNumber + 'Donut');
+
+    // chart
+    const donutChart = britecharts.donut();
+
+    // load data
+    const donutData = getSectionResultFromDataStructure(sectionNumber);
+
+    // configuration
+    donutChart
+        .margin({left: 100})
+        .height(400)
+        .width(600);
+
+    // fill with data and show
+    donut_container.datum(donutData).call(donutChart);
+
+    // responsiveness
+    const redrawChart = () => {
+        const newDonutContainerWidth = donut_container.node() ? donut_container.node().getBoundingClientRect().width : false;
+
+        // Setting the new width on the chart
+        if (donutChart.width > newDonutContainerWidth) {
+            donutChart.width(newDonutContainerWidth);
+            // Rendering the chart again
+            donut_container.call(donutChart);
+        }
+    };
+    const throttledRedraw = _.throttle(redrawChart, 200);
+
+    window.addEventListener("resize", throttledRedraw);
+}
+
+function extractOverallData() {
+    var data = [];
+
+    for (var i = 1; i <= numberOfSections; i++) {
+        if (!(getOverallResultFromDataStructure(i) === -1)) {
+            data.push(getOverallResultFromDataStructure(i));
+        }
+    }
+
+    return data;
 }
 
 // to access the data structure
@@ -776,4 +803,41 @@ function getResultFromDataStructure(section, question) {
     }
     console.log("Result not present");
     return NaN
+}
+
+function getOverallResultFromDataStructure(section) {
+    let obj = {};
+    if (dataStructure.hasOwnProperty("section" + section)) {
+        if (dataStructure["section" + section].hasOwnProperty("result")) {
+            obj["quantity"] = dataStructure["section" + section]["result"];
+            obj["name"] = "Section" + section;
+            console.log(obj);
+            return obj;
+        }
+    }
+    console.log("Result not present");
+    return -1
+}
+
+function getSectionResultFromDataStructure(section) {
+    let arr = [];
+    let flag = true;
+    let i = 1;
+
+    if (dataStructure.hasOwnProperty("section" + section)) {
+        while (flag) {
+            if (dataStructure["section" + section].hasOwnProperty("question" + i)) {
+                arr.push({
+                    "quantity": dataStructure["section" + section]["question" + i]["result"],
+                    "name": ("Question" + i)
+                });
+                i += 1;
+            } else {
+                flag = false; // TODO: is it useful?
+                return arr;
+            }
+        }
+    }
+    console.log("Section not present");
+    return -1
 }
