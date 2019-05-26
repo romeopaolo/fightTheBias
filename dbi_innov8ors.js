@@ -36,13 +36,13 @@ $(document).ready(function () {
     });
 
     $(".btn-first-choice").click(function () {
-        $('#1').off('click');
-        $('#2').off('click');
-        $('#3').off('click');
-        $('#4').off('click');
-        $('#5').off('click');
-        $('#6').off('click');
-        $('#7').off('click');
+        //$('#1').off('click');
+        //$('#2').off('click');
+        //$('#3').off('click');
+        //$('#4').off('click');
+        //$('#5').off('click');
+        //$('#6').off('click');
+        //$('#7').off('click');
 
         context = $(this).text();
         displaySectionsPage();
@@ -255,13 +255,13 @@ var loadQuestion = function () {
             + '<button type="button"class="btn btn-block suggweight ' + context.toLowerCase() + ' m-2 p-3"><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>'
             + '</div>'
             + '<select id="weight" class="btn btn-block weight ' + context.toLowerCase() + '" >'
+            + '<option value="" selected disabled hidden>Choose Your Weight</option>'
             + '<option value="0">Zero</option>'
             + '<option value="1">Very Low</option>'
             + '<option value="2">Low</option>'
             + '<option value="3">Medium</option>'
             + '<option value="4">High</option>'
             + '<option value="5">Very High</option>'
-            + '<option value="" selected disabled hidden>Choose Your Weight</option>'
             + '</select>'
             + '</div>'
             + '</div>'
@@ -308,6 +308,20 @@ var loadQuestion = function () {
     $("#section").empty();
     //Append the new question
     $("#section").append(sectiondiv)
+
+    if(!isNaN(getWeightFromDataStructure(current_section,current_question))){
+        let count=parseInt(getWeightFromDataStructure(current_section,current_question))+1;
+        document.getElementById("weight").getElementsByTagName('option')[count].selected = 'selected';
+        document.getElementById("thumbnail" + current_question).innerHTML = "Q" + current_question + " ~ " + switchcaseOnWeights($("#weight").val());
+    }
+
+    if(!isNaN(getDataFromDataStructure(current_section,current_question)) && question.boolean){
+        $('input[name="Y/N"][value=' + getDataFromDataStructure(current_section,current_question) + ']').prop('checked',true)
+    }else{
+        for(var j=0;j<getDataFromDataStructure(current_section,current_question).length;j++){
+            $("#input"+j).val(getDataFromDataStructure(current_section,current_question)[j])
+        }
+    }
 };
 
 function loadResults() {
@@ -475,6 +489,11 @@ $("nav a").click(function () {
     current_question = 1;
     pickQuestion();
     displayThumbnails();
+    for(var t=current_question;t<=numberOfQuestions;t++){
+        if(!isNaN(getWeightFromDataStructure(current_section,t))){
+            document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section,t));
+        }
+    }
 });
 
 $("#submit").click(function () {
