@@ -18,7 +18,7 @@ var sectionIndex;
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
 
-    $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
+    $.getJSON("./data/test_questions.json", function (json) { // show the JSON file content into console
         sections = json;
         console.log(sections);
         console.log(sections.length);
@@ -37,7 +37,7 @@ $(document).ready(function () {
     });
 
     $(".btn-first-choice").click(function () {
-        /*
+        /* TODO: disable sections
         $('#1').off('click');
         $('#2').off('click');
         $('#3').off('click');
@@ -46,10 +46,9 @@ $(document).ready(function () {
         $('#6').off('click');
         $('#7').off('click');
         */
-
         context = $(this).text();
         displaySectionsPage();
-        var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
+        var path = "./data/test_suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
             // console.log(suggweights);
@@ -102,6 +101,14 @@ function startquestionnaire() {
         displayThumbnails();
         pickFirstQuestion();
         $('#logo').off('click');
+        /* TODO: activate sections
+        $('#1').bind('click');
+        $('#2').bind('click');
+        $('#3').bind('click');
+        $('#4').on('click');
+        $('#5').on('click');
+        $('#6').on('click');
+        */
     }
     else {
         alertMX("You must choose a weight for each section before proceeding!")
@@ -409,6 +416,9 @@ function loadResults() {
 
     // load the new section
     $("#section").append(sectiondiv);
+
+    // render graphs
+    showSectionsDonut();
 }
 
 function evaluateVariable(arr) {
@@ -483,13 +493,12 @@ function calculateFinalResult() {
 
         if (dataStructure.hasOwnProperty("section" + i) && dataStructure["section" + i].hasOwnProperty("result") && dataStructure["section" + i].hasOwnProperty("weight")) {
             cum_res = cum_res + parseInt(dataStructure["section" + i]["result"]);
-            cum_weights = cum_weights + parseInt(dataStructure["section" + i]["weights"]);
+            cum_weights = cum_weights + parseInt(dataStructure["section" + i]["weight"]);
         } else {
             console.log("Section, weight or result not present");
         }
     }
-
-    return (cum_res / cum_weights)
+    return (Math.round((cum_res / cum_weights) * 100) / 100)
 }
 
 $("nav a").click(function () {
@@ -690,29 +699,16 @@ function showBar() {
     window.addEventListener("resize", throttledRedraw);
 }
 
-function showDonut() {
+function showSectionsDonut() {
     // container
     const donut_container = d3.select('#sectionsDonut');
 
     // chart
     const donutChart = britecharts.donut();
 
-    // Dataset example
-    const donutData = [
-        {
-            quantity: 1,
-            name: 'dataset',
-        },
-        {
-            quantity: 1,
-            name: 'algorithm',
-        },
-        {
-            quantity: 0.6,
-            name: 'general',
-        }
-    ];
-
+    // load data
+    const donutData = extractSectionsData();
+    console.log(donutData);
     // configuration
     donutChart
         .margin({left: 100})
@@ -736,6 +732,37 @@ function showDonut() {
     const throttledRedraw = _.throttle(redrawChart, 200);
 
     window.addEventListener("resize", throttledRedraw);
+}
+
+function extractSectionsData() {
+    /* Dataset example
+    const donutData = [
+        {
+            quantity: 1,
+            name: 'dataset',
+        },
+        {
+            quantity: 1,
+            name: 'algorithm',
+        },
+        {
+            quantity: 0.6,
+            name: 'general',
+        }
+    ];
+    */
+    var data = [];
+
+    for (var i = 1; i <= numberOfSections; i++) {
+        if (!(getSectionResultFromDataStructure(i) === -1)) {
+            data.push(getSectionResultFromDataStructure(i));
+            console.log("entra");
+        } else{
+            console.log("non entra");
+        }
+    }
+
+    return data;
 }
 
 // to access the data structure
@@ -773,4 +800,18 @@ function getResultFromDataStructure(section, question) {
     }
     console.log("Result not present");
     return NaN
+}
+
+function getSectionResultFromDataStructure(section) {
+    let obj = {};
+    if (dataStructure.hasOwnProperty("section" + section)) {
+        if (dataStructure["section" + section].hasOwnProperty("result")) {
+            obj["quantity"] = dataStructure["section" + section]["result"];
+            obj["name"] = "section" + section;
+            console.log(obj);
+            return obj;
+        }
+    }
+    console.log("Result not present");
+    return -1
 }

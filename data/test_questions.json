@@ -1,0 +1,25 @@
+{
+  "section1": {
+    "question1": {
+      "text": "Is there an Ethics Committee that approved your AI project?",
+      "description": "Answer positively if in your company exists an ethics entity that has approved your project.",
+      "boolean": true
+    },
+    "question2": {
+      "text": "Does your AI project promote well-being, preserve dignity, or sustain the planet?",
+      "description": "d1",
+      "boolean": true
+    }
+  },
+  "section2": {
+    "question1": {
+      "text": "Heterogeneity of gender ",
+      "description": "Please write here the number of males and females that compose your developing team.",
+      "boolean": false,
+      "classes": [
+        "Number of males",
+        "Number of females"
+      ]
+    }
+  }
+}
