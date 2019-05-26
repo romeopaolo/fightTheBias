@@ -185,11 +185,11 @@ var loadNextQuestion = function () {
     sectionIndex = "section" + current_section;
     // check if to change section
     //dataStructure[sectionIndex].size = computeSize(dataStructure[sectionIndex])-1;
-    
+
     if (current_question <= numberOfQuestions && computeSize(dataStructure[sectionIndex]) != numberOfQuestions) {
         pickQuestion();
     }
-    
+
     else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions) {
 
         // evaluation of the section result
@@ -223,7 +223,7 @@ function computeSize(obj) {
     for (key in obj) {
         if (obj.hasOwnProperty(key)) localsize++;
     }
-    return localsize-1;
+    return localsize - 1;
 }
 
 
@@ -512,9 +512,8 @@ $("#submit").click(function () {
         if (!question.boolean) {
             dataStructure[sectionIndex][questionIndex]["result"] = evaluateVariable(value) * weight;
         } else {
-            dataStructure[sectionIndex][questionIndex]["result"] = value * weight; // TODO: check
+            dataStructure[sectionIndex][questionIndex]["result"] = value * weight;
         }
-
 
         document.getElementById("thumbnail" + current_question).innerHTML = "Q" + current_question + " ~ " + switchcaseOnWeights($("#weight").val());
         loadNextQuestion();
@@ -709,3 +708,45 @@ function showDonut() {
 
     window.addEventListener("resize", throttledRedraw);
 }
+
+// to access the data structure
+function getDataFromDataStructure(section, question) {
+    if (dataStructure.hasOwnProperty("section" + section)) {
+        if (dataStructure["section" + section].hasOwnProperty("question" + question)) {
+            if (dataStructure["section" + section]["question" + question].hasOwnProperty("data")) {
+                return dataStructure["section" + section]["question" + question]["data"]
+            }
+        }
+    }
+    console.log("Input not present");
+    return NaN
+}
+
+function getWeightFromDataStructure(section, question) {
+    if (dataStructure.hasOwnProperty("section" + section)) {
+        if (dataStructure["section" + section].hasOwnProperty("question" + question)) {
+            if (dataStructure["section" + section]["question" + question].hasOwnProperty("weight")) {
+                return dataStructure["section" + section]["question" + question]["weight"]
+            }
+        }
+    }
+    console.log("Weight not present");
+    return NaN
+}
+
+function getResultFromDataStructure(section, question) {
+    if (dataStructure.hasOwnProperty("section" + section)) {
+        if (dataStructure["section" + section].hasOwnProperty("question" + question)) {
+            if (dataStructure["section" + section]["question" + question].hasOwnProperty("result")) {
+                return dataStructure["section" + section]["question" + question]["result"]
+            }
+        }
+    }
+    console.log("Result not present");
+    return NaN
+}
+
+// TODO: test the access to DS
+//if(!isNaN(getDataFromDataStructure(1,1))){
+//    console.log("data: " + getDataFromDataStructure(1,1))
+//}
