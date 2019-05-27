@@ -333,3 +333,13 @@ nav a :first-child {
 li{
     margin-top:-3px;
 }
+
+.col-sm-4{
+    margin-top:80px;
+}
+#impact{
+    margin-top:250px;
+}
+#results{
+border-width: 0px;
+}

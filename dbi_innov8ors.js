@@ -13,6 +13,7 @@ var dataStructure = {};
 var missinginput = false;
 var context;
 var sectionIndex;
+var results;
 
 
 //Parse the JSON with the questions when the page is loaded
@@ -86,19 +87,28 @@ $(document).ready(function () {
 
 function startquestionnaire() {
     $("#1").addClass("active");
-        $('nav a').on('click',function () {
-            $("nav a").removeClass("active");
-            $(this).addClass("active");
-            current_section = this.id;
-            current_question = 1;
-            pickQuestion();
-            displayThumbnails();
-            for (var t = current_question; t <= numberOfQuestions; t++) {
-                if (!isNaN(getWeightFromDataStructure(current_section, t))) {
-                    document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
-                }
+    $('nav a').on('click', function () {
+        $("nav a").removeClass("active");
+        $(this).addClass("active");
+        if(results==true){
+            $("#question-section-body").toggleClass("hide");
+            $("#section").toggleClass("hide");
+            $("#thumbnails").toggleClass("hide");
+            $("#results").toggleClass("hide");
+            $(".btn-circle").toggleClass("hide");
+            results=false;
+        }
+        current_section = this.id;
+        current_question = 1;
+        pickQuestion();
+        displayThumbnails();
+        for (var t = current_question; t <= numberOfQuestions; t++) {
+            if (!isNaN(getWeightFromDataStructure(current_section, t))) {
+                document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
             }
-        });
+        }
+    });
+    $("#7").off('click');
     for (let i = 1; i <= numberOfSections; i++) {
         dataStructure["section" + i] = {};
         dataStructure["section" + i]["weight"] = parseInt($("#section" + i).val());
@@ -214,7 +224,7 @@ var loadNextQuestion = function () {
         pickQuestion();
     }
 
-    else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions|| computeSize(dataStructure[sectionIndex])-1 == numberOfQuestions) {
+    else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions || computeSize(dataStructure[sectionIndex]) - 1 == numberOfQuestions) {
 
         // evaluation of the section result
         dataStructure[sectionIndex]["result"] = evaluateSection(sectionIndex);
@@ -232,6 +242,13 @@ var loadNextQuestion = function () {
             dataStructure["finalResult"] = calculateFinalResult();
             console.log("Finito, mostro i risultati");
             loadResults();
+            $("#7").on('click', function () {
+                $("nav a").removeClass("active");
+                $(this).addClass("active");
+                current_section = this.id;
+                loadResults();
+            });
+
         } else {
             pickQuestion();
         }
@@ -351,9 +368,21 @@ var loadQuestion = function () {
 };
 
 function loadResults() {
+    $("#resultspanel").empty();
+
+    // load the new section
+    $("#resultspanel").empty();
     // clear the html
-    $("#question").empty();
-    $("#section").empty();
+    if(results!=true){
+        $("#question-section-body").toggleClass("hide");
+        $("#section").toggleClass("hide");
+        $("#thumbnails").toggleClass("hide");
+        $("#results").toggleClass("hide");
+        $(".btn-circle").toggleClass("hide");
+        results=true;
+    }
+    
+    
 
     var sectiondiv = "";
     current_section_name = displayCurrentSection(current_section);
@@ -364,54 +393,66 @@ function loadResults() {
     // display the final result
     if (dataStructure.hasOwnProperty("finalResult")) {
         elem += '<div class="row">' +
-            '<div class="col-sm-9">' +
-            '   <h1><b> Overall result</b></h1><br>' +
-            '   <h2>The overall quality is: ' + (dataStructure["finalResult"]) * 100 + '%</h2><br>' +
-            '</div>';
+            '<div class="col-sm-12">' +
+            '   <h2><b> Overall result</b></h2><br>' +
+            '   <h3>The overall quality is: ' + (dataStructure["finalResult"]) * 100 + '%</h3><br>' +
+            '</div></div>';
     } else {
         console.log("An error occurred in the final result");
     }
 
     // display the graphs
     elem +=
-        //Overall result
+        // Overall result
         '<div class="row">' +
-        '   <div class="col-sm-12">' +
-        '       <h2>Impact of the sections on the final result</h2><br>' +
-        '       <div class="" id="finalResult">' +
-        '           <div class="donut-container" id="sectionsDonut"></div>' +
-        '       </div><hr>' +
+        '   <div class="col-sm-6">' +
+        '       <h4>Results of the sections</h4><br>' +
+        '       <div class="bar-container" id="sectionsBar"></div>' +
+        '   </div>' +
+        // Weights
+        '   <div class="col-sm-6">' +
+        '       <h4>Weights of the sections</h4><br>' +
+        '       <div class="donut-container" id="sectionsDonut"></div>' +
+        '       <hr>' + // TODO: metterei una linea (<hr>) tra le sezioni
         '   </div>' +
         '</div>';
 
     // open row div
-    elem += '<div class="row">' +
-        '   <h2>Impact of the questions on each section</h2><br>';
+    elem += '<h3 id="impact">Impact of the questions on each section</h3><br>'
+        +'<div class="row">' ;
 
     // insert one div for each section graph
     for (let i = 1; i <= numberOfSections; i++) {
-        elem +=
-            '   <div class="col-sm-4">' +
-            '       <div class="">' +
-            '           <div class="donut-container" id="section' + i + 'Donut"></div>' +
-            '       </div>' +
-            '   </div>';
+
+        if (dataStructure["section" + i].hasOwnProperty("result")) {
+            let q = dataStructure["section" + i]["result"];
+            q = Math.round(q * 100); // TODO: dovrebbe arrotondare a due cifre decimali
+            elem +=
+                '   <div class="col-sm-4">' +
+                '       <h3>Quality of section ' + i + ': ' + q + '%</h3>' +
+                '       <h4>Weights of the questions</h4>' +
+                '       <div class="donut-container" id="section' + i + 'Donut"></div>' +
+                '   </div>';
+        }
     }
 
     // close row div
     elem += '</div>';
 
     // load the results
-    $("#question").append(elem);
+    $("#resultspanel").append(elem);
 
     // load the new section
-    $("#section").append(sectiondiv);
+    $("#resultspanel").append(sectiondiv);
 
     // render graphs
-    showOverallDonut();
+    showBarGraph("sectionsBar", extractOverallData());
+    showDonutGraph("sectionsDonut", extractOverallWeights());
 
     for (let x = 1; x <= numberOfSections; x++) {
-        showSectionDonut(x);
+        if (dataStructure["section" + x].hasOwnProperty("result")) {
+            showDonutGraph('section' + x + 'Donut', getSectionWeightsForDonut(x));
+        }
     }
 }
 
@@ -652,30 +693,22 @@ function alertMX(t) {
 }
 
 // show charts
-function showBar() {
+function showBarGraph(divName, data) {
     // container
-    const bar_container = d3.select('#bar');
+    const bar_container = d3.select('#' + divName);
 
     // chart
     const barChart = britecharts.bar();
 
-    // Dataset example
-    const barData = [
-        {name: 'Luminous', value: 2},
-        {name: 'Glittering', value: 5},
-        {name: 'Intense', value: 4},
-        {name: 'Radiant', value: 3}
-    ];
-
     // configuration
     barChart
-        .margin({left: 100})
-        .isHorizontal(true)
-        .height(400)
-        .width(600);
+        .margin({left: 10})
+        .isHorizontal(false)
+        .height(300)
+        .width(500);
 
     // fill with data and show
-    bar_container.datum(barData).call(barChart);
+    bar_container.datum(data).call(barChart);
 
     // responsiveness
     const redrawChart = () => {
@@ -693,24 +726,21 @@ function showBar() {
     window.addEventListener("resize", throttledRedraw);
 }
 
-function showOverallDonut() {
-    // container
-    const donut_container = d3.select('#sectionsDonut');
+function showDonutGraph(divName, data) {
+    // containers
+    const donut_container = d3.select('#' + divName);
 
     // chart
     const donutChart = britecharts.donut();
 
-    // load data
-    const donutData = extractOverallData();
-
     // configuration
     donutChart
-        .margin({left: 100})
-        .height(400)
-        .width(600);
+        .margin({left: 10})
+        .height(300)
+        .width(300);
 
     // fill with data and show
-    donut_container.datum(donutData).call(donutChart);
+    donut_container.datum(data).call(donutChart);
 
     // responsiveness
     const redrawChart = () => {
@@ -728,51 +758,57 @@ function showOverallDonut() {
     window.addEventListener("resize", throttledRedraw);
 }
 
-function showSectionDonut(sectionNumber) {
-    // container
-    const donut_container = d3.select('#section' + sectionNumber + 'Donut');
-
-    // chart
-    const donutChart = britecharts.donut();
-
-    // load data
-    const donutData = getSectionResultFromDataStructure(sectionNumber);
-
-    // configuration
-    donutChart
-        .margin({left: 100})
-        .height(400)
-        .width(600);
-
-    // fill with data and show
-    donut_container.datum(donutData).call(donutChart);
-
-    // responsiveness
-    const redrawChart = () => {
-        const newDonutContainerWidth = donut_container.node() ? donut_container.node().getBoundingClientRect().width : false;
-
-        // Setting the new width on the chart
-        if (donutChart.width > newDonutContainerWidth) {
-            donutChart.width(newDonutContainerWidth);
-            // Rendering the chart again
-            donut_container.call(donutChart);
-        }
-    };
-    const throttledRedraw = _.throttle(redrawChart, 200);
-
-    window.addEventListener("resize", throttledRedraw);
-}
-
+// Collect the result of each section
 function extractOverallData() {
     var data = [];
 
     for (var i = 1; i <= numberOfSections; i++) {
-        if (!(getOverallResultFromDataStructure(i) === -1)) {
-            data.push(getOverallResultFromDataStructure(i));
+        if (!(getOverallResultForBar(i) === -1)) {
+            data.push(getOverallResultForBar(i));
+        }
+    }
+    return data;
+}
+
+// Get the result of a section in the proper way to fill a bar graph
+function getOverallResultForBar(section) {
+    let obj = {};
+    if (dataStructure.hasOwnProperty("section" + section)) {
+        if (dataStructure["section" + section].hasOwnProperty("result")) {
+            obj["name"] = "S" + section;
+            obj["value"] = parseInt(dataStructure["section" + section]["result"]);
+            return obj;
+        }
+    }
+    console.log("Result not present");
+    return -1
+}
+
+// Collect the weight of each section
+function extractOverallWeights() {
+    var data = [];
+
+    for (var i = 1; i <= numberOfSections; i++) {
+        if (!(getOverallWeightsForDonut(i) === -1)) {
+            data.push(getOverallWeightsForDonut(i));
         }
     }
 
     return data;
+}
+
+// Get the weight of a section in the proper way to fill a donut graph
+function getOverallWeightsForDonut(section) {
+    let obj = {};
+    if (dataStructure.hasOwnProperty("section" + section)) {
+        if (dataStructure["section" + section].hasOwnProperty("result") && dataStructure["section" + section].hasOwnProperty("weight")) {
+            obj["quantity"] = dataStructure["section" + section]["weight"];
+            obj["name"] = "S" + section;
+            return obj;
+        }
+    }
+    console.log("Result not present");
+    return -1
 }
 
 // to access the data structure
@@ -800,6 +836,7 @@ function getWeightFromDataStructure(section, question) {
     return NaN
 }
 
+// TODO: delete if not useful
 function getResultFromDataStructure(section, question) {
     if (dataStructure.hasOwnProperty("section" + section)) {
         if (dataStructure["section" + section].hasOwnProperty("question" + question)) {
@@ -812,35 +849,22 @@ function getResultFromDataStructure(section, question) {
     return NaN
 }
 
-function getOverallResultFromDataStructure(section) {
-    let obj = {};
-    if (dataStructure.hasOwnProperty("section" + section)) {
-        if (dataStructure["section" + section].hasOwnProperty("result")) {
-            obj["quantity"] = dataStructure["section" + section]["result"];
-            obj["name"] = "Section" + section;
-            console.log(obj);
-            return obj;
-        }
-    }
-    console.log("Result not present");
-    return -1
-}
-
-function getSectionResultFromDataStructure(section) {
+// Collect the weights of all the questions of a section to fill a donut graph
+function getSectionWeightsForDonut(section) {
     let arr = [];
     let flag = true;
     let i = 1;
 
     if (dataStructure.hasOwnProperty("section" + section)) {
         while (flag) {
-            if (dataStructure["section" + section].hasOwnProperty("question" + i)) {
+            if (dataStructure["section" + section].hasOwnProperty("question" + i)) { // TODO: check the condition
                 arr.push({
-                    "quantity": dataStructure["section" + section]["question" + i]["result"],
-                    "name": ("Question" + i)
+                    "quantity": dataStructure["section" + section]["question" + i]["weight"],
+                    "name": ("Q" + i)
                 });
                 i += 1;
             } else {
-                flag = false; // TODO: is it useful?
+                flag = false;
                 return arr;
             }
         }

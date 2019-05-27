@@ -145,7 +145,7 @@
     "question4": {
       "text": "Do the observations come from a group of people with different physical characteristics?",
       "description": "The variable expresses the variety in terms of height, weight, colour of skin, colour of hair etc. of the team members. This variety helps having different perspectives about the problem. ",
-      "boolean": true,
+      "boolean": true
     },
     "question5": {
       "text": "Have you considered the several input categories available in your context (including minorities etc.)?",
