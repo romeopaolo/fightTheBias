@@ -217,8 +217,11 @@ var loadNextQuestion = function () {
     else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions || computeSize(dataStructure[sectionIndex]) - 1 == numberOfQuestions) {
 
         // evaluation of the section result
-        dataStructure[sectionIndex]["result"] = evaluateSection(sectionIndex);
-
+        let val = evaluateSection(sectionIndex);
+        dataStructure[sectionIndex]["value"] = val;
+        if(dataStructure[sectionIndex].hasOwnProperty("weight")){
+            dataStructure[sectionIndex]["result"] = val * dataStructure[sectionIndex]["weight"];
+        }
         current_section++;
         current_section_name = displayCurrentSection(current_section);
 
@@ -228,9 +231,7 @@ var loadNextQuestion = function () {
         displayThumbnails();
 
         if (current_section > numberOfSections) {
-            console.log("Calcolo dell'indice in corso");
             dataStructure["finalResult"] = calculateFinalResult();
-            console.log("Finito, mostro i risultati");
             loadResults();
         } else {
             pickQuestion();
@@ -363,10 +364,11 @@ function loadResults() {
 
     // display the final result
     if (dataStructure.hasOwnProperty("finalResult")) {
+        let overallQuality = (parseFloat(dataStructure["finalResult"]) * 100).toFixed(2);
         elem += '<div class="row">' +
             '<div class="col-sm-10">' +
             '   <h2><b> Overall result</b></h2><br>' +
-            '   <h3>The overall quality is: ' + (dataStructure["finalResult"]) * 100 + '%</h3><br>' +
+            '   <h3>The overall quality is: ' + overallQuality + '%</h3><br>' +
             '</div>';
     } else {
         console.log("An error occurred in the final result");
@@ -396,11 +398,10 @@ function loadResults() {
     for (let i = 1; i <= numberOfSections; i++) {
 
         if (dataStructure["section" + i].hasOwnProperty("result")) {
-            let q = dataStructure["section" + i].hasOwnProperty("result");
-            q = Math.round(q * 100); // TODO: dovrebbe arrotondare a due cifre decimali
+            let quality = (parseFloat(dataStructure["section" + i]["value"]) * 100).toFixed(2);
             elem +=
                 '   <div class="col-sm-3">' +
-                '       <h3>Quality of section ' + i + ': ' + q + '%< /h2>' +
+                '       <h3>Quality of section ' + i + ': ' + quality + '%< /h2>' +
                 '       <h4>Weights of the questions</h4>' +
                 '       <div class="donut-container" id="section' + i + 'Donut"></div>' +
                 '   </div>';
@@ -417,6 +418,7 @@ function loadResults() {
     $("#section").append(sectiondiv);
 
     // render graphs
+    console.log(dataStructure);
     showBarGraph("sectionsBar", extractOverallData());
     showDonutGraph("sectionsDonut", extractOverallWeights());
 
@@ -479,12 +481,7 @@ function evaluateSection(secName) {
     }
 
     // evaluate
-    var sec_w = 1;
-    if (secData.hasOwnProperty("weight")) {
-        sec_w = parseInt(secData["weight"]);
-    }
-
-    return res / weights * sec_w
+    return res / weights
 }
 
 /**
@@ -504,7 +501,7 @@ function calculateFinalResult() {
             console.log("Section, weight or result not present");
         }
     }
-    return (Math.round((cum_res / cum_weights) * 100) / 100)
+    return (cum_res / cum_weights)
 }
 
 /*$("nav a").click(function () {
@@ -708,7 +705,8 @@ function showDonutGraph(divName, data) {
     donutChart
         .margin({left: 10})
         .height(300)
-        .width(300);
+        .width(300)
+        .isAnimated(true);
 
     // fill with data and show
     donut_container.datum(data).call(donutChart);
@@ -741,13 +739,14 @@ function extractOverallData() {
     return data;
 }
 
+// TODO: change "result" to "value" to prevent the multiplication for the weight
 // Get the result of a section in the proper way to fill a bar graph
 function getOverallResultForBar(section) {
     let obj = {};
     if (dataStructure.hasOwnProperty("section" + section)) {
-        if (dataStructure["section" + section].hasOwnProperty("result")) {
+        if (dataStructure["section" + section].hasOwnProperty("value")) {
             obj["name"] = "S" + section;
-            obj["value"] = parseInt(dataStructure["section" + section]["result"]);
+            obj["value"] = parseInt(dataStructure["section" + section]["value"]);
             return obj;
         }
     }
