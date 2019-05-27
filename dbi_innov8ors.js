@@ -365,8 +365,8 @@ function loadResults() {
     if (dataStructure.hasOwnProperty("finalResult")) {
         elem += '<div class="row">' +
             '<div class="col-sm-10">' +
-            '   <h1><b> Overall result</b></h1><br>' +
-            '   <h2>The overall quality is: ' + (dataStructure["finalResult"]) * 100 + '%</h2><br>' +
+            '   <h2><b> Overall result</b></h2><br>' +
+            '   <h3>The overall quality is: ' + (dataStructure["finalResult"]) * 100 + '%</h3><br>' +
             '</div>';
     } else {
         console.log("An error occurred in the final result");
@@ -377,12 +377,12 @@ function loadResults() {
         // Overall result
         '<div class="row">' +
         '   <div class="col-sm-5">' +
-        '       <h2>Results of the sections</h2><br>' +
+        '       <h4>Results of the sections</h4><br>' +
         '       <div class="bar-container" id="sectionsBar"></div>' +
         '   </div>' +
         // Weights
         '   <div class="col-sm-5">' +
-        '       <h2>Weights of the sections</h2><br>' +
+        '       <h4>Weights of the sections</h4><br>' +
         '       <div class="donut-container" id="sectionsDonut"></div>' +
         '       <hr>' + // TODO: metterei una linea (<hr>) tra le sezioni
         '   </div>' +
@@ -390,7 +390,7 @@ function loadResults() {
 
     // open row div
     elem += '<div class="row">' +
-        '   <h2>Impact of the questions on each section</h2><br>';
+        '   <h3>Impact of the questions on each section</h3><br>';
 
     // insert one div for each section graph
     for (let i = 1; i <= numberOfSections; i++) {
@@ -400,8 +400,8 @@ function loadResults() {
             q = Math.round(q * 100); // TODO: dovrebbe arrotondare a due cifre decimali
             elem +=
                 '   <div class="col-sm-3">' +
-                '       <h2>Quality of section ' + i + ': ' + q + '%< /h2>' +
-                '       <h2>Weights of the questions</h2>' +
+                '       <h3>Quality of section ' + i + ': ' + q + '%< /h2>' +
+                '       <h4>Weights of the questions</h4>' +
                 '       <div class="donut-container" id="section' + i + 'Donut"></div>' +
                 '   </div>';
         }
@@ -673,10 +673,10 @@ function showBarGraph(divName, data) {
 
     // configuration
     barChart
-        .margin({left: 100})
+        .margin({left: 10})
         .isHorizontal(false)
-        .height(400)
-        .width(600);
+        .height(300)
+        .width(500);
 
     // fill with data and show
     bar_container.datum(data).call(barChart);
@@ -706,9 +706,9 @@ function showDonutGraph(divName, data) {
 
     // configuration
     donutChart
-        .margin({left: 100})
-        .height(400)
-        .width(600);
+        .margin({left: 10})
+        .height(300)
+        .width(300);
 
     // fill with data and show
     donut_container.datum(data).call(donutChart);
