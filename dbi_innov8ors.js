@@ -18,7 +18,7 @@ var sectionIndex;
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
 
-    $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
+    $.getJSON("./data/test_questions.json", function (json) { // show the JSON file content into console
         sections = json;
         console.log(sections);
         console.log(sections.length);
@@ -41,7 +41,7 @@ $(document).ready(function () {
         $('nav a').off('click');
         context = $(this).text();
         displaySectionsPage();
-        var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
+        var path = "./data/test_suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
             // console.log(suggweights);
@@ -376,7 +376,7 @@ function loadResults() {
     elem +=
         //Overall result
         '<div class="row">' +
-        '   <div class="col-sm-9">' +
+        '   <div class="col-sm-12">' +
         '       <h2>Impact of the sections on the final result</h2><br>' +
         '       <div class="" id="finalResult">' +
         '           <div class="donut-container" id="sectionsDonut"></div>' +
@@ -391,7 +391,7 @@ function loadResults() {
     // insert one div for each section graph
     for (let i = 1; i <= numberOfSections; i++) {
         elem +=
-            '   <div class="col-sm-3">' +
+            '   <div class="col-sm-4">' +
             '       <div class="">' +
             '           <div class="donut-container" id="section' + i + 'Donut"></div>' +
             '       </div>' +

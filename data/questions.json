@@ -2,39 +2,39 @@
   "section1": {
     "question1": {
       "text": "Is there an Ethics Committee that approved your AI project?",
-      "description": "Answer positively if in your company exists an ethics entity that has approved your project.",
+      "description": "Most of the companies have an Ethics Committee with experts in the area: has the project been approved by this commitee? The user must select yes in case it has been approved by the commitee. ",
       "boolean": true
     },
     "question2": {
       "text": "Does your AI project promote well-being, preserve dignity, or sustain the planet?",
-      "description": "d1",
+      "description": "Sometimes Artificial Intelligence projects can be specifiquely addressed to social causes, enviromental causes, non profit organizations or other good actions. In this case, the answer to this question would be yes.",
       "boolean": true
     },
     "question3": {
       "text": "Does your AI project preserve the personal privacy and the security of the data?",
-      "description": "d1",
+      "description": "A crucial aspect when it comes to Artificial Intelligence is respecting individual privacy. This is why this aspect must be taken into account when understanding all the actions that must be taken in the project",
       "boolean": true
     },
     "question4": {
       "text": "Does your AI project still give the individuals the right to make decisions for themselves ?",
-      "description": "d1",
+      "description": "Aritificial Intelligence can sometimes deprive individuals from taking certain decisions. In case the project can compromise decision making for individuals, the answer must be yes.",
       "boolean": true
     },
     "question5": {
       "text": "Does your AI project  promote justice and seek to eliminate discrimination?",
-      "description": "d1",
+      "description": "In case the project assures justice and is persuasive when it comes to erase discriminations, the answer must be yes.",
       "boolean": true
     },
     "question6": {
       "text": "Have you already faced the problem of Bias in similar AI projects?",
-      "description": "d1",
+      "description": "In case the user has faced bias in previous projects similar to the current one for several aspects, the answer must be yes. ",
       "boolean": true
     }
   },
   "section2": {
     "question1": {
       "text": "Heterogeneity of gender ",
-      "description": "Please write here the number of males and females that compose your developing team.",
+      "description": "The variable expresses the proportion between male and female members of the team. It is the ratio between the most represented gender and the least represented one. In order to compile the information correctly the user must calculate the number of females and males and compile the cells. ",
       "boolean": false,
       "classes": [
         "Number of males",
@@ -42,8 +42,8 @@
       ]
     },
     "question2": {
-      "text": "Heterogeneity of area of origin (on the basis of the scope: international)",
-      "description": "d1",
+      "text": "Hetereogenity of area of origin (on the basis of the project scope: e.g. International)",
+      "description": "The variable expresses the variety of cultures in the team. This helps having different perspectives on the problem. We assume the project aims to be valid internationally, so in this case the defect classes would be the 5 continents. In the case of a project that is more restricted geographically, it could  of high interest to introduce other different representations of cultural variety. (es. different provinces in italy)",
       "boolean": false,
       "classes": [
         "Europe",
@@ -55,7 +55,7 @@
     },
     "question3": {
       "text": "Heterogeneity of age",
-      "description": "d1",
+      "description": "The variable expresses the variety in terms of age of the team members. This variety helps having different perspectives about the problem. ",
       "boolean": false,
       "classes": [
         "Age < 30",
@@ -65,7 +65,7 @@
     },
     "question4": {
       "text": "Heterogeneity of years of experience",
-      "description": "d1",
+      "description": "The variable expresses the variety in terms of years of experience of the team members. This aspect  mainly helps in having different working methods and points of view. The options have been ordered in three intervals.",
       "boolean": false,
       "classes": [
         "Years < 2",
@@ -75,7 +75,7 @@
     },
     "question5": {
       "text": "Heterogeneity of background education",
-      "description": "d1",
+      "description": "The variable expresses the variety of the team in terms of educational background of the members of the team. We have made the assumption that an AI developing team is composed by informatics, mathematicians and experts of the application context.",
       "boolean": true,
       "classes": [
         "Informaticians",
@@ -85,7 +85,7 @@
     },
     "question6": {
       "text": "Heterogeneity of study title",
-      "description": "d1",
+      "description": "The variable expresses the variety of study titles in the team, given the assumptions that an AI developing team is composed by highly educated people. We have assumed three classes: Bachelor, Master, PhD. ",
       "boolean": true,
       "classes": [
         "Bachelor",
@@ -94,18 +94,18 @@
       ]
     },
     "question7": {
-      "text": "Is it a democratic and cooperative team, in which everyone's opinion is considered?",
-      "description": "d1",
+      "text": "Is it a  cooperative team, in which everyone's opinion is considered?",
+      "description": "The questions aim is to understand whether there is a method for decision making in the team where everyone is taken into account. It is crucial when it comes to bias avoiding. ",
       "boolean": true
     },
     "question8": {
       "text": "Are the team's responsibilities appropriately distributed among the members?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the responsibilities are distributed along the team respecting range and equality.",
       "boolean": true
     },
     "question9": {
       "text": "Have the team members already collaborated in the past?",
-      "description": "d1",
+      "description": "In case part of the team members have worked together in past projects, the answer to this question must be yes.",
       "boolean": true,
       "reverse": true
     }
@@ -113,7 +113,7 @@
   "section3": {
     "question1": {
       "text": "Heterogeneity of gender ",
-      "description": "d1",
+      "description": "The variable expresses the proportion between male and female members of the team. It is the ratio between the most represented gender and the least represented one. In order to compile the information correctly the user must calculate the number of females and males and compile the cells below. ",
       "boolean": false,
       "classes": [
         "Number of males",
@@ -121,8 +121,8 @@
       ]
     },
     "question2": {
-      "text": "Heterogeneity of area of origin (on the basis of the scope: international)",
-      "description": "d1",
+      "text": "Hetereogenity of area of origin (on the basis of the project scope: e.g. International)",
+      "description": "The variable expresses the variety of cultures in the team. This helps having different perspectives on the problem. We assume the project aims to be valid internationally, so in this case the defect classes would be the 5 continents. In the case of a project that is more restricted geographically, it could  of high interest to introduce other different representations of cultural variety. (es. different provinces in italy).",
       "boolean": false,
       "classes": [
         "Europe",
@@ -133,31 +133,8 @@
       ]
     },
     "question3": {
-      "text": "Heterogeneity of height",
-      "description": "d1",
-      "boolean": false,
-      "classes": [
-        "Height <= 165",
-        "165cm < Height <= 175",
-        "175cm < Height <= 185",
-        "Height > 185"
-      ]
-    },
-    "question4": {
-      "text": "Heterogeneity of weight",
-      "description": "d1",
-      "boolean": false,
-      "classes": [
-        "Weight <= 50kg",
-        "50kg < Weight <= 65kg",
-        "65kg < Weight <= 80kg",
-        "80kg < Weight <= 95kg",
-        "Weight > 90kg"
-      ]
-    },
-    "question5": {
       "text": "Heterogeneity of age",
-      "description": "d1",
+      "description": "The variable expresses the variety in terms of age of the team members. This variety helps having different perspectives about the problem. ",
       "boolean": false,
       "classes": [
         "Age <= 30",
@@ -165,123 +142,117 @@
         "Age >= 60"
       ]
     },
-    "question6": {
-      "text": "Heterogeneity of hair color",
-      "description": "d1",
-      "boolean": false,
-      "classes": [
-        "Dark (Black, Brown",
-        "Blonde",
-        "Red",
-        "Other"
-      ]
+    "question4": {
+      "text": "Do the observations come from a group of people with different physical characteristics?",
+      "description": "The variable expresses the variety in terms of height, weight, colour of skin, colour of hair etc. of the team members. This variety helps having different perspectives about the problem. ",
+      "boolean": true,
     },
-    "question7": {
+    "question5": {
       "text": "Have you considered the several input categories available in your context (including minorities etc.)?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the fact of existing minorities or other aspects have been taken into account when choosing the variables in order to avoid their discrimination. (es Disabled people).",
       "boolean": true
     },
-    "question8": {
-      "text": "Have you considered the several features of each input category?",
-      "description": "d1",
+    "question6": {
+      "text": "Have you considered a significant amount of features for your dataset?",
+      "description": "The question's aim is to understand whether the feature selection has done in order to acquire the most significant information about the different observations in terms of importance and quantity.",
       "boolean": true
     }
   },
   "section4": {
     "question1": {
-      "text": "The collected data come from a relative recent period of time (max: 10 years)?",
-      "description": "d1",
+      "text": "Are the data collected up to date?",
+      "description": "The question's aim is to understand whether the data collected is updated such that it is valid in the actual context, and is not based on obsolete data.",
       "boolean": true
     },
     "question2": {
       "text": "Do you have different sources of data collection?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the sources from where the data has been collected are diverse or unique.",
       "boolean": true
     },
     "question3": {
-      "text": "Are your sources reliable?",
-      "description": "d1",
+      "text": "Are you sure about the reliability of your sources?",
+      "description": "The question's aim is to understand whether the user trusts on the sources he has been used or is someway uncertain about some of them.",
       "boolean": true
     },
     "question4": {
-      "text": "Have you used questionnaires that could be affected by Bias to collect data?",
-      "description": "d1",
+      "text": "Have you used questionnaires that could be affected by Bias to collect data? ",
+      "description": "The question's aim is to understand whether, in case of using questionaires, human bias has taken into account when collecting the different answers. Sometimes aspects as question order or the persons willingness to compile the questionnaire can affect on collected data.",
       "boolean": true,
       "reverse": true
     },
     "question5": {
       "text": "Do you have a data cleaning phase in your data gathering process?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the data has been submitted to a clean up during the data gathering phase in order to make the data as similar as possible to the reality of what it is linked to.",
       "boolean": true
     },
     "question6": {
       "text": "Do you use analytic tools to evaluate the quality of your data?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the team uses analytic tools and metrics in order to assure the quality of the data gathered.",
       "boolean": true
     },
     "question7": {
-      "text": "In case of observations that need a tag, were they already tagged at collection time?",
-      "description": "d1",
+      "text": "In case there is a need of tagging, was the dataset already tagged at collection time?",
+      "description": "The question's aim is to understand whether the dataset has been submitted to tagging before collection. A tag is a non-hierarchical keyword or term assigned to a piece of information. This tag must be sometimes assigned when gathering data.  ",
       "boolean": true
     },
     "question8": {
-      "text": "In case they were not, is the team responsible for tagging the observations well balanced?",
-      "description": "d1",
+      "text": "In case it was not, is the team responsible for tagging the observations balanced?",
+      "description": "The question's aim is to understand whether the people that were responsible for tagging complied with heterogeneity.",
       "boolean": true
     }
   },
   "section5": {
     "question1": {
-      "text": "Is the data set size significative with respect to the population of study size? ",
-      "description": "d1",
+      "text": "Is the Dataset size significative with respect to the population of study size? ",
+      "description": "The question's aim is to understand whether the data collected is a significant sample of universal real world sample. Sometimes the importance of the real size of the samples that are taken from the context to which a model is going to be applied can be underestimated. This can lead to totally useless conclusions even using a good model.",
       "boolean": true
     },
     "question2": {
-      "text": "Is the data set size significative with respect to its context?",
-      "description": "d1",
+      "text": "Is the Dataset size significative with respect to its context?",
+      "description": "The question's aim is to understand whether the data collected is a significant sample of universal real world sample that belongs to the specific context of application. ",
       "boolean": true
     }
   },
   "section6": {
     "question1": {
       "text": "Is the data gathering phase transparent?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the data gathering process is traceable and interpretable, thus transparent.",
       "boolean": true
     },
     "question2": {
       "text": "Is the algorithmic phase transparent?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the algorithm training and testing process is traceable and interpretable, thus transparent.",
       "boolean": true
     },
     "question3": {
       "text": "Are you sure on the weights assigned to the features?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the weigths assigned are reliable and supported by consistent experience or data.",
       "boolean": true
     },
     "question4": {
       "text": "Are you sure that the code is not embedded with biased considerations of the scientists?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the code has been impacted by the scientists natural prejuidices.",
       "boolean": true,
       "reverse": true
     },
     "question5": {
       "text": "Is the algorithm considering just reliable/significative features?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the algorithm is only taking into account the variables that are more significant or reliable. ",
       "boolean": true
     },
     "question6": {
       "text": "Is the output represented through an appropriate level of detail?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the algorithms output provides the amount of detail required for the solution of the problem or it can lead to unintentional assumptions from the team members.",
       "boolean": true
     },
     "question7": {
       "text": "Do you think your developing team will be able to interpret the output and detect any presence of bias?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the algorithms output provides the amount of detail required for the solution of the problem so that the developing team can detect beforehand the existence of bias in the output.",
       "boolean": true
     },
     "question8": {
       "text": "Do you think is it easy to trace the error/bias evaluating the output?",
-      "description": "d1",
+      "description": "The question's aim is to understand whether the algorithms output provides the amount of detail required to trace the bias or error emerged from the algorithm.",
       "boolean": true
     }
   }
