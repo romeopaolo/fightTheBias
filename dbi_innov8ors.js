@@ -214,19 +214,20 @@ var displayThumbnails = function () {
     }
 };
 
-
+/*
 //Pick the next question
 var loadNextQuestion = function () {
     current_question++;
 
     sectionIndex = "section" + current_section;
+
     // check if to change section
     //dataStructure[sectionIndex].size = countAnswers(dataStructure[sectionIndex])-1;
 
+    // count the answers you have for the current section
     let numberOfAnswers = countAnswers(dataStructure[sectionIndex]);
 
-    console.log(numberOfAnswers);
-
+    //
     if (current_question <= numberOfQuestions && numberOfAnswers < numberOfQuestions) {
         pickQuestion();
     }
@@ -251,7 +252,7 @@ var loadNextQuestion = function () {
         if (countAnswers(dataStructure[sectionIndex]) - 1 != numberOfQuestions) {
             displayThumbnails();
         }
-         */
+
 
         if (current_section > numberOfSections) {
             dataStructure["finalResult"] = calculateFinalResult();
@@ -271,6 +272,76 @@ var loadNextQuestion = function () {
     else if ((current_question > numberOfQuestions) && (numberOfAnswers < numberOfQuestions)) {
         alertMX("You must answer all the questions in this section before leaving it. Be sure you submitted all the previous answers.");
         current_question--;
+    }
+};
+*/
+
+//Pick the next question
+var loadNextQuestion = function () {
+    current_question++;
+    sectionIndex = "section" + current_section;
+
+    // count the answers you have for the current section
+    let numberOfAnswers = countAnswers(dataStructure[sectionIndex]);
+
+    //
+    if (numberOfAnswers === numberOfQuestions) {
+        // if the previous question was the last of the current section
+        if (current_question > numberOfQuestions) {
+
+            // evaluate of the section result
+            let val = evaluateSection(sectionIndex);
+            dataStructure[sectionIndex]["value"] = val;
+
+            if (dataStructure[sectionIndex].hasOwnProperty("weight")) {
+                dataStructure[sectionIndex]["result"] = val * dataStructure[sectionIndex]["weight"];
+            }
+
+            // update the section
+            current_section++;
+            current_section_name = displayCurrentSection(current_section);
+
+            $("nav a").removeClass("active");
+            $('#' + current_section).addClass("active");
+            displayThumbnails();
+
+            // if this is the last section
+            if (current_section > numberOfSections) {
+                // show results
+                dataStructure["finalResult"] = calculateFinalResult();
+                loadResults();
+                $("#7").on('click', function () {
+                    $("nav a").removeClass("active");
+                    $(this).addClass("active");
+                    current_section = this.id;
+                    loadResults();
+                });
+            } else {
+                // load the first question of the new section
+                pickQuestion();
+            }
+        } else {
+            // update the result of the section
+            let val = evaluateSection(sectionIndex);
+            dataStructure[sectionIndex]["value"] = val;
+
+            if (dataStructure[sectionIndex].hasOwnProperty("weight")) {
+                dataStructure[sectionIndex]["result"] = val * dataStructure[sectionIndex]["weight"];
+            }
+
+            // load the next question of the current section
+            pickQuestion();
+        }
+    } else {
+        // if the previous question was the last of the current section
+        if (current_question > numberOfQuestions) {
+            // show an alert, you must provide all the answers to go to the next section. Stay in the current question
+            alertMX("You must answer all the questions in this section before leaving it. Be sure you submitted all the previous answers.");
+            current_question--;
+        } else {
+            // load the next question
+            pickQuestion()
+        }
     }
 };
 
@@ -373,7 +444,7 @@ var loadQuestion = function () {
 
     $("#section").empty();
     //Append the new question
-    $("#section").append(sectiondiv)
+    $("#section").append(sectiondiv);
 
     if (!isNaN(getWeightFromDataStructure(current_section, current_question))) {
         let count = parseInt(getWeightFromDataStructure(current_section, current_question)) + 1;
@@ -436,8 +507,8 @@ function loadResults() {
         '   <div class="col-sm-6">' +
         '       <h4>Weights of the sections</h4><br>' +
         '       <div class="donut-container" id="sectionsDonut"></div>' +
-        '       <hr>' + // TODO: metterei una linea (<hr>) tra le sezioni
         '   </div>' +
+        '   <hr>' + // TODO: metterei una linea (<hr>) tra le sezioni, ma non si vede
         '</div>';
 
     // open row div
@@ -469,6 +540,7 @@ function loadResults() {
 
     // render graphs
     console.log(dataStructure);
+    console.log(extractOverallData());
     showBarGraph("sectionsBar", extractOverallData());
     showDonutGraph("sectionsDonut", extractOverallWeights());
 
@@ -612,7 +684,7 @@ $("#submit").click(function () {
         weight = null;
     }
     else {
-        alertMX("KEEP CALM: Missing weight or input class!");
+        alertMX("Missing weight or input class!");
         missinginput = false;
     }
 
@@ -735,10 +807,22 @@ function showBarGraph(divName, data) {
 
     // configuration
     barChart
-        .margin({left: 10})
+        .margin({left: 60})
         .isHorizontal(false)
         .height(300)
-        .width(500);
+        .width(500)
+        .isAnimated(true)
+        .xAxisLabel("Sections")
+        .yAxisLabel("Quality")
+        //.yAxisLabelOffset(5)
+        //.xTicks(3)
+        //.enableLabels(true)
+        //.numberFormat('%')
+        .loadingState("Collecting data...")
+        .hasPercentage(true)
+        .labelsMargin(10)
+        .colorSchema(["#f2a397", '#d1e7a0', '#b7eeef', '#fff4a7', '#c9c9c9']);
+    ;
 
     // fill with data and show
     bar_container.datum(data).call(barChart);
@@ -771,7 +855,9 @@ function showDonutGraph(divName, data) {
         .margin({left: 10})
         .height(300)
         .width(300)
-        .isAnimated(true);
+        //.externalRadius(10)
+        .isAnimated(true)
+        .colorSchema(["#f2a397", '#d1e7a0', '#b7eeef', '#fff4a7', '#c9c9c9']);
 
     // fill with data and show
     donut_container.datum(data).call(donutChart);
@@ -811,7 +897,7 @@ function getOverallResultForBar(section) {
     if (dataStructure.hasOwnProperty("section" + section)) {
         if (dataStructure["section" + section].hasOwnProperty("value")) {
             obj["name"] = "S" + section;
-            obj["value"] = parseInt(dataStructure["section" + section]["value"]) * 100;
+            obj["value"] = parseFloat(dataStructure["section" + section]["value"]).toFixed(4);
             return obj;
         }
     }
