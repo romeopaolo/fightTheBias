@@ -23,7 +23,7 @@
     "question9": "1"
   },
   "section3": {
-    "description":"The 3rd section provides questions regarding the data gathering phase of your AI project. In particular the hetereogeneity, the features and the input categories of the dataset are considered. In the education field it might have a medium impact.",
+    "description":"The 3rd section provides questions on the project's data gathering phase. The dataset variety and its features are considered. In the education field it has a medium impact.",
     "weight": "3",
     "question1": "2",
     "question2": "3",
@@ -35,7 +35,7 @@
     "question8": "4"
   },
   "section4": {
-    "description":"The 4th section mainly includes questions regarding the data quality on which your AI project is built. In particular the sources, the cleaning and the tagging of the data are evaluated. In the education field it might have a strong impact.",
+    "description":"The 4th section mainly includes questions on the quality of the gathered data. The dataset sources, its cleaning and tags are evaluated. In the education field it might have a strong impact.",
     "weight": "5",
     "question1": "2",
     "question2": "4",

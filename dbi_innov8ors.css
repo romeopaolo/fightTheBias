@@ -172,11 +172,11 @@ body {
     background-color: #00a1f1;
 }
 
-.btn.btn-block.suggweight.autonomous{
+.btn.btn-block.suggweight.automotive{
     background-color: #00a1f1;
 }
 
-.btn.btn-block.weight.autonomous{
+.btn.btn-block.weight.automotive{
     background-color: #00a1f1;
 }
 
@@ -267,7 +267,7 @@ body {
     border-radius: 5px 5px 5px 5px;
 }
 
-.inputbox.autonomous{
+.inputbox.automotive{
     text-align: center;
     border-width: 1px;
     color:#ffbb00;
@@ -321,6 +321,7 @@ nav a :first-child {
     border-radius: 0%;
     background: #00a1f1;
     box-shadow: 3px 3px 10px rgba(gray, .5);
+    height: auto;
 }
 
 #logo{
@@ -337,8 +338,30 @@ li{
     margin-top:80px;
 }
 #impact{
-    margin-top:250px;
+    margin-top:160px;
+    margin-bottom:-80px;
 }
 #results{
 border-width: 0px;
 }
+
+#firstdonut{
+    margin-bottom:-50px;
+}
+
+#firstbar{
+    padding-left: 100px;
+}
+#firstdonut{
+    padding-left: 20px;
+}
+#otherdonout{
+    padding-left: 20px;
+    margin-top:50px;
+    margin-bottom:-20px;
+}
+
+#sectionquality{
+    padding-left: 20px;
+}
+

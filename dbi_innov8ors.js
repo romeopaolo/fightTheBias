@@ -330,7 +330,8 @@ var loadNextQuestion = function () {
                     $("nav a").removeClass("active");
                     $(this).addClass("active");
                     current_section = this.id;
-                    loadResults(); // TODO: perchè si trova anche qui? Così li carica due volte
+                    loadResults();
+
                 });
             } else {
                 // load the first question of the new section
@@ -497,8 +498,8 @@ function loadResults() {
         let overallQuality = (parseFloat(dataStructure["finalResult"]) * 100).toFixed(2);
         elem += '<div class="row">' +
             '<div class="col-sm-12">' +
-            '   <h2><b> Overall result</b></h2><br>' +
-            '   <h3>The overall quality is: ' + overallQuality + '%</h3><br>' +
+            '   <h2><b> Overall Results</b></h2><br><hr>' +
+            '   <h3><i>The overall quality is: ' + overallQuality + '%</i></h3><br>' +
             '</div></div>';
     //} else {
      //   console.log("An error occurred in the final result");
@@ -509,18 +510,18 @@ function loadResults() {
         // Overall result
         '<div class="row">' +
         '   <div class="col-sm-6">' +
-        '       <h4>Results of the sections</h4><br>' +
+        '       <h4 id="firstbar">Results of the sections:</h4><br>' +
         '       <div class="bar-container" id="sectionsBar"></div>' +
         '   </div>' +
         // Weights
         '   <div class="col-sm-6">' +
-        '       <h4>Weights of the sections</h4><br>' +
+        '       <h4 id="firstdonut">Weights of the sections:</h4><br>' +
         '       <div class="donut-container" id="sectionsDonut"></div>' +
         '   </div><hr>' + // TODO: metterei una linea (<hr>) tra le sezioni, ma non si vede
         '</div>';
 
     // open row div
-    elem += '<h3 id="impact">Impact of the questions on each section</h3><br>'
+    elem += '<h3 id="impact"><i>Impact of the questions in each section:</i></h3><br><hr>'
         + '<div class="row">';
 
     // insert one div for each section graph
@@ -531,8 +532,8 @@ function loadResults() {
             let quality = (parseFloat(dataStructure["section" + filledSections[index]]["value"]) * 100).toFixed(2);
             elem +=
                 '   <div class="col-sm-4">' +
-                '       <h3>Quality of section ' + filledSections[index] + ': ' + quality + '%</h3>' +
-                '       <h4>Weights of the questions</h4>' +
+                '       <h3 id="sectionquality">Quality of section ' + filledSections[index] + ': ' + quality + '%</h3>' +
+                '       <h4 id="otherdonut">Weights of the questions:</h4>' +
                 '       <div class="donut-container" id="section' + filledSections[index] + 'Donut"></div>' +
                 '   </div>';
         }
@@ -815,12 +816,12 @@ function showBarGraph(divName, data) {
     barChart
         .margin({left: 60})
         .isHorizontal(false)
-        .height(300)
-        .width(500)
+        .height(200)
+        .width(400)
         .isAnimated(true)
         .xAxisLabel("Sections")
         .yAxisLabel("Quality")
-        //.yAxisLabelOffset(5)
+        //.yAxisLabelOffset()
         //.xTicks(3)
         //.enableLabels(true)
         //.numberFormat('%')
@@ -861,7 +862,8 @@ function showDonutGraph(divName, data) {
         .margin({left: 10})
         .height(300)
         .width(300)
-        //.externalRadius(10)
+        .externalRadius(100)
+        .internalRadius(20)
         .isAnimated(true)
         .colorSchema(["#f2a397", '#d1e7a0', '#b7eeef', '#fff4a7', '#c9c9c9']);
 

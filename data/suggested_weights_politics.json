@@ -1,5 +1,6 @@
 {
   "section1": {
+    "description":"The 1st section is mainly dedicated to ethical questions regarding your AI project. In the politics field it has a great relevance for sure.",
     "weight": "4",
     "question1": "5",
     "question2": "3",
@@ -9,6 +10,7 @@
     "question6": "3"
   },
   "section2": {
+    "description":"The 2nd section includes questions regarding the composition of your AI working team. In the politics field it might have a low impact.",
     "weight": "2",
     "question1": "2",
     "question2": "2",
@@ -21,6 +23,7 @@
     "question9": "1"
   },
   "section3": {
+    "description":"The 3rd section provides questions on the project's data gathering phase. The dataset variety and its features are considered. In the politics field it has a medium impact.",
     "weight": "3",
     "question1": "3",
     "question2": "3",
@@ -32,6 +35,7 @@
     "question8": "4"
   },
   "section4": {
+    "description":"The 4th section mainly includes questions on the quality of the gathered data. The dataset sources, its cleaning and tags are evaluated. In the politics field it might have a strong impact.",
     "weight": "5",
     "question1": "4",
     "question2": "4",
@@ -43,11 +47,13 @@
     "question8": "4"
   },
   "section5": {
+    "description":"The 5th section makes questions on the dataset dimension w.r.t. the context of application. In the politics field it might have a low impact.",
     "weight": "2",
     "question1": "2",
     "question2": "3"
   },
   "section6": {
+    "description":"The 6th section makes questions on the algorithmic phase, the evaluation of the output and the general Bias detection. In the politics field it might have a medium impact.",
     "weight": "3",
     "question1": "5",
     "question2": "2",
