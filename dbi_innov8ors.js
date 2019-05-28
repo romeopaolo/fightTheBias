@@ -19,7 +19,7 @@ var results;
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
 
-    $.getJSON("./data/test_questions.json", function (json) { // show the JSON file content into console
+    $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
         sections = json;
         console.log(sections);
         console.log(sections.length);
@@ -42,7 +42,7 @@ $(document).ready(function () {
         $('nav a').off('click');
         context = $(this).text();
         displaySectionsPage();
-        var path = "./data/test_suggested_weights_" + context.toLowerCase() + ".json";
+        var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
             // console.log(suggweights);
