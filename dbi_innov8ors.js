@@ -314,7 +314,7 @@ var loadNextQuestion = function () {
                     $("nav a").removeClass("active");
                     $(this).addClass("active");
                     current_section = this.id;
-                    loadResults();
+                    loadResults(); // TODO: perchè si trova anche qui? Così li carica due volte
                 });
             } else {
                 // load the first question of the new section
@@ -507,8 +507,7 @@ function loadResults() {
         '   <div class="col-sm-6">' +
         '       <h4>Weights of the sections</h4><br>' +
         '       <div class="donut-container" id="sectionsDonut"></div>' +
-        '   </div>' +
-        '   <hr>' + // TODO: metterei una linea (<hr>) tra le sezioni, ma non si vede
+        '   </div><hr>' + // TODO: metterei una linea (<hr>) tra le sezioni, ma non si vede
         '</div>';
 
     // open row div
@@ -516,15 +515,16 @@ function loadResults() {
         + '<div class="row">';
 
     // insert one div for each section graph
-    for (let i = 1; i <= numberOfSections; i++) {
-
-        if (dataStructure["section" + i].hasOwnProperty("result")) {
-            let quality = (parseFloat(dataStructure["section" + i]["value"]) * 100).toFixed(2);
+    let index;
+    let filledSections = getCompleteSections();
+    for (index in filledSections) {
+        if (dataStructure["section" + filledSections[index]].hasOwnProperty("result")) {
+            let quality = (parseFloat(dataStructure["section" + filledSections[index]]["value"]) * 100).toFixed(2);
             elem +=
                 '   <div class="col-sm-4">' +
-                '       <h3>Quality of section ' + i + ': ' + quality + '%</h3>' +
+                '       <h3>Quality of section ' + filledSections[index] + ': ' + quality + '%</h3>' +
                 '       <h4>Weights of the questions</h4>' +
-                '       <div class="donut-container" id="section' + i + 'Donut"></div>' +
+                '       <div class="donut-container" id="section' + filledSections[index] + 'Donut"></div>' +
                 '   </div>';
         }
     }
@@ -544,9 +544,9 @@ function loadResults() {
     showBarGraph("sectionsBar", extractOverallData());
     showDonutGraph("sectionsDonut", extractOverallWeights());
 
-    for (let x = 1; x <= numberOfSections; x++) {
-        if (dataStructure["section" + x].hasOwnProperty("result")) {
-            showDonutGraph('section' + x + 'Donut', getSectionWeightsForDonut(x));
+    for (index in filledSections) {
+        if (dataStructure["section" + filledSections[index]].hasOwnProperty("result")) {
+            showDonutGraph('section' + filledSections[index] + 'Donut', getSectionWeightsForDonut(filledSections[index]));
         }
     }
 }
@@ -992,4 +992,21 @@ function getSectionWeightsForDonut(section) {
     }
     console.log("Section not present");
     return -1
+}
+
+function getCompleteSections() {
+    let arr = [];
+    let key;
+    // iterate over the attributes of the section
+    for (key in dataStructure) {
+        // if it is a question
+        if (key.includes("section")) {
+            // and it has been answered
+            if (dataStructure[key].hasOwnProperty("result")) {
+                // increase the size
+                arr.push(key.substring("section".length));
+            }
+        }
+    }
+    return arr;
 }
