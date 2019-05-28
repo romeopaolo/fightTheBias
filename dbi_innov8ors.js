@@ -102,6 +102,8 @@ function startquestionnaire() {
         current_question = 1;
         pickQuestion();
         displayThumbnails();
+        $("#thumbnail1").css('color','#737373');
+        $("#thumbnail1").css('border-color','#737373');
         for (var t = current_question; t <= numberOfQuestions; t++) {
             if (!isNaN(getWeightFromDataStructure(current_section, t))) {
                 document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
@@ -181,7 +183,10 @@ var changeScenario = function () {
 var pickQuestion = function () {
     console.log("curr sec: " + current_section);
     console.log("curr q: " + current_question);
-
+    $(".btn.thumbnail").css('color','white');
+    $(".btn.thumbnail").css('border-color','white');
+    $("#thumbnail"+current_question).css('color','#737373');
+    $("#thumbnail"+current_question).css('border-color','#737373');
     if (current_section <= numberOfSections) {
         question = sections["section" + current_section]["question" + current_question];
         suggweight = suggweights["section" + current_section]["question" + current_question];
@@ -237,8 +242,9 @@ var loadNextQuestion = function () {
 
         $("nav a").removeClass("active");
         $('#' + current_section).addClass("active");
-
-        displayThumbnails();
+        if(computeSize(dataStructure[sectionIndex]) - 1 != numberOfQuestions){
+            displayThumbnails();
+        }
 
         if (current_section > numberOfSections) {
             dataStructure["finalResult"] = calculateFinalResult();
