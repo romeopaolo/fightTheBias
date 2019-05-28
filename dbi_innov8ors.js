@@ -42,19 +42,20 @@ $(document).ready(function () {
         $('nav a').off('click');
         context = $(this).text();
         displaySectionsPage();
+        console.log(context.toLowerCase())
         var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
-            // console.log(suggweights);
+            console.log(suggweights);
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
 
             for (var j in suggweights) {
-                console.log(j);
-                sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> Description - Suggested weight: ' + switchcaseOnWeights(suggweights[j]["weight"]) + '</div>'
+                console.log(j.weight);
+                sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> '+suggweights[j]["description"]+' <i>Suggested weight: <b>' + switchcaseOnWeights(suggweights[j]["weight"]) + '</b></i></div>'
                     + '<div class="col-sm-3">'
                     + '<select id=' + j + ' class="btn btn-block sectionweight">'
-                    + '<option value="0">Zero</option>'
+                    + '<option value="0">Not Relevant</option>'
                     + '<option value="1">Very Low</option>'
                     + '<option value="2">Low</option>'
                     + '<option value="3">Medium</option>'
@@ -111,6 +112,9 @@ function startquestionnaire() {
         }
     });
     $("#7").off('click');
+    $("#7").on('click',function () {
+        alertMX("KEEP CALM: You must complete at least one section to consult the results!")
+    });
     for (let i = 1; i <= numberOfSections; i++) {
         dataStructure["section" + i] = {};
         dataStructure["section" + i]["weight"] = parseInt($("#section" + i).val());
@@ -152,8 +156,10 @@ function displaySectionsPage() {
     $("#question-section").toggleClass("hide");
     $(".leftbox").toggleClass("hide");
     $("#logo").toggleClass("hide");
-    $("#thumbnails").append('<h1>Introductory Section</h1>');
-
+    $("#thumbnails").empty();
+    $("#thumbnails").append('<h1>Assign a weight to each section:</h1>');
+    $("#thumbnails").css('color', 'white')
+    $("#thumbnails").css('margin-left', '0px')
     //$("#result").toggleClass("hide");
 
     //showIntroduction();
@@ -300,6 +306,15 @@ var loadNextQuestion = function () {
             // update the section
             current_section++;
             current_section_name = displayCurrentSection(current_section);
+            if(getCompleteSections().length > 0){
+                $('#7').off('click');
+                $('#7').on('click', function () {
+                    $("nav a").removeClass("active");
+                    $(this).addClass("active");
+                    current_section = this.id;
+                    loadResults()
+                });
+            }
 
             $("nav a").removeClass("active");
             $('#' + current_section).addClass("active");
@@ -310,6 +325,7 @@ var loadNextQuestion = function () {
                 // show results
                 dataStructure["finalResult"] = calculateFinalResult();
                 loadResults();
+                $('#7').off('click');
                 $("#7").on('click', function () {
                     $("nav a").removeClass("active");
                     $(this).addClass("active");
@@ -393,7 +409,7 @@ var loadQuestion = function () {
             + '</div>'
             + '<select id="weight" class="btn btn-block weight ' + context.toLowerCase() + '" >'
             + '<option value="" selected disabled hidden>Choose Your Weight</option>'
-            + '<option value="0">Zero</option>'
+            + '<option value="0">Not Relevant</option>'
             + '<option value="1">Very Low</option>'
             + '<option value="2">Low</option>'
             + '<option value="3">Medium</option>'
@@ -425,7 +441,7 @@ var loadQuestion = function () {
             '<button type="button"class="btn btn-block suggweight ' + context.toLowerCase() + ' m-2 p-3 "><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>' +
             '</div>' +
             '<select id="weight" class="btn btn-block weight ' + context.toLowerCase() + '" >' +
-            '<option value="0">Zero</option>' +
+            '<option value="0">Not Relevant</option>' +
             '<option value="1">Low</option>' +
             '<option value="2">Very Low</option>' +
             '<option value="3">Medium</option>' +
@@ -462,12 +478,9 @@ var loadQuestion = function () {
 };
 
 function loadResults() {
-    $("#resultspanel").empty();
-
-    // load the new section
-    $("#resultspanel").empty();
-    // clear the html
+    $("#resultspanel").empty()
     if (results != true) {
+        console.log("DIO")
         $("#question-section-body").toggleClass("hide");
         $("#section").toggleClass("hide");
         $("#thumbnails").toggleClass("hide");
@@ -477,23 +490,19 @@ function loadResults() {
     }
 
 
-    var sectiondiv = "";
-    current_section_name = displayCurrentSection(current_section);
-    sectiondiv += '<div><b>' + current_section_name + '</b></div>';
-
     var elem = "";
 
     // display the final result
-    if (dataStructure.hasOwnProperty("finalResult")) {
+    //if (dataStructure.hasOwnProperty("finalResult")) {
         let overallQuality = (parseFloat(dataStructure["finalResult"]) * 100).toFixed(2);
         elem += '<div class="row">' +
             '<div class="col-sm-12">' +
             '   <h2><b> Overall result</b></h2><br>' +
             '   <h3>The overall quality is: ' + overallQuality + '%</h3><br>' +
             '</div></div>';
-    } else {
-        console.log("An error occurred in the final result");
-    }
+    //} else {
+     //   console.log("An error occurred in the final result");
+    //}
 
     // display the graphs
     elem +=
@@ -534,9 +543,6 @@ function loadResults() {
 
     // load the results
     $("#resultspanel").append(elem);
-
-    // load the new section
-    $("#resultspanel").append(sectiondiv);
 
     // render graphs
     console.log(dataStructure);
@@ -739,7 +745,7 @@ function thumbnailChosen(value) {
 function switchcaseOnWeights(value) {
     switch (value * 1) {
         case 0:
-            return "Zero";
+            return "Not Relevant";
         case 1:
             return "Very Low";
         case 2:

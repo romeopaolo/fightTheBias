@@ -156,11 +156,11 @@ body {
 }
 
 .btn.btn-block.suggweight.gender{
-    background-color: #7cbb00;
+    background-color: #00a1f1;
 }
 
 .btn.btn-block.weight.gender{
-    background-color: #7cbb00;
+    background-color: #00a1f1;
 
 }
 
@@ -173,19 +173,19 @@ body {
 }
 
 .btn.btn-block.suggweight.autonomous{
-    background-color: #ffbb00;
+    background-color: #00a1f1;
 }
 
 .btn.btn-block.weight.autonomous{
-    background-color: #ffbb00;
+    background-color: #00a1f1;
 }
 
 .btn.btn-block.suggweight.education{
-    background-color: #f65314;
+    background-color: #00a1f1;
 }
 
 .btn.btn-block.weight.education{
-    background-color: #f65314;
+    background-color: #00a1f1;
 }
 
 .btn-circle {
@@ -319,7 +319,6 @@ nav a :first-child {
     left: 5%;
     color:white;
     border-radius: 0%;
-    height: 100%;
     background: #00a1f1;
     box-shadow: 3px 3px 10px rgba(gray, .5);
 }
