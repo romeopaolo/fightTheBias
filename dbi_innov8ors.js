@@ -52,7 +52,7 @@ $(document).ready(function () {
 
             for (var j in suggweights) {
                 console.log(j.weight);
-                sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> '+suggweights[j]["description"]+' <i>Suggested weight: <b>' + switchcaseOnWeights(suggweights[j]["weight"]) + '</b></i></div>'
+                sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> ' + suggweights[j]["description"] + ' <i>Suggested weight: <b>' + switchcaseOnWeights(suggweights[j]["weight"]) + '</b></i></div>'
                     + '<div class="col-sm-3">'
                     + '<select id=' + j + ' class="btn btn-block sectionweight">'
                     + '<option value="0">Not Relevant</option>'
@@ -112,7 +112,7 @@ function startquestionnaire() {
         }
     });
     $("#7").off('click');
-    $("#7").on('click',function () {
+    $("#7").on('click', function () {
         alertMX("KEEP CALM: You must complete at least one section to consult the results!")
     });
     for (let i = 1; i <= numberOfSections; i++) {
@@ -220,68 +220,6 @@ var displayThumbnails = function () {
     }
 };
 
-/*
-//Pick the next question
-var loadNextQuestion = function () {
-    current_question++;
-
-    sectionIndex = "section" + current_section;
-
-    // check if to change section
-    //dataStructure[sectionIndex].size = countAnswers(dataStructure[sectionIndex])-1;
-
-    // count the answers you have for the current section
-    let numberOfAnswers = countAnswers(dataStructure[sectionIndex]);
-
-    //
-    if (current_question <= numberOfQuestions && numberOfAnswers < numberOfQuestions) {
-        pickQuestion();
-    }
-
-    else if (numberOfAnswers == numberOfQuestions) {
-
-        // evaluation of the section result
-        let val = evaluateSection(sectionIndex);
-        dataStructure[sectionIndex]["value"] = val;
-        if (dataStructure[sectionIndex].hasOwnProperty("weight")) {
-            dataStructure[sectionIndex]["result"] = val * dataStructure[sectionIndex]["weight"];
-        }
-        current_section++;
-        current_section_name = displayCurrentSection(current_section);
-
-        $("nav a").removeClass("active");
-        $('#' + current_section).addClass("active");
-
-        // TODO; controlla cosa deve fare
-        displayThumbnails(); // todo: il controllo che facevi adesso è sempre vero
-        /*
-        if (countAnswers(dataStructure[sectionIndex]) - 1 != numberOfQuestions) {
-            displayThumbnails();
-        }
-
-
-        if (current_section > numberOfSections) {
-            dataStructure["finalResult"] = calculateFinalResult();
-            loadResults();
-            $("#7").on('click', function () {
-                $("nav a").removeClass("active");
-                $(this).addClass("active");
-                current_section = this.id;
-                loadResults();
-            });
-
-        } else {
-            pickQuestion();
-        }
-    }
-    // if you submit the answer of the last question but there is at least one previous question without answer within the current section
-    else if ((current_question > numberOfQuestions) && (numberOfAnswers < numberOfQuestions)) {
-        alertMX("You must answer all the questions in this section before leaving it. Be sure you submitted all the previous answers.");
-        current_question--;
-    }
-};
-*/
-
 //Pick the next question
 var loadNextQuestion = function () {
     current_question++;
@@ -306,7 +244,7 @@ var loadNextQuestion = function () {
             // update the section
             current_section++;
             current_section_name = displayCurrentSection(current_section);
-            if(getCompleteSections().length > 0){
+            if (getCompleteSections().length > 0) {
                 $('#7').off('click');
                 $('#7').on('click', function () {
                     $("nav a").removeClass("active");
@@ -323,7 +261,6 @@ var loadNextQuestion = function () {
             // if this is the last section
             if (current_section > numberOfSections) {
                 // show results
-                dataStructure["finalResult"] = calculateFinalResult();
                 loadResults();
                 $('#7').off('click');
                 $("#7").on('click', function () {
@@ -481,7 +418,6 @@ var loadQuestion = function () {
 function loadResults() {
     $("#resultspanel").empty()
     if (results != true) {
-        console.log("DIO")
         $("#question-section-body").toggleClass("hide");
         $("#section").toggleClass("hide");
         $("#thumbnails").toggleClass("hide");
@@ -493,17 +429,19 @@ function loadResults() {
 
     var elem = "";
 
+    dataStructure["finalResult"] = calculateFinalResult();
+
     // display the final result
-    //if (dataStructure.hasOwnProperty("finalResult")) {
+    if (dataStructure.hasOwnProperty("finalResult")) {
         let overallQuality = (parseFloat(dataStructure["finalResult"]) * 100).toFixed(2);
         elem += '<div class="row">' +
             '<div class="col-sm-12">' +
             '   <h2><b> Overall Results</b></h2><br><hr>' +
             '   <h3><i>The overall quality is: ' + overallQuality + '%</i></h3><br>' +
             '</div></div>';
-    //} else {
-     //   console.log("An error occurred in the final result");
-    //}
+    } else {
+        console.log("An error occurred in the final result");
+    }
 
     // display the graphs
     elem +=
@@ -621,8 +559,11 @@ function calculateFinalResult() {
     var cum_res = 0;
     var cum_weights = 0;
 
-    for (var i = 1; i <= numberOfSections; i++) {
-
+    let i;
+    let index;
+    let filledSections = getCompleteSections();
+    for (index in filledSections) {
+        i = filledSections[index];
         if (dataStructure.hasOwnProperty("section" + i) && dataStructure["section" + i].hasOwnProperty("result") && dataStructure["section" + i].hasOwnProperty("weight")) {
             cum_res = cum_res + parseInt(dataStructure["section" + i]["result"]);
             cum_weights = cum_weights + parseInt(dataStructure["section" + i]["weight"]);
@@ -828,8 +769,7 @@ function showBarGraph(divName, data) {
         .loadingState("Collecting data...")
         .hasPercentage(true)
         .labelsMargin(10)
-        .colorSchema(["#f2a397", '#d1e7a0', '#b7eeef', '#fff4a7', '#c9c9c9']);
-    ;
+        .colorSchema(["#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2', '#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff']);
 
     // fill with data and show
     bar_container.datum(data).call(barChart);
@@ -865,7 +805,7 @@ function showDonutGraph(divName, data) {
         .externalRadius(100)
         .internalRadius(20)
         .isAnimated(true)
-        .colorSchema(["#f2a397", '#d1e7a0', '#b7eeef', '#fff4a7', '#c9c9c9']);
+        .colorSchema(["#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2', '#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff']);
 
     // fill with data and show
     donut_container.datum(data).call(donutChart);
