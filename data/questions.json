@@ -76,7 +76,7 @@
     "question5": {
       "text": "Heterogeneity of background education",
       "description": "The variable expresses the variety of the team in terms of educational background of the members of the team. We have made the assumption that an AI developing team is composed by informatics, mathematicians and experts of the application context.",
-      "boolean": true,
+      "boolean": false,
       "classes": [
         "Informaticians",
         "Mathematicians",
@@ -86,7 +86,7 @@
     "question6": {
       "text": "Heterogeneity of study title",
       "description": "The variable expresses the variety of study titles in the team, given the assumptions that an AI developing team is composed by highly educated people. We have assumed three classes: Bachelor, Master, PhD. ",
-      "boolean": true,
+      "boolean": false,
       "classes": [
         "Bachelor",
         "Master",

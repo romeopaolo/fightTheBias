@@ -102,8 +102,8 @@ function startquestionnaire() {
         current_question = 1;
         pickQuestion();
         displayThumbnails();
-        $("#thumbnail1").css('color','#737373');
-        $("#thumbnail1").css('border-color','#737373');
+        $("#thumbnail1").css('color', '#737373');
+        $("#thumbnail1").css('border-color', '#737373');
         for (var t = current_question; t <= numberOfQuestions; t++) {
             if (!isNaN(getWeightFromDataStructure(current_section, t))) {
                 document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
@@ -183,10 +183,10 @@ var changeScenario = function () {
 var pickQuestion = function () {
     console.log("curr sec: " + current_section);
     console.log("curr q: " + current_question);
-    $(".btn.thumbnail").css('color','white');
-    $(".btn.thumbnail").css('border-color','white');
-    $("#thumbnail"+current_question).css('color','#737373');
-    $("#thumbnail"+current_question).css('border-color','#737373');
+    $(".btn.thumbnail").css('color', 'white');
+    $(".btn.thumbnail").css('border-color', 'white');
+    $("#thumbnail" + current_question).css('color', '#737373');
+    $("#thumbnail" + current_question).css('border-color', '#737373');
     if (current_section <= numberOfSections) {
         question = sections["section" + current_section]["question" + current_question];
         suggweight = suggweights["section" + current_section]["question" + current_question];
@@ -221,15 +221,17 @@ var loadNextQuestion = function () {
 
     sectionIndex = "section" + current_section;
     // check if to change section
-    //dataStructure[sectionIndex].size = computeSize(dataStructure[sectionIndex])-1;
+    //dataStructure[sectionIndex].size = countAnswers(dataStructure[sectionIndex])-1;
 
-    console.log(computeSize(dataStructure[sectionIndex]))
+    let numberOfAnswers = countAnswers(dataStructure[sectionIndex]);
 
-    if (current_question <= numberOfQuestions && computeSize(dataStructure[sectionIndex]) != numberOfQuestions) {
+    console.log(numberOfAnswers);
+
+    if (current_question <= numberOfQuestions && numberOfAnswers < numberOfQuestions) {
         pickQuestion();
     }
 
-    else if (computeSize(dataStructure[sectionIndex]) == numberOfQuestions || computeSize(dataStructure[sectionIndex]) - 1 == numberOfQuestions) {
+    else if (numberOfAnswers == numberOfQuestions) {
 
         // evaluation of the section result
         let val = evaluateSection(sectionIndex);
@@ -242,9 +244,14 @@ var loadNextQuestion = function () {
 
         $("nav a").removeClass("active");
         $('#' + current_section).addClass("active");
-        if(computeSize(dataStructure[sectionIndex]) - 1 != numberOfQuestions){
+
+        // TODO; controlla cosa deve fare
+        displayThumbnails(); // todo: il controllo che facevi adesso è sempre vero
+        /*
+        if (countAnswers(dataStructure[sectionIndex]) - 1 != numberOfQuestions) {
             displayThumbnails();
         }
+         */
 
         if (current_section > numberOfSections) {
             dataStructure["finalResult"] = calculateFinalResult();
@@ -260,20 +267,29 @@ var loadNextQuestion = function () {
             pickQuestion();
         }
     }
-    else if ((current_question > numberOfQuestions) && (computeSize(dataStructure[sectionIndex]) != numberOfQuestions)) {
-        alertMX("KEEP CALM: You must answer all the questions in this section before leaving it!");
+    // if you submit the answer of the last question but there is at least one previous question without answer within the current section
+    else if ((current_question > numberOfQuestions) && (numberOfAnswers < numberOfQuestions)) {
+        alertMX("You must answer all the questions in this section before leaving it. Be sure you submitted all the previous answers.");
         current_question--;
     }
-
-
 };
 
-function computeSize(obj) {
-    var localsize = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) localsize++;
+// compute the number of questions of the current section that received a complete answer
+function countAnswers(sec) {
+    let count = 0;
+    let key;
+    // iterate over the attributes of the section
+    for (key  in sec) {
+        // if it is a question
+        if (key.includes("question")) {
+            // and it has been answered
+            if (sec[key].hasOwnProperty("result")) {
+                // increase the size
+                count++;
+            }
+        }
     }
-    return localsize - 1;
+    return count;
 }
 
 
@@ -606,8 +622,23 @@ function readBooleanInput() {
     var input;
     input = $("input[name='Y/N']:checked").val();
 
-    if (input == undefined)
+    if (input == undefined) {
         missinginput = true;
+    } else {
+        // check to detect the questions with reverse meaning
+        if (sections.hasOwnProperty("section" + current_section)) {
+            if (sections["section" + current_section].hasOwnProperty("question" + current_question)) {
+                if (sections["section" + current_section]["question" + current_question].hasOwnProperty("reverse")) {
+                    if (parseInt(input) === 1) {
+                        input = 0;
+                    } else if (parseInt(input) === 0) {
+                        input = 1;
+                    }
+                }
+            }
+        }
+    }
+
     return input;
 }
 
@@ -780,7 +811,7 @@ function getOverallResultForBar(section) {
     if (dataStructure.hasOwnProperty("section" + section)) {
         if (dataStructure["section" + section].hasOwnProperty("value")) {
             obj["name"] = "S" + section;
-            obj["value"] = parseInt(dataStructure["section" + section]["value"]);
+            obj["value"] = parseInt(dataStructure["section" + section]["value"]) * 100;
             return obj;
         }
     }
