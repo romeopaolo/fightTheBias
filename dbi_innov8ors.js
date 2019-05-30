@@ -77,6 +77,16 @@ $(document).ready(function () {
         });
         $('#0').off('click');
         $('#0').on('click',function () {
+
+            if (results==true) {
+                $("#question-section-body").toggleClass("hide");
+                $("#results").toggleClass("hide");
+                $(".btn-circle").toggleClass("hide");
+                $("#section").toggleClass("hide");
+                $("#thumbnails").toggleClass("hide");
+                results = false;
+            }
+            
             if(intermediate==true){
                 
             }
@@ -308,6 +318,12 @@ var loadNextQuestion = function () {
             if (getCompleteSections().length > 0) {
                 $('#7').off('click');
                 $('#7').on('click', function () {
+                    if(intermediate==true){
+                        $("#intermediate").toggleClass("hide");
+                        $("#question-section-body").toggleClass("hide");
+                        $("#section").toggleClass("hide");
+                        intermediate=false;
+                    }
                     $("nav a").removeClass("active");
                     $(this).addClass("active");
                     current_section = this.id;
@@ -324,7 +340,14 @@ var loadNextQuestion = function () {
                 // show results
                 loadResults();
                 $('#7').off('click');
+                
                 $("#7").on('click', function () {
+                    if(intermediate==true){
+                        $("#intermediate").toggleClass("hide");
+                        $("#question-section-body").toggleClass("hide");
+                        $("#section").toggleClass("hide");
+                        intermediate=false;
+                    }
                     $("nav a").removeClass("active");
                     $(this).addClass("active");
                     current_section = this.id;
@@ -830,7 +853,7 @@ function showBarGraph(divName, data) {
         .loadingState("Collecting data...")
         .hasPercentage(true)
         .labelsMargin(10)
-        .colorSchema(['#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff', "#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2']);
+        .colorSchema(["#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2', '#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff']);
 
     // fill with data and show
     bar_container.datum(data).call(barChart);
@@ -866,7 +889,7 @@ function showDonutGraph(divName, data) {
         .externalRadius(100)
         .internalRadius(20)
         .isAnimated(true)
-        .colorSchema(['#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff', "#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2']);
+        .colorSchema(["#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2', '#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff']);
 
     // fill with data and show
     donut_container.datum(data).call(donutChart);
