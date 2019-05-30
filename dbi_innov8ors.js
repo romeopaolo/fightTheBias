@@ -830,7 +830,7 @@ function showBarGraph(divName, data) {
         .loadingState("Collecting data...")
         .hasPercentage(true)
         .labelsMargin(10)
-        .colorSchema(["#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2', '#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff']);
+        .colorSchema(['#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff', "#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2']);
 
     // fill with data and show
     bar_container.datum(data).call(barChart);
@@ -866,7 +866,7 @@ function showDonutGraph(divName, data) {
         .externalRadius(100)
         .internalRadius(20)
         .isAnimated(true)
-        .colorSchema(["#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2', '#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff']);
+        .colorSchema(['#daf7dc', '#efd09e', '#f1ffc4', '#f7c4a5', '#d8e4ff', "#d0c4df", '#77a6b6', '#b3d89c', '#9dc3c2']);
 
     // fill with data and show
     donut_container.datum(data).call(donutChart);
