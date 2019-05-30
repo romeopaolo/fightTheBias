@@ -15,7 +15,6 @@ var context;
 var sectionIndex;
 var results;
 
-
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
 
@@ -958,3 +957,21 @@ function getCompleteSections() {
     }
     return arr;
 }
+
+/*
+function downloadData() {
+    const fs = require('fs');
+    var jsonObj = JSON.parse(dataStructure);
+    console.log(jsonObj);
+    var jsonContent = JSON.stringify(jsonObj);
+    console.log(jsonContent);
+    fs.writeFile("fightTheBias.json", jsonContent, 'utf8', function (err) {
+        if(err) {
+            console.log("An error occurred while downloading the file.");
+            return console.log(err);
+        }
+    });
+
+    console.log("Download completed")
+}
+*/
