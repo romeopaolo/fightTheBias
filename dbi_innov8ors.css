@@ -365,3 +365,13 @@ border-width: 0px;
     padding-left: 20px;
 }
 
+#subtitle{
+
+    margin-bottom: 50px;
+    font-size: 30px;
+}
+
+p{
+    cursor: pointer;
+}
+

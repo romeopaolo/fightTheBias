@@ -14,6 +14,7 @@ var missinginput = false;
 var context;
 var sectionIndex;
 var results;
+var intermediate;
 
 
 //Parse the JSON with the questions when the page is loaded
@@ -39,7 +40,62 @@ $(document).ready(function () {
 
     $(".btn-first-choice").click(function () {
         //TODO: disable sections
-        $('nav a').off('click');
+        //$('nav a').off('click');
+        intermediate=true;
+        $("#0").addClass("active");
+        $('nav a').on('click', function () {
+            if(intermediate==true){
+                $("#intermediate").toggleClass("hide");
+                $("#question-section-body").toggleClass("hide");
+                $("#section").toggleClass("hide");
+                $(".btn-circle").toggleClass("hide");
+                displayThumbnails();
+            }
+            intermediate=false;
+            $("nav a").removeClass("active");
+            $(this).addClass("active");
+            if (results == true) {
+                $("#question-section-body").toggleClass("hide");
+                $("#section").toggleClass("hide");
+                $("#thumbnails").toggleClass("hide");
+                $("#results").toggleClass("hide");
+                $(".btn-circle").toggleClass("hide");
+                results = false;
+            }
+            current_section = this.id;
+            current_question = 1;
+
+            pickQuestion();
+            displayThumbnails();
+            $("#thumbnail1").css('color', '#737373');
+            $("#thumbnail1").css('border-color', '#737373');
+            for (var t = current_question; t <= numberOfQuestions; t++) {
+                if (!isNaN(getWeightFromDataStructure(current_section, t))) {
+                    document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
+                }
+            }
+        });
+        $('#0').off('click');
+        $('#0').on('click',function () {
+            if(intermediate==true){
+                
+            }
+            else{
+                $("nav a").removeClass("active");
+                $(this).addClass("active");
+                intermediate=true;
+                $("#intermediate").toggleClass("hide");
+                $("#question-section-body").toggleClass("hide");
+                $("#section").toggleClass("hide");
+                $("#thumbnails").empty();
+                $("#thumbnails").append('<h1>Introduction:</h1>');
+                $(".btn-circle").toggleClass("hide");
+            }
+        });
+        $("#7").off('click');
+        $("#7").on('click', function () {
+            alertMX("KEEP CALM: You must complete at least one section to consult the results!")
+        });
         context = $(this).text();
         displaySectionsPage();
         console.log(context.toLowerCase())
@@ -49,7 +105,8 @@ $(document).ready(function () {
             console.log(suggweights);
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
-
+            var subtitle='<div id="subtitle"><b>Assign a weight to each section:</b></div>'
+            $("#intermediateintro").append(subtitle);
             for (var j in suggweights) {
                 console.log(j.weight);
                 sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> ' + suggweights[j]["description"] + ' <i>Suggested weight: <b>' + switchcaseOnWeights(suggweights[j]["weight"]) + '</b></i></div>'
@@ -67,7 +124,7 @@ $(document).ready(function () {
                 $("#intermediateintro").append(sect);
             }
             //$("#intermediateintro").append('</div>');
-            $("#intermediateintro").append('<button type="button" class="btn btn-sq btn-second-choice " id="btn-second-choice" onclick="startquestionnaire()"><b>Start the questionnaire!</b></button>');
+            $("#intermediateintro").append('<button type="button" class="btn btn-sq btn-second-choice " id="btn-second-choice" onclick="startquestionnaire()"><b>Save your weights and go to questions</b></button>');
         });
 
         /*
@@ -87,8 +144,11 @@ $(document).ready(function () {
 });
 
 function startquestionnaire() {
+    intermediate=false;
+    
+    $("#0").removeClass("active");
     $("#1").addClass("active");
-    $('nav a').on('click', function () {
+    /*$('nav a').on('click', function () {
         $("nav a").removeClass("active");
         $(this).addClass("active");
         if (results == true) {
@@ -110,11 +170,12 @@ function startquestionnaire() {
                 document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
             }
         }
-    });
-    $("#7").off('click');
+    });*/
+    /*$("#7").off('click');
     $("#7").on('click', function () {
         alertMX("KEEP CALM: You must complete at least one section to consult the results!")
-    });
+    });*/
+
     for (let i = 1; i <= numberOfSections; i++) {
         dataStructure["section" + i] = {};
         dataStructure["section" + i]["weight"] = parseInt($("#section" + i).val());
@@ -157,7 +218,7 @@ function displaySectionsPage() {
     $(".leftbox").toggleClass("hide");
     $("#logo").toggleClass("hide");
     $("#thumbnails").empty();
-    $("#thumbnails").append('<h1>Assign a weight to each section:</h1>');
+    $("#thumbnails").append('<h1>Introduction:</h1>');
     $("#thumbnails").css('color', 'white')
     $("#thumbnails").css('margin-left', '0px')
     //$("#result").toggleClass("hide");
@@ -736,7 +797,7 @@ $("#logo").click(function () {
 $("<style type='text/css'>#boxMX{display:none;background: #333;padding: 10px;border: 2px solid #ddd;float: left;font-size: 1.2em;position: fixed;top: 50%; left: 50%;z-index: 99999;box-shadow: 0px 0px 20px #999; -moz-box-shadow: 0px 0px 20px #999; -webkit-box-shadow: 0px 0px 20px #999; border-radius:6px 6px 6px 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; font:13px Arial, Helvetica, sans-serif; padding:6px 6px 4px;width:300px; color: white;}</style>").appendTo("head");
 
 function alertMX(t) {
-    $("body").append($("<div id='boxMX' align='center'><p class='msgMX'></p><p>Press<br><br><b>OK</b><br><br>to continue.</p></div>"));
+    $("body").append($("<div id='boxMX' align='center'><p class='msgMX'></p><p>Press<br><br><<b>OK</b><br><br>to continue.</p></div>"));
     $('.msgMX').text(t);
     var popMargTop = ($('#boxMX').height() + 24) / 2, popMargLeft = ($('#boxMX').width() + 24) / 2;
     $('#boxMX').css({'margin-top': -popMargTop, 'margin-left': -popMargLeft}).fadeIn(600);
