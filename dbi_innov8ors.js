@@ -176,15 +176,18 @@ function startquestionnaire() {
     });*/
 
     for (let i = 1; i <= numberOfSections; i++) {
-        if(!dataStructure.hasOwnProperty("section" + i)){
+        if (!dataStructure.hasOwnProperty("section" + i)) {
             dataStructure["section" + i] = {};
         }
+
         let newWeight = parseInt($("#section" + i).val());
         if (dataStructure["section" + i].hasOwnProperty("weight")) {
-            if(dataStructure["section" + i].hasOwnProperty("value")){
+            if (dataStructure["section" + i].hasOwnProperty("value")) {
                 let oldWeight = dataStructure["section" + i]["weight"];
-                dataStructure["section" + i]["result"] = dataStructure["section" + i]["result"] / oldWeight * newWeight;
+                let oldResult = dataStructure["section" + i]["result"];
+                dataStructure["section" + i]["result"] = oldResult / oldWeight * newWeight;
             }
+            dataStructure["section" + i]["weight"] = newWeight;
         } else {
             dataStructure["section" + i]["weight"] = newWeight;
         }
