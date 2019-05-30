@@ -1,3 +1,11 @@
+@media (max-width:2000px) {
+    .right{
+        margin-right: 45%;
+    }
+    .left{
+        margin-left: 45%;
+    }
+}
 
 @media (max-width:1300px) {
     .right{
@@ -206,6 +214,15 @@
         margin-top:-100px;
     }
 
+    .swal-overlay {
+        background-color: #cacaca;
+    }
+
+    .swal-button {
+        padding: 7px 19px;
+        background-color: #00A4EF;
+        font-size: 12px;
+    }
 }
 
 

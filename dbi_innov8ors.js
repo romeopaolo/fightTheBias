@@ -18,11 +18,8 @@ var intermediate;
 
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
-
     $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
         sections = json;
-        console.log(sections);
-        console.log(sections.length);
         current_section_name = displayCurrentSection(1);
 
         // count sections TODO: put in a better place
@@ -75,10 +72,9 @@ $(document).ready(function () {
             }
         });
         $('#0').off('click');
-<<<<<<< HEAD
-        $('#0').on('click',function () {
+        $('#0').on('click', function () {
 
-            if (results==true) {
+            if (results == true) {
                 $("#question-section-body").toggleClass("hide");
                 $("#results").toggleClass("hide");
                 $(".btn-circle").toggleClass("hide");
@@ -86,16 +82,8 @@ $(document).ready(function () {
                 $("#thumbnails").toggleClass("hide");
                 results = false;
             }
-            
-            if(intermediate==true){
-                
-=======
-        $('#0').on('click', function () {
-            if (intermediate == true) {
 
->>>>>>> 385f291071d4747f5031a575447623cb10dcbd5b
-            }
-            else {
+            if (intermediate == false) {
                 $("nav a").removeClass("active");
                 $(this).addClass("active");
                 intermediate = true;
@@ -113,17 +101,14 @@ $(document).ready(function () {
         });
         context = $(this).text();
         displaySectionsPage();
-        console.log(context.toLowerCase())
         var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
             suggweights = json;
-            console.log(suggweights);
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
             var subtitle = '<div id="subtitle"><b>Assign a weight to each section:</b></div>'
             $("#intermediateintro").append(subtitle);
             for (var j in suggweights) {
-                console.log(j.weight);
                 sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> ' + suggweights[j]["description"] + ' <i>Suggested weight: <b>' + switchcaseOnWeights(suggweights[j]["weight"]) + '</b></i></div>'
                     + '<div class="col-sm-3">'
                     + '<select id=' + j + ' class="btn btn-block sectionweight">'
@@ -212,15 +197,7 @@ function startquestionnaire() {
     if (checkSectionWeights()) {
         displayThumbnails();
         pickFirstQuestion();
-        $('#logo').off('click');
-        /* TODO: activate sections
-        $('#1').bind('click');
-        $('#2').bind('click');
-        $('#3').bind('click');
-        $('#4').on('click');
-        $('#5').on('click');
-        $('#6').on('click');
-        */
+        //$('#logo').off('click');
     }
     else {
         alertMX("You must choose a weight for each section before proceeding!")
@@ -276,8 +253,6 @@ var changeScenario = function () {
 
 //Pick the current question
 var pickQuestion = function () {
-    console.log("curr sec: " + current_section);
-    console.log("curr q: " + current_question);
     $(".btn.thumbnail").css('color', 'white');
     $(".btn.thumbnail").css('border-color', 'white');
     $("#thumbnail" + current_question).css('color', '#737373');
@@ -336,11 +311,11 @@ var loadNextQuestion = function () {
             if (getCompleteSections().length > 0) {
                 $('#7').off('click');
                 $('#7').on('click', function () {
-                    if(intermediate==true){
+                    if (intermediate == true) {
                         $("#intermediate").toggleClass("hide");
                         $("#question-section-body").toggleClass("hide");
                         $("#section").toggleClass("hide");
-                        intermediate=false;
+                        intermediate = false;
                     }
                     $("nav a").removeClass("active");
                     $(this).addClass("active");
@@ -358,13 +333,13 @@ var loadNextQuestion = function () {
                 // show results
                 loadResults();
                 $('#7').off('click');
-                
+
                 $("#7").on('click', function () {
-                    if(intermediate==true){
+                    if (intermediate == true) {
                         $("#intermediate").toggleClass("hide");
                         $("#question-section-body").toggleClass("hide");
                         $("#section").toggleClass("hide");
-                        intermediate=false;
+                        intermediate = false;
                     }
                     $("nav a").removeClass("active");
                     $(this).addClass("active");
@@ -518,7 +493,7 @@ var loadQuestion = function () {
 };
 
 function loadResults() {
-    $("#resultspanel").empty()
+    $("#resultspanel").empty();
     if (results != true) {
         $("#question-section-body").toggleClass("hide");
         $("#section").toggleClass("hide");
@@ -586,8 +561,6 @@ function loadResults() {
     $("#resultspanel").append(elem);
 
     // render graphs
-    console.log(dataStructure);
-    console.log(extractOverallData());
     showBarGraph("sectionsBar", extractOverallData());
     showDonutGraph("sectionsDonut", extractOverallWeights());
 
@@ -827,17 +800,58 @@ function displayCurrentSection(value) {
 }
 
 $("#logo").click(function () {
-    $("#first-choice").toggleClass("hide");
-    $(".leftbox").toggleClass("hide");
-    $("#logo").toggleClass("hide");
-    $("#question-section").toggleClass("hide");
-    $("#intermediate").toggleClass("hide");
+    swal("Are you sure you want to go back to the choice of the context? You will lose your data.", {
+        buttons: {
+            home: {
+                text: "Home"
+            },
+            stay: {
+                text: "Stay"
+            },
+        },
+    }).then((value) => {
+        switch (value) {
+            case "home":
+                $("#first-choice").toggleClass("hide");
+                $(".leftbox").toggleClass("hide");
+                $("#logo").toggleClass("hide");
+                $("#question-section").toggleClass("hide");
+                $("#intermediate").toggleClass("hide");
 
+                // reset the data structure
+                dataStructure = {};
+                break;
+            case "stay":
+                break;
+            default:
+        }
+    });
+    /*
+        if (confirm('Are you sure you want to go back to the choice of the context? You will lose your data.')) {
+            $("#first-choice").toggleClass("hide");
+            $(".leftbox").toggleClass("hide");
+            $("#logo").toggleClass("hide");
+            $("#question-section").toggleClass("hide");
+            $("#intermediate").toggleClass("hide");
+
+            // reset the data structure
+            dataStructure = {};
+        } else {
+            // Do nothing!
+        }
+        */
 });
 
 $("<style type='text/css'>#boxMX{display:none;background: #333;padding: 10px;border: 2px solid #ddd;float: left;font-size: 1.2em;position: fixed;top: 50%; left: 50%;z-index: 99999;box-shadow: 0px 0px 20px #999; -moz-box-shadow: 0px 0px 20px #999; -webkit-box-shadow: 0px 0px 20px #999; border-radius:6px 6px 6px 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; font:13px Arial, Helvetica, sans-serif; padding:6px 6px 4px;width:300px; color: white;}</style>").appendTo("head");
 
 function alertMX(t) {
+    swal(t, {
+        buttons: {
+            confirm: true
+        }
+    });
+
+    /*
     $("body").append($("<div id='boxMX' align='center'><p class='msgMX'></p><p>Press<br><br><<b>OK</b><br><br>to continue.</p></div>"));
     $('.msgMX').text(t);
     var popMargTop = ($('#boxMX').height() + 24) / 2, popMargLeft = ($('#boxMX').width() + 24) / 2;
@@ -845,6 +859,7 @@ function alertMX(t) {
     $("#boxMX").click(function () {
         $(this).remove();
     });
+    */
 }
 
 // show charts
