@@ -40,17 +40,17 @@ $(document).ready(function () {
     $(".btn-first-choice").click(function () {
         //TODO: disable sections
         //$('nav a').off('click');
-        intermediate=true;
+        intermediate = true;
         $("#0").addClass("active");
         $('nav a').on('click', function () {
-            if(intermediate==true){
+            if (intermediate == true) {
                 $("#intermediate").toggleClass("hide");
                 $("#question-section-body").toggleClass("hide");
                 $("#section").toggleClass("hide");
                 $(".btn-circle").toggleClass("hide");
                 displayThumbnails();
             }
-            intermediate=false;
+            intermediate = false;
             $("nav a").removeClass("active");
             $(this).addClass("active");
             if (results == true) {
@@ -75,14 +75,14 @@ $(document).ready(function () {
             }
         });
         $('#0').off('click');
-        $('#0').on('click',function () {
-            if(intermediate==true){
-                
+        $('#0').on('click', function () {
+            if (intermediate == true) {
+
             }
-            else{
+            else {
                 $("nav a").removeClass("active");
                 $(this).addClass("active");
-                intermediate=true;
+                intermediate = true;
                 $("#intermediate").toggleClass("hide");
                 $("#question-section-body").toggleClass("hide");
                 $("#section").toggleClass("hide");
@@ -104,7 +104,7 @@ $(document).ready(function () {
             console.log(suggweights);
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
-            var subtitle='<div id="subtitle"><b>Assign a weight to each section:</b></div>'
+            var subtitle = '<div id="subtitle"><b>Assign a weight to each section:</b></div>'
             $("#intermediateintro").append(subtitle);
             for (var j in suggweights) {
                 console.log(j.weight);
@@ -143,8 +143,8 @@ $(document).ready(function () {
 });
 
 function startquestionnaire() {
-    intermediate=false;
-    
+    intermediate = false;
+
     $("#0").removeClass("active");
     $("#1").addClass("active");
     /*$('nav a').on('click', function () {
@@ -177,7 +177,15 @@ function startquestionnaire() {
 
     for (let i = 1; i <= numberOfSections; i++) {
         dataStructure["section" + i] = {};
-        dataStructure["section" + i]["weight"] = parseInt($("#section" + i).val());
+        let newWeight = parseInt($("#section" + i).val());
+        if (dataStructure["section" + i].hasOwnProperty("weight")) {
+            if(dataStructure["section" + i].hasOwnProperty("value")){
+                let oldWeight = dataStructure["section" + i]["weight"];
+                dataStructure["section" + i]["result"] = dataStructure["section" + i]["result"] / oldWeight * newWeight;
+            }
+        } else {
+            dataStructure["section" + i]["weight"] = newWeight;
+        }
     }
 
     if (checkSectionWeights()) {
