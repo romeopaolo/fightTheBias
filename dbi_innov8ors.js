@@ -16,7 +16,6 @@ var sectionIndex;
 var results;
 var intermediate;
 
-
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
 
@@ -41,17 +40,17 @@ $(document).ready(function () {
     $(".btn-first-choice").click(function () {
         //TODO: disable sections
         //$('nav a').off('click');
-        intermediate=true;
+        intermediate = true;
         $("#0").addClass("active");
         $('nav a').on('click', function () {
-            if(intermediate==true){
+            if (intermediate == true) {
                 $("#intermediate").toggleClass("hide");
                 $("#question-section-body").toggleClass("hide");
                 $("#section").toggleClass("hide");
                 $(".btn-circle").toggleClass("hide");
                 displayThumbnails();
             }
-            intermediate=false;
+            intermediate = false;
             $("nav a").removeClass("active");
             $(this).addClass("active");
             if (results == true) {
@@ -76,6 +75,7 @@ $(document).ready(function () {
             }
         });
         $('#0').off('click');
+<<<<<<< HEAD
         $('#0').on('click',function () {
 
             if (results==true) {
@@ -89,11 +89,16 @@ $(document).ready(function () {
             
             if(intermediate==true){
                 
+=======
+        $('#0').on('click', function () {
+            if (intermediate == true) {
+
+>>>>>>> 385f291071d4747f5031a575447623cb10dcbd5b
             }
-            else{
+            else {
                 $("nav a").removeClass("active");
                 $(this).addClass("active");
-                intermediate=true;
+                intermediate = true;
                 $("#intermediate").toggleClass("hide");
                 $("#question-section-body").toggleClass("hide");
                 $("#section").toggleClass("hide");
@@ -115,7 +120,7 @@ $(document).ready(function () {
             console.log(suggweights);
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
-            var subtitle='<div id="subtitle"><b>Assign a weight to each section:</b></div>'
+            var subtitle = '<div id="subtitle"><b>Assign a weight to each section:</b></div>'
             $("#intermediateintro").append(subtitle);
             for (var j in suggweights) {
                 console.log(j.weight);
@@ -154,8 +159,8 @@ $(document).ready(function () {
 });
 
 function startquestionnaire() {
-    intermediate=false;
-    
+    intermediate = false;
+
     $("#0").removeClass("active");
     $("#1").addClass("active");
     /*$('nav a').on('click', function () {
@@ -187,8 +192,21 @@ function startquestionnaire() {
     });*/
 
     for (let i = 1; i <= numberOfSections; i++) {
-        dataStructure["section" + i] = {};
-        dataStructure["section" + i]["weight"] = parseInt($("#section" + i).val());
+        if (!dataStructure.hasOwnProperty("section" + i)) {
+            dataStructure["section" + i] = {};
+        }
+
+        let newWeight = parseInt($("#section" + i).val());
+        if (dataStructure["section" + i].hasOwnProperty("weight")) {
+            if (dataStructure["section" + i].hasOwnProperty("value")) {
+                let oldWeight = dataStructure["section" + i]["weight"];
+                let oldResult = dataStructure["section" + i]["result"];
+                dataStructure["section" + i]["result"] = oldResult / oldWeight * newWeight;
+            }
+            dataStructure["section" + i]["weight"] = newWeight;
+        } else {
+            dataStructure["section" + i]["weight"] = newWeight;
+        }
     }
 
     if (checkSectionWeights()) {
@@ -1042,3 +1060,21 @@ function getCompleteSections() {
     }
     return arr;
 }
+
+/*
+function downloadData() {
+    const fs = require('fs');
+    var jsonObj = JSON.parse(dataStructure);
+    console.log(jsonObj);
+    var jsonContent = JSON.stringify(jsonObj);
+    console.log(jsonContent);
+    fs.writeFile("fightTheBias.json", jsonContent, 'utf8', function (err) {
+        if(err) {
+            console.log("An error occurred while downloading the file.");
+            return console.log(err);
+        }
+    });
+
+    console.log("Download completed")
+}
+*/
