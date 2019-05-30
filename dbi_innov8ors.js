@@ -176,7 +176,9 @@ function startquestionnaire() {
     });*/
 
     for (let i = 1; i <= numberOfSections; i++) {
-        dataStructure["section" + i] = {};
+        if(!dataStructure.hasOwnProperty("section" + i)){
+            dataStructure["section" + i] = {};
+        }
         let newWeight = parseInt($("#section" + i).val());
         if (dataStructure["section" + i].hasOwnProperty("weight")) {
             if(dataStructure["section" + i].hasOwnProperty("value")){
