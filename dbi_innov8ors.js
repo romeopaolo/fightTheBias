@@ -60,7 +60,7 @@ $(document).ready(function () {
             }
             current_section = this.id;
             current_question = 1;
-
+            
             pickQuestion();
             displayThumbnails();
             $("#thumbnail1").css('color', '#737373');
@@ -97,7 +97,7 @@ $(document).ready(function () {
         });
         $("#7").off('click');
         $("#7").on('click', function () {
-            alertMX("KEEP CALM: You must complete at least one section to consult the results!")
+            alertMX("You must complete at least one section to consult the results!")
         });
         context = $(this).text();
         displaySectionsPage();
@@ -812,12 +812,35 @@ $("#logo").click(function () {
     }).then((value) => {
         switch (value) {
             case "home":
-                $("#first-choice").toggleClass("hide");
-                $(".leftbox").toggleClass("hide");
-                $("#logo").toggleClass("hide");
-                $("#question-section").toggleClass("hide");
-                $("#intermediate").toggleClass("hide");
-
+                if(intermediate==true){
+                    $("#first-choice").toggleClass("hide");
+                    $(".leftbox").toggleClass("hide");
+                    $("#logo").toggleClass("hide");
+                    $("#question-section").toggleClass("hide");
+                    $("#intermediate").toggleClass("hide");
+                    $("#0").removeClass("active");
+                    intermediate=false;
+                }
+                else if(results==true){
+                    $("#first-choice").toggleClass("hide");
+                    $(".leftbox").toggleClass("hide");
+                    $("#logo").toggleClass("hide");
+                    $("#question-section").toggleClass("hide");
+                    $("#thumbnails").toggleClass("hide");
+                    $("#results").toggleClass("hide");
+                    $("#7").removeClass("active");
+                    results=false;
+                }
+                else{
+                    $("#first-choice").toggleClass("hide");
+                    $(".leftbox").toggleClass("hide");
+                    $("#logo").toggleClass("hide");
+                    $("#question-section-body").toggleClass("hide");
+                    $("#question-section").toggleClass("hide");
+                    $("#section").toggleClass("hide");
+                    $(".btn-circle").toggleClass("hide");
+                    $("nav a").removeClass("active");
+                }
                 // reset the data structure
                 dataStructure = {};
                 break;
