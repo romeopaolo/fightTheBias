@@ -22,7 +22,7 @@ $(document).ready(function () {
         sections = json;
         current_section_name = displayCurrentSection(1);
 
-        // count sections TODO: put in a better place
+        // count sections
         var stop = false;
         numberOfSections = 0;
         while (!stop) {
@@ -35,12 +35,10 @@ $(document).ready(function () {
     });
 
     $(".btn-first-choice").click(function () {
-        //TODO: disable sections
-        //$('nav a').off('click');
         intermediate = true;
         $("#0").addClass("active");
         $('nav a').on('click', function () {
-            $(".leftbox").css('height','auto');
+            $(".leftbox").css('height', 'auto');
             if (intermediate == true) {
                 $("#intermediate").toggleClass("hide");
                 $("#question-section-body").toggleClass("hide");
@@ -74,7 +72,7 @@ $(document).ready(function () {
         });
         $('#0').off('click');
         $('#0').on('click', function () {
-            $(".leftbox").css('height','auto');
+            $(".leftbox").css('height', 'auto');
             if (results == true) {
                 $("#question-section-body").toggleClass("hide");
                 $("#results").toggleClass("hide");
@@ -98,7 +96,7 @@ $(document).ready(function () {
         });
         $("#7").off('click');
         $("#7").on('click', function () {
-            alertMX("You must fullfill the introduction section and complete at least one section to consult the results!")
+            customizedAlert("You must fulfill the introduction section and complete at least one section to consult the results!")
         });
         context = $(this).text();
         displaySectionsPage();
@@ -162,20 +160,23 @@ function startquestionnaire() {
             dataStructure["section" + i] = {};
         }
 
-        // update the weights
+        // check if to update the results
         let newWeight = parseInt($("#section" + i).val());
-        if (dataStructure["section" + i].hasOwnProperty("value")) {
-            let oldWeight = dataStructure["section" + i]["weight"];
-            let oldResult = dataStructure["section" + i]["result"];
+        if (dataStructure["section" + i].hasOwnProperty("result")) {
+            let oldWeight = parseInt(dataStructure["section" + i]["weight"]);
+            let oldResult = parseFloat(dataStructure["section" + i]["result"]);
             dataStructure["section" + i]["result"] = oldResult / oldWeight * newWeight;
         }
+
+        // update the weights
         dataStructure["section" + i]["weight"] = newWeight;
 
         // check if to calculate the result
-        if (countQuestions("section" + i) === countAnswers(dataStructure["section" + i])) {
+        //if (countQuestions("section" + i) === countAnswers(dataStructure["section" + i])) {
+        if (dataStructure["section" + i].hasOwnProperty("value") && !dataStructure["section" + i].hasOwnProperty("result")) {
             let val = evaluateSection("section" + i);
-            dataStructure[sectionIndex]["value"] = val;
-            dataStructure[sectionIndex]["result"] = val * newWeight;
+            dataStructure["section" + i]["value"] = val;
+            dataStructure["section" + i]["result"] = val * newWeight;
             $("#7").off('click');
             $("#7").on('click', function () {
                 if (intermediate == true) {
@@ -198,7 +199,7 @@ function startquestionnaire() {
         pickFirstQuestion();
     }
     else {
-        alertMX("You must choose a weight for each section before proceeding!")
+        customizedAlert("You must choose a weight for each section before proceeding!")
     }
 }
 
@@ -314,7 +315,7 @@ var loadNextQuestion = function () {
                     $(this).addClass("active");
                     current_section = this.id;
                     loadResults()
-                    $(".leftbox").css('height','220%');
+                    $(".leftbox").css('height', '220%');
                 });
             }
 
@@ -325,7 +326,7 @@ var loadNextQuestion = function () {
             // if this is the last section
             if (current_section > numberOfSections) {
                 // show results
-                $(".leftbox").css('height','220%');
+                $(".leftbox").css('height', '220%');
                 loadResults();
                 $('#7').off('click');
                 $("#7").on('click', function () {
@@ -339,7 +340,7 @@ var loadNextQuestion = function () {
                     $(this).addClass("active");
                     current_section = this.id;
                     loadResults();
-                    $(".leftbox").css('height','240%');
+                    $(".leftbox").css('height', '240%');
                 });
             } else {
                 // load the first question of the new section
@@ -361,7 +362,7 @@ var loadNextQuestion = function () {
         // if the previous question was the last of the current section
         if (current_question > numberOfQuestions) {
             // show an alert, you must provide all the answers to go to the next section. Stay in the current question
-            alertMX("You must answer all the questions in this section before leaving it. Be sure you submitted all the previous answers.");
+            customizedAlert("You must answer all the questions in this section before leaving it. Be sure you submitted all the previous answers.");
             current_question--;
         } else {
             // load the next question
@@ -388,10 +389,6 @@ function countAnswers(sec) {
     return count;
 }
 
-
-/**
- * TODO:
- */
 var loadQuestion = function () {
 
     var sectiondiv = "";
@@ -524,7 +521,7 @@ function loadResults() {
         '   <div class="col-sm-6">' +
         '       <h4 id="firstdonut">Weights of the sections:</h4><br>' +
         '       <div class="donut-container" id="sectionsDonut"></div>' +
-        '   </div><hr>' + // TODO: metterei una linea (<hr>) tra le sezioni, ma non si vede
+        '   </div><hr>' +
         '</div>';
 
     // open row div
@@ -569,7 +566,7 @@ function evaluateVariable(arr) {
     //average computation
     var sum = 0;
     for (var i = 0; i < n; i++) {
-        sum = parseInt(arr[i]) + sum;
+        sum = parseFloat(arr[i]) + sum;
     }
     var average = sum / n;
 
@@ -602,16 +599,16 @@ function evaluateVariable(arr) {
  * @returns {number} a measure of the quality of the section. The higher the better.
  */
 function evaluateSection(secName) {
-    var res = 0;
-    var weights = 0;
-    var secData = dataStructure[secName];
+    let res = 0;
+    let weights = 0;
+    let secData = dataStructure[secName];
 
     // collect data
-    for (var i = 1; i <= numberOfQuestions; i++) {
+    for (let i = 1; i <= numberOfQuestions; i++) {
         if (secData.hasOwnProperty("question" + i)) {
             if (secData["question" + i].hasOwnProperty("result")) {
                 if (secData["question" + i].hasOwnProperty("weight")) {
-                    res = res + parseInt(secData["question" + i]["result"]);
+                    res = res + parseFloat(secData["question" + i]["result"]);
                     weights = weights + parseInt(secData["question" + i]["weight"])
                 }
             }
@@ -692,7 +689,21 @@ $("#submit").click(function () {
         if (!question.boolean) {
             dataStructure[sectionIndex][questionIndex]["result"] = evaluateVariable(value) * weight;
         } else {
-            dataStructure[sectionIndex][questionIndex]["result"] = value * weight;
+            // check to detect the questions with reverse meaning
+            let realValue = value;
+            if (sections.hasOwnProperty(sectionIndex)) {
+                if (sections[sectionIndex].hasOwnProperty(questionIndex)) {
+                    if (sections[sectionIndex][questionIndex].hasOwnProperty("reverse")) {
+                        if (realValue === 1) {
+                            realValue = 0;
+                        } else {
+                            realValue = 1;
+                        }
+                    }
+                }
+            }
+
+            dataStructure[sectionIndex][questionIndex]["result"] = realValue * weight;
         }
 
         document.getElementById("thumbnail" + current_question).innerHTML = "Q" + current_question + " ~ " + switchcaseOnWeights($("#weight").val());
@@ -701,7 +712,7 @@ $("#submit").click(function () {
         weight = null;
     }
     else {
-        alertMX("Missing weight or input class!");
+        customizedAlert("Missing weight or input!");
         missinginput = false;
     }
 });
@@ -712,22 +723,8 @@ function readBooleanInput() {
 
     if (input == undefined) {
         missinginput = true;
-    } else {
-        // check to detect the questions with reverse meaning
-        if (sections.hasOwnProperty("section" + current_section)) {
-            if (sections["section" + current_section].hasOwnProperty("question" + current_question)) {
-                if (sections["section" + current_section]["question" + current_question].hasOwnProperty("reverse")) {
-                    if (parseInt(input) === 1) {
-                        input = 0;
-                    } else if (parseInt(input) === 0) {
-                        input = 1;
-                    }
-                }
-            }
-        }
     }
-
-    return input;
+    return parseInt(input);
 }
 
 function readMultipleInput() {
@@ -793,7 +790,7 @@ function displayCurrentSection(value) {
 }
 
 $("#logo").click(function () {
-    $(".leftbox").css('height','auto');
+    $(".leftbox").css('height', 'auto');
     swal("Are you sure you want to go back to the choice of the context? You will lose your data.", {
         buttons: {
             home: {
@@ -843,40 +840,16 @@ $("#logo").click(function () {
             default:
         }
     });
-    /*
-        if (confirm('Are you sure you want to go back to the choice of the context? You will lose your data.')) {
-            $("#first-choice").toggleClass("hide");
-            $(".leftbox").toggleClass("hide");
-            $("#logo").toggleClass("hide");
-            $("#question-section").toggleClass("hide");
-            $("#intermediate").toggleClass("hide");
-
-            // reset the data structure
-            dataStructure = {};
-        } else {
-            // Do nothing!
-        }
-        */
 });
 
-$("<style type='text/css'>#boxMX{display:none;background: #333;padding: 10px;border: 2px solid #ddd;float: left;font-size: 1.2em;position: fixed;top: 50%; left: 50%;z-index: 99999;box-shadow: 0px 0px 20px #999; -moz-box-shadow: 0px 0px 20px #999; -webkit-box-shadow: 0px 0px 20px #999; border-radius:6px 6px 6px 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; font:13px Arial, Helvetica, sans-serif; padding:6px 6px 4px;width:300px; color: white;}</style>").appendTo("head");
+//$("<style type='text/css'>#boxMX{display:none;background: #333;padding: 10px;border: 2px solid #ddd;float: left;font-size: 1.2em;position: fixed;top: 50%; left: 50%;z-index: 99999;box-shadow: 0px 0px 20px #999; -moz-box-shadow: 0px 0px 20px #999; -webkit-box-shadow: 0px 0px 20px #999; border-radius:6px 6px 6px 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; font:13px Arial, Helvetica, sans-serif; padding:6px 6px 4px;width:300px; color: white;}</style>").appendTo("head");
 
-function alertMX(t) {
+function customizedAlert(t) {
     swal(t, {
         buttons: {
             confirm: true
         }
     });
-
-    /*
-    $("body").append($("<div id='boxMX' align='center'><p class='msgMX'></p><p>Press<br><br><<b>OK</b><br><br>to continue.</p></div>"));
-    $('.msgMX').text(t);
-    var popMargTop = ($('#boxMX').height() + 24) / 2, popMargLeft = ($('#boxMX').width() + 24) / 2;
-    $('#boxMX').css({'margin-top': -popMargTop, 'margin-left': -popMargLeft}).fadeIn(600);
-    $("#boxMX").click(function () {
-        $(this).remove();
-    });
-    */
 }
 
 // show charts
@@ -972,8 +945,7 @@ function extractOverallData() {
     return data;
 }
 
-// TODO: change "result" to "value" to prevent the multiplication for the weight
-// Get the result of a section in the proper way to fill a bar graph
+// Get the quality of a section in the proper way to fill a bar graph
 function getOverallResultForBar(section) {
     let obj = {};
     if (dataStructure.hasOwnProperty("section" + section)) {
@@ -1028,19 +1000,18 @@ function getWeightFromDataStructure(section, question) {
     if (dataStructure.hasOwnProperty("section" + section)) {
         if (dataStructure["section" + section].hasOwnProperty("question" + question)) {
             if (dataStructure["section" + section]["question" + question].hasOwnProperty("weight")) {
-                return dataStructure["section" + section]["question" + question]["weight"]
+                return parseInt(dataStructure["section" + section]["question" + question]["weight"])
             }
         }
     }
     return NaN
 }
 
-// TODO: delete if not useful
 function getResultFromDataStructure(section, question) {
     if (dataStructure.hasOwnProperty("section" + section)) {
         if (dataStructure["section" + section].hasOwnProperty("question" + question)) {
             if (dataStructure["section" + section]["question" + question].hasOwnProperty("result")) {
-                return dataStructure["section" + section]["question" + question]["result"]
+                return parseFloat(dataStructure["section" + section]["question" + question]["result"])
             }
         }
     }
@@ -1055,7 +1026,7 @@ function getSectionWeightsForDonut(section) {
 
     if (dataStructure.hasOwnProperty("section" + section)) {
         while (flag) {
-            if (dataStructure["section" + section].hasOwnProperty("question" + i)) { // TODO: check the condition
+            if (dataStructure["section" + section].hasOwnProperty("question" + i)) {
                 arr.push({
                     "quantity": dataStructure["section" + section]["question" + i]["weight"],
                     "name": ("Q" + i)
