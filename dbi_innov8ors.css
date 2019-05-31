@@ -5,105 +5,113 @@ html, body {
 
 body {
     font-family: 'SegoeUI', sans-serif;
-    color:#737373;
+    color: #737373;
 }
 
 .card-full {
     width: 100%;
 }
 
-.container-fluid{
+.container-fluid {
     padding-right: 0px;
     padding-left: 91px;
-    
+
 }
-#question-section{
+
+#question-section {
     height: 91px;
     text-align: center;
     background-color: #00a1f1;
     border-width: 0px;
 }
 
-#question-section-body{
+#question-section-body {
     border-width: 0px;
     border-top-width: 1px;
 }
 
-#section{
-    margin-top:40px;
-    margin-left:22px;
+#section {
+    margin-top: 40px;
+    margin-left: 22px;
     border-width: 0px;
 }
 
-#title{
+#title {
     font-size: 50px;
     margin-bottom: 10px;
 }
 
-.btn.btn-first-choice{
+.btn.btn-first-choice {
     border-radius: 0%;
-    color:white;
+    color: white;
     margin-top: 30px;
-    margin-bottom:30px;
-    width:200px;
-    height:90%;
+    margin-bottom: 30px;
+    width: 200px;
+    height: 90%;
 }
 
-.row{
+.row {
     height: 200px;
 }
 
-#intermediate{
+#intermediate {
     border-width: 0px;
-    margin-top:-20px;
+    margin-top: -20px;
 }
 
-.row.sections{
+.row.sections {
     height: 85px;
 }
 
-.row.d-flex{
+.row.d-flex {
     height: 150px;
 }
 
-#leftup{
+#leftup {
     background-color: #f65314;
     border-color: white;
     border-width: 2px;
 }
+
 #leftup:hover {
     background-color: white;
     color: #f65314;
     border-color: #f65314;
     border-width: 2px;
 }
-#leftdown{
+
+#leftdown {
     background-color: #00a1f1;
     border-color: white;
     border-width: 2px;
 }
+
 #leftdown:hover {
     background-color: white;
     color: #00a1f1;
     border-color: #00a1f1;
     border-width: 2px;
 }
-#rightup{
+
+#rightup {
     background-color: #7cbb00;
     border-color: white;
     border-width: 2px;
 }
+
 #rightup:hover {
     background-color: white;
     color: #7cbb00;
     border-color: #7cbb00;
     border-width: 2px;
 }
-#rightdown{
+
+#rightdown {
     background-color: #ffbb00;
     border-color: white;
     border-width: 2px;
 }
+
 #rightdown:hover {
     background-color: white;
     color: #ffbb00;
@@ -114,83 +122,85 @@ body {
 .card {
     border-radius: 0px;
 }
-.btn.thumbnail:hover{
+
+.btn.thumbnail:hover {
     color: #737373;
-    border-color:#737373;
-    border-radius: 10%;
-}
-.btn.thumbnail{
-    border-color:white;
-    border-width: 2px;
-    color:white;
+    border-color: #737373;
     border-radius: 10%;
 }
 
-.btn.btn-sq.btn-second-choice{
+.btn.thumbnail {
+    border-color: white;
+    border-width: 2px;
+    color: white;
+    border-radius: 10%;
+}
+
+.btn.btn-sq.btn-second-choice {
     background-color: #00a1f1;
-    color:white;
+    color: white;
     float: right;
 }
 
-.btn.btn-block.sectionweight{
+.btn.btn-block.sectionweight {
     background-color: #00a1f1;
-    color:white;
-   
-    height:40px;
+    color: white;
+
+    height: 40px;
 
 }
 
-.btn.btn-block.suggweight{
-    color:white;
+.btn.btn-block.suggweight {
+    color: white;
     border-radius: 3%;
-    height:140px;
+    height: 140px;
     width: 60%;
 }
 
-.btn.btn-block.weight{
-    color:white;
-    margin-top:12px;
-    height:40px;
+.btn.btn-block.weight {
+    color: white;
+    margin-top: 12px;
+    height: 40px;
     width: 66%;
-    margin-left:36%;
+    margin-left: 36%;
 }
 
-.btn.btn-block.suggweight.gender{
+.btn.btn-block.suggweight.gender {
     background-color: #00a1f1;
 }
 
-.btn.btn-block.weight.gender{
+.btn.btn-block.weight.gender {
     background-color: #00a1f1;
 
 }
 
-.btn.btn-block.suggweight.healthcare{
+.btn.btn-block.suggweight.healthcare {
     background-color: #00a1f1;
 }
 
-.btn.btn-block.weight.healthcare{
+.btn.btn-block.weight.healthcare {
     background-color: #00a1f1;
 }
 
-.btn.btn-block.suggweight.automotive{
+.btn.btn-block.suggweight.automotive {
     background-color: #00a1f1;
 }
 
-.btn.btn-block.weight.automotive{
+.btn.btn-block.weight.automotive {
     background-color: #00a1f1;
 }
 
-.btn.btn-block.suggweight.education{
+.btn.btn-block.suggweight.education {
     background-color: #00a1f1;
 }
 
-.btn.btn-block.weight.education{
+.btn.btn-block.weight.education {
     background-color: #00a1f1;
 }
 
 .btn-circle {
-    background-color:#00a1f1;
-    border-color:white;
+    background-color: #00a1f1;
+    border-color: white;
     width: 50px;
     height: 50px;
     text-align: center;
@@ -198,10 +208,11 @@ body {
     line-height: 1.5;
     box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.24)
 }
+
 .btn-circle:hover {
-    color:#737373;
-    border-color:#737373;
-    background-color:#00a1f1;
+    color: #737373;
+    border-color: #737373;
+    background-color: #00a1f1;
 }
 
 .btn-circle.btn-xl {
@@ -238,56 +249,57 @@ body {
 }
 
 .radio-toolbar input[type=radio] + label {
-    margin:2%;
+    margin: 2%;
     height: 33px;
     width: 38px;
     text-align: center;
     vertical-align: center;
-    color:white;
+    color: white;
     background: #00a1f1;
     border-radius: 10%;
-    padding:5px 5px;
-} 
-.radio-toolbar input[type=radio]:checked + label {
-   border-width: 5px;
-   color:#737373;
-   height: 35px;
-   width: 45px;
-} 
+    padding: 5px 5px;
+}
 
-.inputbox{
+.radio-toolbar input[type=radio]:checked + label {
+    border-width: 5px;
+    color: #737373;
+    height: 35px;
+    width: 45px;
+}
+
+.inputbox {
     margin: 5px;
     border-radius: 3%;
 }
 
-.inputbox.healthcare{
+.inputbox.healthcare {
     text-align: center;
     border-width: 1px;
-    color:#00a1f1;
+    color: #00a1f1;
     border-radius: 5px 5px 5px 5px;
 }
 
-.inputbox.automotive{
+.inputbox.automotive {
     text-align: center;
     border-width: 1px;
-    color:#ffbb00;
+    color: #ffbb00;
     border-radius: 5px 5px 5px 5px;
 }
 
-.inputbox.education{
+.inputbox.education {
     text-align: center;
     border-width: 1px;
-    color:#f65314;
+    color: #f65314;
     border-radius: 5px 5px 5px 5px;
 }
 
-.inputbox.gender{
+.inputbox.gender {
     text-align: center;
     border-width: 1px;
-    color:#7cbb00;
+    color: #7cbb00;
     border-radius: 5px 5px 5px 5px;
 }
-  
+
 nav a {
     list-style: none;
     padding-right: 35px;
@@ -299,16 +311,17 @@ nav a {
     display: block;
     transition: all .3s ease-in-out;
 }
-    
+
 nav a :hover {
-      color: #737373;
-      transform: scale(1.2);
-      cursor: pointer;
+    color: #737373;
+    transform: scale(1.2);
+    cursor: pointer;
 }
+
 nav a :first-child {
-      margin-top: 7px;
+    margin-top: 7px;
 }
-  
+
 .leftbox nav .active {
     color: #737373;
 }
@@ -317,61 +330,75 @@ nav a :first-child {
     float: left;
     top: -5%;
     left: 5%;
-    color:white;
+    color: white;
     border-radius: 0%;
     background: #00a1f1;
     box-shadow: 3px 3px 10px rgba(gray, .5);
     height: auto;
 }
 
-#logo{
-    position: absolute;   
+#logo {
+    position: absolute;
     height: 91px;
     width: 91px;
 }
 
-li{
-    margin-top:-3px;
+li {
+    margin-top: -3px;
 }
 
-.col-sm-4{
-    margin-top:80px;
-}
-#impact{
-    margin-top:160px;
-    margin-bottom:-80px;
-}
-#results{
-border-width: 0px;
+.col-sm-4 {
+    margin-top: 80px;
 }
 
-#firstdonut{
-    margin-bottom:-50px;
+#impact {
+    margin-top: 160px;
+    margin-bottom: -80px;
 }
 
-#firstbar{
+#results {
+    border-width: 0px;
+}
+
+#firstdonut {
+    margin-bottom: -50px;
+}
+
+#firstbar {
     padding-left: 100px;
 }
-#firstdonut{
-    padding-left: 20px;
-}
-#otherdonout{
-    padding-left: 20px;
-    margin-top:50px;
-    margin-bottom:-20px;
-}
 
-#sectionquality{
+#firstdonut {
     padding-left: 20px;
 }
 
-#subtitle{
+#otherdonout {
+    padding-left: 20px;
+    margin-top: 50px;
+    margin-bottom: -20px;
+}
+
+#sectionquality {
+    padding-left: 20px;
+}
+
+#subtitle {
 
     margin-bottom: 50px;
     font-size: 30px;
 }
 
-p{
+p {
     cursor: pointer;
+}
+
+.swal-overlay {
+    background-color: #cacaca;
+}
+
+.swal-button {
+    padding: 7px 19px;
+    background-color: #00A4EF;
+    font-size: 12px;
 }
 

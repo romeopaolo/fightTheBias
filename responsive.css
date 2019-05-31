@@ -213,16 +213,6 @@
     #microsoft{
         margin-top:-100px;
     }
-
-    .swal-overlay {
-        background-color: #cacaca;
-    }
-
-    .swal-button {
-        padding: 7px 19px;
-        background-color: #00A4EF;
-        font-size: 12px;
-    }
 }
 
 
