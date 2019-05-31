@@ -81,7 +81,6 @@ $(document).ready(function () {
                 $("#thumbnails").toggleClass("hide");
                 results = false;
             }
-
             if (intermediate == false) {
                 $("nav a").removeClass("active");
                 $(this).addClass("active");
@@ -183,8 +182,11 @@ function startquestionnaire() {
                     $("#intermediate").toggleClass("hide");
                     $("#question-section-body").toggleClass("hide");
                     $("#section").toggleClass("hide");
+                    $(".btn-circle").toggleClass("hide");
                     intermediate = false;
+                    //$("#btn-circle").toggleClass("hide");
                 }
+                $(".leftbox").css('height', '220%');
                 $("nav a").removeClass("active");
                 $(this).addClass("active");
                 current_section = this.id;
@@ -197,6 +199,12 @@ function startquestionnaire() {
     if (checkSectionWeights()) {
         displayThumbnails();
         pickFirstQuestion();
+        for (var t = current_question; t <= numberOfQuestions; t++) {
+            if (!isNaN(getWeightFromDataStructure(current_section, t))) {
+                document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
+            }
+        }
+        
     }
     else {
         customizedAlert("You must choose a weight for each section before proceeding!")
@@ -309,8 +317,10 @@ var loadNextQuestion = function () {
                         $("#intermediate").toggleClass("hide");
                         $("#question-section-body").toggleClass("hide");
                         $("#section").toggleClass("hide");
+                        $(".btn-circle").toggleClass("hide");
                         intermediate = false;
                     }
+                    $(".leftbox").css('height', '220%');
                     $("nav a").removeClass("active");
                     $(this).addClass("active");
                     current_section = this.id;
@@ -334,13 +344,15 @@ var loadNextQuestion = function () {
                         $("#intermediate").toggleClass("hide");
                         $("#question-section-body").toggleClass("hide");
                         $("#section").toggleClass("hide");
+                        $(".btn-circle").toggleClass("hide");
                         intermediate = false;
                     }
+                    $(".leftbox").css('height', '220%');
                     $("nav a").removeClass("active");
                     $(this).addClass("active");
                     current_section = this.id;
                     loadResults();
-                    $(".leftbox").css('height', '240%');
+                    $(".leftbox").css('height', '200%');
                 });
             } else {
                 // load the first question of the new section
