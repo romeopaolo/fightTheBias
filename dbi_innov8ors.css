@@ -321,7 +321,7 @@ nav a :first-child {
     border-radius: 0%;
     background: #00a1f1;
     box-shadow: 3px 3px 10px rgba(gray, .5);
-    height: auto;
+    height:auto;
 }
 
 #logo{
@@ -342,8 +342,13 @@ li{
     margin-bottom:-80px;
 }
 #results{
-border-width: 0px;
+    border-width: 0px;
 }
+
+#resultspanel h2{
+    margin-bottom:-30px;
+}
+
 
 #firstdonut{
     margin-bottom:-50px;

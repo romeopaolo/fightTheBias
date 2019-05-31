@@ -40,6 +40,7 @@ $(document).ready(function () {
         intermediate = true;
         $("#0").addClass("active");
         $('nav a').on('click', function () {
+            $(".leftbox").css('height','auto');
             if (intermediate == true) {
                 $("#intermediate").toggleClass("hide");
                 $("#question-section-body").toggleClass("hide");
@@ -73,7 +74,7 @@ $(document).ready(function () {
         });
         $('#0').off('click');
         $('#0').on('click', function () {
-
+            $(".leftbox").css('height','auto');
             if (results == true) {
                 $("#question-section-body").toggleClass("hide");
                 $("#results").toggleClass("hide");
@@ -97,7 +98,7 @@ $(document).ready(function () {
         });
         $("#7").off('click');
         $("#7").on('click', function () {
-            alertMX("You must complete at least one section to consult the results!")
+            alertMX("You must fullfill the introduction section and complete at least one section to consult the results!")
         });
         context = $(this).text();
         displaySectionsPage();
@@ -321,6 +322,7 @@ var loadNextQuestion = function () {
                     $(this).addClass("active");
                     current_section = this.id;
                     loadResults()
+                    $(".leftbox").css('height','220%');
                 });
             }
 
@@ -331,6 +333,7 @@ var loadNextQuestion = function () {
             // if this is the last section
             if (current_section > numberOfSections) {
                 // show results
+                $(".leftbox").css('height','220%');
                 loadResults();
                 $('#7').off('click');
 
@@ -345,7 +348,7 @@ var loadNextQuestion = function () {
                     $(this).addClass("active");
                     current_section = this.id;
                     loadResults();
-
+                    $(".leftbox").css('height','240%');
                 });
             } else {
                 // load the first question of the new section
@@ -800,6 +803,7 @@ function displayCurrentSection(value) {
 }
 
 $("#logo").click(function () {
+    $(".leftbox").css('height','auto');
     swal("Are you sure you want to go back to the choice of the context? You will lose your data.", {
         buttons: {
             home: {
