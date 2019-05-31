@@ -392,10 +392,6 @@ p {
     cursor: pointer;
 }
 
-.swal-overlay {
-    background-color: #cacaca;
-}
-
 .swal-button {
     padding: 7px 19px;
     background-color: #00A4EF;
