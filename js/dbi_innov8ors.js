@@ -60,7 +60,7 @@ $(document).ready(function () {
             }
             current_section = this.id;
             current_question = 1;
-            
+
             pickQuestion();
             displayThumbnails();
             $("#thumbnail1").css('color', '#737373');
@@ -120,84 +120,81 @@ $(document).ready(function () {
                     + '<option value="5">Very High</option>'
                     + '<option value="" selected disabled hidden>Choose Your Weight</option>'
                     + '</select>'
-                    + '</div></div>'
+                    + '</div></div>';
                 $("#intermediateintro").append(sect);
             }
-            //$("#intermediateintro").append('</div>');
             $("#intermediateintro").append('<button type="button" class="btn btn-sq btn-second-choice " id="btn-second-choice" onclick="startquestionnaire()"><b>Save your weights and go to questions</b></button>');
         });
-
-        /*
-        context = $(this).text();
-        //alert(context);
-        displayThumbnails();
-        var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
-        $.getJSON(path, function (json) { // show the JSON file content into console
-            suggweights = json;
-            //console.log(suggweights);
-            pickFirstQuestion();
-        });
-        */
     });
 
 
 });
 
+function countQuestions(sec) {
+    let n = 0;
+    if (sections.hasOwnProperty(sec)) {
+        let section = sections[sec];
+        for (let question in section) {
+            if (question.includes("question")) {
+                n++;
+            }
+        }
+    } else {
+        console.log("This section doesn't exist");
+    }
+    return n;
+}
+
 function startquestionnaire() {
     intermediate = false;
 
+    current_section = 1;
+    current_question = 1;
+
     $("#0").removeClass("active");
     $("#1").addClass("active");
-    /*$('nav a').on('click', function () {
-        $("nav a").removeClass("active");
-        $(this).addClass("active");
-        if (results == true) {
-            $("#question-section-body").toggleClass("hide");
-            $("#section").toggleClass("hide");
-            $("#thumbnails").toggleClass("hide");
-            $("#results").toggleClass("hide");
-            $(".btn-circle").toggleClass("hide");
-            results = false;
-        }
-        current_section = this.id;
-        current_question = 1;
-        pickQuestion();
-        displayThumbnails();
-        $("#thumbnail1").css('color', '#737373');
-        $("#thumbnail1").css('border-color', '#737373');
-        for (var t = current_question; t <= numberOfQuestions; t++) {
-            if (!isNaN(getWeightFromDataStructure(current_section, t))) {
-                document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
-            }
-        }
-    });*/
-    /*$("#7").off('click');
-    $("#7").on('click', function () {
-        alertMX("KEEP CALM: You must complete at least one section to consult the results!")
-    });*/
 
     for (let i = 1; i <= numberOfSections; i++) {
+
+        // create the sections
         if (!dataStructure.hasOwnProperty("section" + i)) {
             dataStructure["section" + i] = {};
         }
 
+        // update the weights
         let newWeight = parseInt($("#section" + i).val());
-        if (dataStructure["section" + i].hasOwnProperty("weight")) {
-            if (dataStructure["section" + i].hasOwnProperty("value")) {
-                let oldWeight = dataStructure["section" + i]["weight"];
-                let oldResult = dataStructure["section" + i]["result"];
-                dataStructure["section" + i]["result"] = oldResult / oldWeight * newWeight;
-            }
-            dataStructure["section" + i]["weight"] = newWeight;
-        } else {
-            dataStructure["section" + i]["weight"] = newWeight;
+        if (dataStructure["section" + i].hasOwnProperty("value")) {
+            let oldWeight = dataStructure["section" + i]["weight"];
+            let oldResult = dataStructure["section" + i]["result"];
+            dataStructure["section" + i]["result"] = oldResult / oldWeight * newWeight;
+        }
+        dataStructure["section" + i]["weight"] = newWeight;
+
+        // check if to calculate the result
+        if (countQuestions("section" + i) === countAnswers(dataStructure["section" + i])) {
+            let val = evaluateSection("section" + i);
+            dataStructure[sectionIndex]["value"] = val;
+            dataStructure[sectionIndex]["result"] = val * newWeight;
+            $("#7").off('click');
+            $("#7").on('click', function () {
+                if (intermediate == true) {
+                    $("#intermediate").toggleClass("hide");
+                    $("#question-section-body").toggleClass("hide");
+                    $("#section").toggleClass("hide");
+                    intermediate = false;
+                }
+                $("nav a").removeClass("active");
+                $(this).addClass("active");
+                current_section = this.id;
+                loadResults();
+
+            });
         }
     }
 
     if (checkSectionWeights()) {
         displayThumbnails();
         pickFirstQuestion();
-        //$('#logo').off('click');
     }
     else {
         alertMX("You must choose a weight for each section before proceeding!")
@@ -226,11 +223,6 @@ function displaySectionsPage() {
     $("#thumbnails").append('<h1>Introduction:</h1>');
     $("#thumbnails").css('color', 'white')
     $("#thumbnails").css('margin-left', '0px')
-    //$("#result").toggleClass("hide");
-
-    //showIntroduction();
-    //showIntermediateResults();
-    //goAhead();
 }
 
 var pickFirstQuestion = function () {
@@ -333,7 +325,6 @@ var loadNextQuestion = function () {
                 // show results
                 loadResults();
                 $('#7').off('click');
-
                 $("#7").on('click', function () {
                     if (intermediate == true) {
                         $("#intermediate").toggleClass("hide");
@@ -445,7 +436,6 @@ var loadQuestion = function () {
         // display the list of classes
         elem += '<ul>';
         for (var index in question.classes) {
-            //console.log(index);
             elem += '<li>' + question.classes[index] + '<input type="text" class="inputbox ' + context.toLowerCase() + '" id="input' + index + '" /></li>'
         }
         elem += '</ul><br><br>' + '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>';
@@ -505,7 +495,6 @@ function loadResults() {
 
 
     var elem = "";
-
     dataStructure["finalResult"] = calculateFinalResult();
 
     // display the final result
@@ -616,12 +605,15 @@ function evaluateSection(secName) {
 
     // collect data
     for (var i = 1; i <= numberOfQuestions; i++) {
-        if (secData["question" + i].hasOwnProperty("result") && secData["question" + i].hasOwnProperty("weight")) {
-            res = res + parseInt(secData["question" + i]["result"]);
-            weights = weights + parseInt(secData["question" + i]["weight"])
+        if (secData.hasOwnProperty("question" + i)) {
+            if (secData["question" + i].hasOwnProperty("result")) {
+                if (secData["question" + i].hasOwnProperty("weight")) {
+                    res = res + parseInt(secData["question" + i]["result"]);
+                    weights = weights + parseInt(secData["question" + i]["weight"])
+                }
+            }
         }
     }
-
     // evaluate
     return res / weights
 }
@@ -631,8 +623,8 @@ function evaluateSection(secName) {
  * @returns {number} the probability of positively facing bias. The higher the better
  */
 function calculateFinalResult() {
-    var cum_res = 0;
-    var cum_weights = 0;
+    let cum_res = 0;
+    let cum_weights = 0;
 
     let i;
     let index;
@@ -640,8 +632,8 @@ function calculateFinalResult() {
     for (index in filledSections) {
         i = filledSections[index];
         if (dataStructure.hasOwnProperty("section" + i) && dataStructure["section" + i].hasOwnProperty("result") && dataStructure["section" + i].hasOwnProperty("weight")) {
-            cum_res = cum_res + parseInt(dataStructure["section" + i]["result"]);
-            cum_weights = cum_weights + parseInt(dataStructure["section" + i]["weight"]);
+            cum_res = cum_res + parseFloat(dataStructure["section" + i]["result"]);
+            cum_weights = cum_weights + parseFloat(dataStructure["section" + i]["weight"]);
         } else {
             console.log("Section, weight or result not present");
         }
@@ -685,7 +677,6 @@ $("#submit").click(function () {
 
     //moved to line 326
 
-    //console.log("Missing input: " + missinginput);
     if (weight != null && !missinginput) {
 
 
@@ -710,7 +701,6 @@ $("#submit").click(function () {
         alertMX("Missing weight or input class!");
         missinginput = false;
     }
-
 });
 
 function readBooleanInput() {
@@ -812,16 +802,16 @@ $("#logo").click(function () {
     }).then((value) => {
         switch (value) {
             case "home":
-                if(intermediate==true){
+                if (intermediate == true) {
                     $("#first-choice").toggleClass("hide");
                     $(".leftbox").toggleClass("hide");
                     $("#logo").toggleClass("hide");
                     $("#question-section").toggleClass("hide");
                     $("#intermediate").toggleClass("hide");
                     $("#0").removeClass("active");
-                    intermediate=false;
+                    intermediate = false;
                 }
-                else if(results==true){
+                else if (results == true) {
                     $("#first-choice").toggleClass("hide");
                     $(".leftbox").toggleClass("hide");
                     $("#logo").toggleClass("hide");
@@ -829,9 +819,9 @@ $("#logo").click(function () {
                     $("#thumbnails").toggleClass("hide");
                     $("#results").toggleClass("hide");
                     $("#7").removeClass("active");
-                    results=false;
+                    results = false;
                 }
-                else{
+                else {
                     $("#first-choice").toggleClass("hide");
                     $(".leftbox").toggleClass("hide");
                     $("#logo").toggleClass("hide");
@@ -989,7 +979,6 @@ function getOverallResultForBar(section) {
             return obj;
         }
     }
-    console.log("Result not present");
     return -1
 }
 
@@ -1016,7 +1005,6 @@ function getOverallWeightsForDonut(section) {
             return obj;
         }
     }
-    console.log("Result not present");
     return -1
 }
 
@@ -1029,7 +1017,6 @@ function getDataFromDataStructure(section, question) {
             }
         }
     }
-    console.log("Input not present");
     return NaN
 }
 
@@ -1041,7 +1028,6 @@ function getWeightFromDataStructure(section, question) {
             }
         }
     }
-    console.log("Weight not present");
     return NaN
 }
 
@@ -1054,7 +1040,6 @@ function getResultFromDataStructure(section, question) {
             }
         }
     }
-    console.log("Result not present");
     return NaN
 }
 
@@ -1098,21 +1083,3 @@ function getCompleteSections() {
     }
     return arr;
 }
-
-/*
-function downloadData() {
-    const fs = require('fs');
-    var jsonObj = JSON.parse(dataStructure);
-    console.log(jsonObj);
-    var jsonContent = JSON.stringify(jsonObj);
-    console.log(jsonContent);
-    fs.writeFile("fightTheBias.json", jsonContent, 'utf8', function (err) {
-        if(err) {
-            console.log("An error occurred while downloading the file.");
-            return console.log(err);
-        }
-    });
-
-    console.log("Download completed")
-}
-*/
