@@ -104,10 +104,17 @@ $(document).ready(function () {
             suggweights = json;
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
-            var subtitle = '<div id="subtitle"><b>Assign a weight to each section:</b></div>'
+            var subtitle = '<div class="row sections"><div class="col-sm-9" id="subtitle"><b>Assign a weight to each section:</b></div>'
+            + '<div class="col-sm-3">'
+            + '<div id="suggestedweightintro">' 
+            + '<b><i>Suggested Weight:</i></b>'
+            + '</div>' 
+            +'</div>' 
             $("#intermediateintro").append(subtitle);
+            
             for (var j in suggweights) {
-                sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> ' + suggweights[j]["description"] + ' <i>Suggested weight: <b>' + switchcaseOnWeights(suggweights[j]["weight"]) + '</b></i></div>'
+                console.log(suggweights[j]["weight"])
+                sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> ' + suggweights[j]["description"] + '</div>'
                     + '<div class="col-sm-3">'
                     + '<select id=' + j + ' class="btn btn-block sectionweight">'
                     + '<option value="0">Not Relevant</option>'
@@ -116,11 +123,12 @@ $(document).ready(function () {
                     + '<option value="3">Medium</option>'
                     + '<option value="4">High</option>'
                     + '<option value="5">Very High</option>'
-                    + '<option value="" selected disabled hidden>Choose Your Weight</option>'
                     + '</select>'
                     + '</div></div>';
                 $("#intermediateintro").append(sect);
+                $('#'+j+' option[value='+suggweights[j]["weight"]+']').attr("selected", "true");
             }
+            
             $("#intermediateintro").append('<button type="button" class="btn btn-sq btn-second-choice " id="btn-second-choice" onclick="startquestionnaire()"><b>Save your weights and go to questions</b></button>');
         });
     });
@@ -422,11 +430,10 @@ var loadQuestion = function () {
             + '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>'
             + '</div>'
             + '<div class="col-xs-12 col-md-3">'
-            + '<div class="row d-flex flex-row-reverse">'
-            + '<button type="button"class="btn btn-block suggweight ' + context.toLowerCase() + ' m-2 p-3"><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>'
-            + '</div>'
+            + '<div id="suggestedweight">' 
+            + '<b><i>Suggested Weight:</i></b>'
+            + '</div>' 
             + '<select id="weight" class="btn btn-block weight ' + context.toLowerCase() + '" >'
-            + '<option value="" selected disabled hidden>Choose Your Weight</option>'
             + '<option value="0">Not Relevant</option>'
             + '<option value="1">Very Low</option>'
             + '<option value="2">Low</option>'
@@ -454,8 +461,8 @@ var loadQuestion = function () {
 
         elem += '</div>' +
             '<div class="col-xs-12 col-md-3">' +
-            '<div class="row d-flex flex-row-reverse">' +
-            '<button type="button"class="btn btn-block suggweight ' + context.toLowerCase() + ' m-2 p-3 "><i>Suggested Weight:</i> <br> <b>' + suggweightname + '</b></button>' +
+            '<div id="suggestedweight">' +
+            '<b><i>Suggested Weight:</i></b>' +
             '</div>' +
             '<select id="weight" class="btn btn-block weight ' + context.toLowerCase() + '" >' +
             '<option value="0">Not Relevant</option>' +
@@ -478,6 +485,7 @@ var loadQuestion = function () {
     $("#section").empty();
     //Append the new question
     $("#section").append(sectiondiv);
+    $('#weight option[value='+suggweight+']').attr("selected", "true");
 
     if (!isNaN(getWeightFromDataStructure(current_section, current_question))) {
         let count = parseInt(getWeightFromDataStructure(current_section, current_question)) + 1;

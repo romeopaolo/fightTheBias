@@ -398,4 +398,11 @@ p {
     background-color: #00A4EF;
     font-size: 12px;
 }
+#suggestedweight{
+    margin-left: 105px;
+}
+#suggestedweightintro{
+    margin-left: 55px;
+    margin-top: 20px;
+}
 
