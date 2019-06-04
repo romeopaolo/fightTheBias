@@ -179,7 +179,6 @@ function startquestionnaire() {
         dataStructure["section" + i]["weight"] = newWeight;
 
         // check if to calculate the result
-        //if (countQuestions("section" + i) === countAnswers(dataStructure["section" + i])) {
         if (dataStructure["section" + i].hasOwnProperty("value") && !dataStructure["section" + i].hasOwnProperty("result")) {
             let val = evaluateSection("section" + i);
             dataStructure["section" + i]["value"] = val;
@@ -239,8 +238,8 @@ function displaySectionsPage() {
     $("#logo").toggleClass("hide");
     $("#thumbnails").empty();
     $("#thumbnails").append('<h1>Introduction:</h1>');
-    $("#thumbnails").css('color', 'white')
-    $("#thumbnails").css('margin-left', '0px')
+    $("#thumbnails").css('color', 'white');
+    $("#thumbnails").css('margin-left', '0px');
 }
 
 var pickFirstQuestion = function () {
