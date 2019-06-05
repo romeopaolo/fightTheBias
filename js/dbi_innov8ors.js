@@ -577,6 +577,7 @@ function loadResults() {
             showDonutGraph('section' + filledSections[index] + 'Donut', getSectionWeightsForDonut(filledSections[index]));
         }
     }
+    console.log(dataStructure);
 }
 
 function evaluateVariable(arr) {

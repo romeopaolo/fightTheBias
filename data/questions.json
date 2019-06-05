@@ -232,8 +232,7 @@
     "question4": {
       "text": "Are you sure that the code is not embedded with biased considerations of the scientists?",
       "description": "The question's aim is to understand whether the code has been impacted by the scientists natural prejuidices.",
-      "boolean": true,
-      "reverse": true
+      "boolean": true
     },
     "question5": {
       "text": "Is the algorithm considering just reliable/significative features?",
