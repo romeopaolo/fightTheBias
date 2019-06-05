@@ -112,7 +112,7 @@
   },
   "section3": {
     "question1": {
-      "text": "Heterogeneity of gender ",
+      "text": "Heterogeneity of gender - Consider values as percentages",
       "description": "The variable expresses the proportion between male and female members of the team. It is the ratio between the most represented gender and the least represented one. In order to compile the information correctly the user must calculate the number of females and males and compile the cells below. ",
       "boolean": false,
       "classes": [
@@ -121,7 +121,7 @@
       ]
     },
     "question2": {
-      "text": "Hetereogenity of area of origin (on the basis of the project scope: e.g. International)",
+      "text": "Hetereogenity of area of origin (on the basis of the project scope: e.g. International) - Consider values as percentages",
       "description": "The variable expresses the variety of cultures in the team. This helps having different perspectives on the problem. We assume the project aims to be valid internationally, so in this case the defect classes would be the 5 continents. In the case of a project that is more restricted geographically, it could  of high interest to introduce other different representations of cultural variety. (es. different provinces in italy).",
       "boolean": false,
       "classes": [
@@ -133,7 +133,7 @@
       ]
     },
     "question3": {
-      "text": "Heterogeneity of age",
+      "text": "Heterogeneity of age - Consider values as percentages",
       "description": "The variable expresses the variety in terms of age of the team members. This variety helps having different perspectives about the problem. ",
       "boolean": false,
       "classes": [

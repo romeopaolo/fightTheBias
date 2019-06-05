@@ -27,12 +27,10 @@
     "weight": "3",
     "question1": "2",
     "question2": "3",
-    "question3": "0",
+    "question3": "1",
     "question4": "0",
-    "question5": "1",
-    "question6": "0",
-    "question7": "5",
-    "question8": "4"
+    "question5": "5",
+    "question6": "4",
   },
   "section4": {
     "description":"The 4th section mainly includes questions on the quality of the gathered data. The dataset sources, its cleaning and tags are evaluated. In the education field it might have a strong impact.",

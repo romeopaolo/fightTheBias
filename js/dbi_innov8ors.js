@@ -581,19 +581,30 @@ function loadResults() {
 }
 
 function evaluateVariable(arr) {
-    let n = arr.length;
+
+    let n = arr.length;   
+    var percentageArray=[];
+    var percentageSum = 0;
+
+    for (var i = 0; i < n; i++) {
+        percentageSum = parseFloat(arr[i]) + percentageSum;
+    }
+
+    for (var i = 0; i < n; i++) {
+        percentageArray[i]=(arr[i]/percentageSum)*100;
+    }
 
     //average computation
     var sum = 0;
     for (var i = 0; i < n; i++) {
-        sum = parseFloat(arr[i]) + sum;
+        sum = parseFloat(percentageArray[i]) + sum;
     }
     var average = sum / n;
 
     //computation of the real standard deviation
     var r = 0;
-    for (var l = 0; l <= arr.length - 1; l++) {
-        r = Math.pow((arr[l] - average), 2) + r;
+    for (var l = 0; l < n; l++) {
+        r = Math.pow((percentageArray[l] - average), 2) + r;
     }
 
     var variance = r / n;

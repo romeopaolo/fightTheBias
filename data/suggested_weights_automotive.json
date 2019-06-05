@@ -27,12 +27,10 @@
     "weight": "3",
     "question1": "2",
     "question2": "5",
-    "question3": "4",
+    "question3": "3",
     "question4": "4",
-    "question5": "3",
-    "question6": "2",
-    "question7": "2",
-    "question8": "4"
+    "question5": "2",
+    "question6": "4"
   },
   "section4": {
     "description":"The 4th section mainly includes questions on the quality of the gathered data. The dataset sources, its cleaning and tags are evaluated. In the automotive field it might have a strong impact.",

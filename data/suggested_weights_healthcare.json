@@ -27,12 +27,10 @@
     "weight": "5",
     "question1": "4",
     "question2": "4",
-    "question3": "3",
+    "question3": "4",
     "question4": "3",
     "question5": "4",
-    "question6": "1",
-    "question7": "4",
-    "question8": "4"
+    "question6": "4"
   },
   "section4": {
     "description":"The 4th section mainly includes questions on the quality of the gathered data. The dataset sources, its cleaning and tags are evaluated. In the healthcare field it might have a strong impact.",
