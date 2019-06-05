@@ -487,7 +487,7 @@ var loadQuestion = function () {
     $('#weight option[value='+suggweight+']').attr("selected", "true");
 
     if (!isNaN(getWeightFromDataStructure(current_section, current_question))) {
-        let count = parseInt(getWeightFromDataStructure(current_section, current_question)) + 1;
+        let count = parseInt(getWeightFromDataStructure(current_section, current_question));
         document.getElementById("weight").getElementsByTagName('option')[count].selected = 'selected';
         document.getElementById("thumbnail" + current_question).innerHTML = "Q" + current_question + " ~ " + switchcaseOnWeights($("#weight").val());
     }
