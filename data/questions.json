@@ -22,7 +22,7 @@
     },
     "question5": {
       "text": "Does your AI project  promote justice and seek to eliminate discrimination?",
-      "description": "In case the project assures justice and is persuasive when it comes to erase discriminations, the answer must be yes.",
+      "description": "In case the project assures justice and does not promote discriminations, the answer must be yes.",
       "boolean": true
     },
     "question6": {
@@ -43,7 +43,7 @@
     },
     "question2": {
       "text": "Hetereogenity of area of origin (on the basis of the project scope: e.g. International)",
-      "description": "The variable expresses the variety of cultures in the team. This helps having different perspectives on the problem. We assume the project aims to be valid internationally, so in this case the defect classes would be the 5 continents. In the case of a project that is more restricted geographically, it could  of high interest to introduce other different representations of cultural variety. (es. different provinces in italy)",
+      "description": "The variable expresses the variety of cultures in the team. This helps having different perspectives on the problem. We assume the project aims to be valid internationally, so in this case the defect classes would be the 5 continents. In the case of a project that is more restricted geographically, it could be of high interest to introduce other different representations of cultural variety. (es. different provinces in italy)",
       "boolean": false,
       "classes": [
         "Europe",
@@ -100,7 +100,7 @@
     },
     "question8": {
       "text": "Are the team's responsibilities appropriately distributed among the members?",
-      "description": "The question's aim is to understand whether the responsibilities are distributed along the team respecting range and equality.",
+      "description": "The question's aim is to understand whether the responsibilities are distributed in a fair way among the team members.",
       "boolean": true
     },
     "question9": {
@@ -122,7 +122,7 @@
     },
     "question2": {
       "text": "Hetereogenity of area of origin (on the basis of the project scope: e.g. International) - Consider values as percentages",
-      "description": "The variable expresses the variety of cultures in the team. This helps having different perspectives on the problem. We assume the project aims to be valid internationally, so in this case the defect classes would be the 5 continents. In the case of a project that is more restricted geographically, it could  of high interest to introduce other different representations of cultural variety. (es. different provinces in italy).",
+      "description": "The variable expresses the variety of cultures in the team. This helps having different perspectives on the problem. We assume the project aims to be valid internationally, so in this case the defect classes would be the 5 continents. In the case of a project that is more restricted geographically, it could be of high interest to introduce other different representations of cultural variety. (es. different provinces in italy).",
       "boolean": false,
       "classes": [
         "Europe",
@@ -149,12 +149,12 @@
     },
     "question5": {
       "text": "Have you considered the several input categories available in your context (including minorities etc.)?",
-      "description": "The question's aim is to understand whether the fact of existing minorities or other aspects have been taken into account when choosing the variables in order to avoid their discrimination. (es Disabled people).",
+      "description": "The question's aim is to understand whether the fact of existing minorities or other aspects have been taken into account when choosing the variables in order to avoid their discrimination. (example of input category: disabled people, dwarf people etc.).",
       "boolean": true
     },
     "question6": {
       "text": "Have you considered a significant amount of features for your dataset?",
-      "description": "The question's aim is to understand whether the feature selection has done in order to acquire the most significant information about the different observations in terms of importance and quantity.",
+      "description": "The question's aim is to understand whether the feature selection has done in order to acquire the most significant information about the different observations in terms of importance and quantity. (example of features: hair of color, height etc.)",
       "boolean": true
     }
   },
@@ -171,18 +171,18 @@
     },
     "question3": {
       "text": "Are you sure about the reliability of your sources?",
-      "description": "The question's aim is to understand whether the user trusts on the sources he has been used or is someway uncertain about some of them.",
+      "description": "The question's aim is to understand whether the user trusts on the sources that have been used or is someway uncertain about some of them.",
       "boolean": true
     },
     "question4": {
       "text": "Have you used questionnaires that could be affected by Bias to collect data? ",
-      "description": "The question's aim is to understand whether, in case of using questionaires, human bias has taken into account when collecting the different answers. Sometimes aspects as question order or the persons willingness to compile the questionnaire can affect on collected data.",
+      "description": "The question's aim is to understand whether, in case of using questionaires, human bias has taken into account when collecting the different answers. Sometimes aspects as question order or the persons willingness to compile the questionnaire can affect collected data.",
       "boolean": true,
       "reverse": true
     },
     "question5": {
       "text": "Do you have a data cleaning phase in your data gathering process?",
-      "description": "The question's aim is to understand whether the data has been submitted to a clean up during the data gathering phase in order to make the data as similar as possible to the reality of what it is linked to.",
+      "description": "The question's aim is to understand whether the data have been submitted to a clean up during the data gathering phase in order to make the data as similar as possible to the reality of what it is linked to.",
       "boolean": true
     },
     "question6": {
@@ -197,14 +197,14 @@
     },
     "question8": {
       "text": "In case it was not, is the team responsible for tagging the observations balanced?",
-      "description": "The question's aim is to understand whether the people that were responsible for tagging complied with heterogeneity.",
+      "description": "The question's aim is to understand whether the people that were responsible for tagging are somehow etherogeneus.",
       "boolean": true
     }
   },
   "section5": {
     "question1": {
       "text": "Is the Dataset size significative with respect to the population of study size? ",
-      "description": "The question's aim is to understand whether the data collected is a significant sample of universal real world sample. Sometimes the importance of the real size of the samples that are taken from the context to which a model is going to be applied can be underestimated. This can lead to totally useless conclusions even using a good model.",
+      "description": "The question's aim is to understand whether the data collected are a significant sample of universal real world sample. Sometimes the importance of the real size of the samples that are taken from the context to which a model is going to be applied can be underestimated. This can lead to totally useless conclusions even using a good model.",
       "boolean": true
     },
     "question2": {
@@ -216,12 +216,12 @@
   "section6": {
     "question1": {
       "text": "Is the data gathering phase transparent?",
-      "description": "The question's aim is to understand whether the data gathering process is traceable and interpretable, thus transparent.",
+      "description": "The question's aim is to understand whether the data gathering process is traceable and interpretable, thus clear.",
       "boolean": true
     },
     "question2": {
       "text": "Is the algorithmic phase transparent?",
-      "description": "The question's aim is to understand whether the algorithm training and testing process is traceable and interpretable, thus transparent.",
+      "description": "The question's aim is to understand whether the algorithm training and testing process is traceable and interpretable, thus clear.",
       "boolean": true
     },
     "question3": {
@@ -241,17 +241,17 @@
     },
     "question6": {
       "text": "Is the output represented through an appropriate level of detail?",
-      "description": "The question's aim is to understand whether the algorithms output provides the amount of detail required for the solution of the problem or it can lead to unintentional assumptions from the team members.",
+      "description": "The question's aim is to understand whether the algorithm's output provides the amount of detail required for the solution of the problem or it can lead to unintentional assumptions from the team members.",
       "boolean": true
     },
     "question7": {
       "text": "Do you think your developing team will be able to interpret the output and detect any presence of bias?",
-      "description": "The question's aim is to understand whether the algorithms output provides the amount of detail required for the solution of the problem so that the developing team can detect beforehand the existence of bias in the output.",
+      "description": "The question's aim is to understand whether the algorithm's output provides the amount of detail required for the solution of the problem so that the developing team can detect beforehand the existence of bias in the output.",
       "boolean": true
     },
     "question8": {
       "text": "Do you think is it easy to trace the error/bias evaluating the output?",
-      "description": "The question's aim is to understand whether the algorithms output provides the amount of detail required to trace the bias or error emerged from the algorithm.",
+      "description": "The question's aim is to understand whether the algorithm's output provides the amount of detail required to trace the bias or error emerged from the algorithm.",
       "boolean": true
     }
   }

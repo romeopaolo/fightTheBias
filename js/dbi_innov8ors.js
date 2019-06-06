@@ -15,6 +15,8 @@ var context;
 var sectionIndex;
 var results;
 var intermediate;
+var overallResult;
+var sectionqualities;
 
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
@@ -52,7 +54,7 @@ $(document).ready(function () {
             if (results == true) {
                 $("#question-section-body").toggleClass("hide");
                 $("#section").toggleClass("hide");
-                $("#thumbnails").toggleClass("hide");
+                //$("#thumbnails").toggleClass("hide");
                 $("#results").toggleClass("hide");
                 $(".btn-circle").toggleClass("hide");
                 results = false;
@@ -78,7 +80,7 @@ $(document).ready(function () {
                 $("#results").toggleClass("hide");
                 $(".btn-circle").toggleClass("hide");
                 $("#section").toggleClass("hide");
-                $("#thumbnails").toggleClass("hide");
+                //$("#thumbnails").toggleClass("hide");
                 results = false;
             }
             if (intermediate == false) {
@@ -113,7 +115,7 @@ $(document).ready(function () {
             $("#intermediateintro").append(subtitle);
             
             for (var j in suggweights) {
-                console.log(suggweights[j]["weight"])
+                //console.log(suggweights[j]["weight"])
                 sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> ' + suggweights[j]["description"] + '</div>'
                     + '<div class="col-sm-3">'
                     + '<select id=' + j + ' class="btn btn-block sectionweight">'
@@ -506,7 +508,7 @@ function loadResults() {
     if (results != true) {
         $("#question-section-body").toggleClass("hide");
         $("#section").toggleClass("hide");
-        $("#thumbnails").toggleClass("hide");
+        //$("#thumbnails").toggleClass("hide");
         $("#results").toggleClass("hide");
         $(".btn-circle").toggleClass("hide");
         results = true;
@@ -518,11 +520,15 @@ function loadResults() {
 
     // display the final result
     if (dataStructure.hasOwnProperty("finalResult")) {
+        $("#thumbnails").empty();
+        $("#thumbnails").append('<h1>Results:</h1>');
         let overallQuality = (parseFloat(dataStructure["finalResult"]) * 100).toFixed(2);
+        overallResult=overallQuality;
         elem += '<div class="row">' +
             '<div class="col-sm-12">' +
-            '   <h2><b> Overall Results</b></h2><br><hr>' +
-            '   <h3><i>The overall quality is: ' + overallQuality + '%</i></h3><br>' +
+            '   <h2 id="checkoutcomes"><b> Check here your outcomes.</b></h2><br><br>' +
+            '   <h2><i>If necessary, try to improve them modifying your answers. </i></h2><br><hr>' +
+            '   <h3 id="overallResult">The overall quality index is: ' + overallQuality + '%</h3><br>' +
             '</div></div>';
     } else {
         console.log("An error occurred in the final result");
@@ -544,10 +550,11 @@ function loadResults() {
         '</div>';
 
     // open row div
-    elem += '<h3 id="impact"><i>Impact of the questions in each section:</i></h3><br><hr>'
+    elem += '<h3 id="impact">Focus on each section:</h3><br><hr>'
         + '<div class="row">';
 
     // insert one div for each section graph
+    sectionqualities=[];
     let index;
     let filledSections = getCompleteSections();
     for (index in filledSections) {
@@ -555,18 +562,48 @@ function loadResults() {
             let quality = (parseFloat(dataStructure["section" + filledSections[index]]["value"]) * 100).toFixed(2);
             elem +=
                 '   <div class="col-sm-4">' +
-                '       <h3 id="sectionquality">Quality of section ' + filledSections[index] + ': ' + quality + '%</h3>' +
-                '       <h4 id="otherdonut">Weights of the questions:</h4>' +
+                '       <h3 class="sectionquality" id="sectionquality'+filledSections[index]+'">Section ' + filledSections[index] + ' result: ' + quality + '%</h3><br>' +
+                '       <h4 id="otherdonut">Weights of its questions:</h4>' +
                 '       <div class="donut-container" id="section' + filledSections[index] + 'Donut"></div>' +
                 '   </div>';
+            sectionqualities[filledSections[index]]=quality;
         }
     }
+
 
     // close row div
     elem += '</div>';
 
     // load the results
     $("#resultspanel").append(elem);
+
+    if(overallResult<=33){
+        $("#overallResult").css('color','#f65314');
+    }
+    else if ((overallResult>33&&overallResult<=66)){
+        $("#overallResult").css('color','#ffbb00');
+    }
+    else{
+        $("#overallResult").css('color','#7cbb00');
+    }
+
+    for(i=0; i<sectionqualities.length;i++){
+        if(sectionqualities[i]<=33){
+            var string ="#sectionquality"+i
+            $(string).css('color','#f65314');
+        }
+        else if (sectionqualities[i]>33&&sectionqualities[i]<=66){
+            var string ="#sectionquality"+i
+            $(string).css('color','#ffbb00');
+        }
+        else if (sectionqualities[i]>66&&sectionqualities[i]<=100){
+            var string ="#sectionquality"+i
+            $(string).css('color','#7cbb00');
+        }
+    }
+    
+
+    
 
     // render graphs
     showBarGraph("sectionsBar", extractOverallData());
@@ -848,7 +885,7 @@ $("#logo").click(function () {
                     $(".leftbox").toggleClass("hide");
                     $("#logo").toggleClass("hide");
                     $("#question-section").toggleClass("hide");
-                    $("#thumbnails").toggleClass("hide");
+                    //$("#thumbnails").toggleClass("hide");
                     $("#results").toggleClass("hide");
                     $("#7").removeClass("active");
                     results = false;

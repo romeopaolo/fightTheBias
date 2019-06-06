@@ -379,12 +379,11 @@ li {
     margin-bottom: -20px;
 }
 
-#sectionquality {
+.sectionquality {
     padding-left: 0px;
 }
 
 #subtitle {
-
     margin-bottom: 50px;
     font-size: 30px;
 }
@@ -405,4 +404,10 @@ p {
     margin-left: 55px;
     margin-top: 20px;
 }
+
+#checkoutcomes{
+    margin-top:-30px;
+}
+
+
 
