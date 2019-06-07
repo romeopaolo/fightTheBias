@@ -61,9 +61,10 @@ $(document).ready(function () {
             }
             current_section = this.id;
             current_question = 1;
-
-            pickQuestion();
+            
             displayThumbnails();
+            pickQuestion();
+            
             $("#thumbnail1").css('color', '#737373');
             $("#thumbnail1").css('border-color', '#737373');
             for (var t = current_question; t <= numberOfQuestions; t++) {
@@ -610,7 +611,6 @@ function loadResults() {
             showDonutGraph('section' + filledSections[index] + 'Donut', getSectionWeightsForDonut(filledSections[index]));
         }
     }
-    console.log(dataStructure);
 }
 
 function evaluateVariable(arr) {
