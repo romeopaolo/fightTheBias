@@ -107,13 +107,13 @@ $(document).ready(function () {
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
             var subtitle = '<div class="row sections"><div class="col-sm-9" id="subtitle"><b>Assign a weight to each section:</b></div>'
-            + '<div class="col-sm-3">'
-            + '<div id="suggestedweightintro">' 
-            + '<b><i>Suggested Weight:</i></b>'
-            + '</div>' 
-            +'</div>' 
+                + '<div class="col-sm-3">'
+                + '<div id="suggestedweightintro">'
+                + '<b><i>Suggested Weight:</i></b>'
+                + '</div>'
+                + '</div>'
             $("#intermediateintro").append(subtitle);
-            
+
             for (var j in suggweights) {
                 //console.log(suggweights[j]["weight"])
                 sect = '<div class="row sections"><div class="col-sm-9"><b>' + displayCurrentSection(j.substr(7)) + '</b><br> ' + suggweights[j]["description"] + '</div>'
@@ -128,14 +128,12 @@ $(document).ready(function () {
                     + '</select>'
                     + '</div></div>';
                 $("#intermediateintro").append(sect);
-                $('#'+j+' option[value='+suggweights[j]["weight"]+']').attr("selected", "true");
+                $('#' + j + ' option[value=' + suggweights[j]["weight"] + ']').attr("selected", "true");
             }
-            
+
             $("#intermediateintro").append('<button type="button" class="btn btn-sq btn-second-choice " id="btn-second-choice" onclick="startquestionnaire()"><b>Save your weights and go to questions</b></button>');
         });
     });
-
-
 });
 
 function countQuestions(sec) {
@@ -213,7 +211,7 @@ function startquestionnaire() {
                 document.getElementById("thumbnail" + t).innerHTML = "Q" + t + " ~ " + switchcaseOnWeights(getWeightFromDataStructure(current_section, t));
             }
         }
-        
+
     }
     else {
         customizedAlert("You must choose a weight for each section before proceeding!")
@@ -431,9 +429,9 @@ var loadQuestion = function () {
             + '<h6><i><b>Question explanation:</b><br> ' + question.description + '</i></h6>' + '<br>'
             + '</div>'
             + '<div class="col-xs-12 col-md-3">'
-            + '<div id="suggestedweight">' 
+            + '<div id="suggestedweight">'
             + '<b><i>Suggested Weight:</i></b>'
-            + '</div>' 
+            + '</div>'
             + '<select id="weight" class="btn btn-block weight ' + context.toLowerCase() + '" >'
             + '<option value="0">Not Relevant</option>'
             + '<option value="1">Very Low</option>'
@@ -486,7 +484,7 @@ var loadQuestion = function () {
     $("#section").empty();
     //Append the new question
     $("#section").append(sectiondiv);
-    $('#weight option[value='+suggweight+']').attr("selected", "true");
+    $('#weight option[value=' + suggweight + ']').attr("selected", "true");
 
     if (!isNaN(getWeightFromDataStructure(current_section, current_question))) {
         let count = parseInt(getWeightFromDataStructure(current_section, current_question));
@@ -523,11 +521,11 @@ function loadResults() {
         $("#thumbnails").empty();
         $("#thumbnails").append('<h1>Results:</h1>');
         let overallQuality = (parseFloat(dataStructure["finalResult"]) * 100).toFixed(2);
-        overallResult=overallQuality;
+        overallResult = overallQuality;
         elem += '<div class="row">' +
             '<div class="col-sm-12">' +
             '   <h2 id="checkoutcomes"><b> Check here your outcomes.</b></h2><br><br>' +
-            '   <h2><i>If necessary, try to improve them modifying your answers. </i></h2><br><hr>' +
+            '   <h3>If necessary, try to improve them modifying your answers. </h3><br><hr>' +
             '   <h3 id="overallResult">The overall quality index is: ' + overallQuality + '%</h3><br>' +
             '</div></div>';
     } else {
@@ -554,7 +552,7 @@ function loadResults() {
         + '<div class="row">';
 
     // insert one div for each section graph
-    sectionqualities=[];
+    sectionqualities = [];
     let index;
     let filledSections = getCompleteSections();
     for (index in filledSections) {
@@ -562,11 +560,11 @@ function loadResults() {
             let quality = (parseFloat(dataStructure["section" + filledSections[index]]["value"]) * 100).toFixed(2);
             elem +=
                 '   <div class="col-sm-4">' +
-                '       <h3 class="sectionquality" id="sectionquality'+filledSections[index]+'">Section ' + filledSections[index] + ' result: ' + quality + '%</h3><br>' +
+                '       <h3 class="sectionquality" id="sectionquality' + filledSections[index] + '">Section ' + filledSections[index] + ' quality: ' + quality + '%</h3><br>' +
                 '       <h4 id="otherdonut">Weights of its questions:</h4>' +
                 '       <div class="donut-container" id="section' + filledSections[index] + 'Donut"></div>' +
                 '   </div>';
-            sectionqualities[filledSections[index]]=quality;
+            sectionqualities[filledSections[index]] = quality;
         }
     }
 
@@ -577,33 +575,31 @@ function loadResults() {
     // load the results
     $("#resultspanel").append(elem);
 
-    if(overallResult<=33){
-        $("#overallResult").css('color','#f65314');
+    if (overallResult <= 33) {
+        $("#overallResult").css('color', '#f65314');
     }
-    else if ((overallResult>33&&overallResult<=66)){
-        $("#overallResult").css('color','#ffbb00');
+    else if ((overallResult > 33 && overallResult <= 70)) {
+        $("#overallResult").css('color', '#ffbb00');
     }
-    else{
-        $("#overallResult").css('color','#7cbb00');
+    else {
+        $("#overallResult").css('color', '#7cbb00');
     }
 
-    for(i=0; i<sectionqualities.length;i++){
-        if(sectionqualities[i]<=33){
-            var string ="#sectionquality"+i
-            $(string).css('color','#f65314');
+    for (i = 0; i < sectionqualities.length; i++) {
+        if (sectionqualities[i] <= 33) {
+            var string = "#sectionquality" + i;
+            $(string).css('color', '#f65314');
         }
-        else if (sectionqualities[i]>33&&sectionqualities[i]<=66){
-            var string ="#sectionquality"+i
-            $(string).css('color','#ffbb00');
+        else if (sectionqualities[i] > 33 && sectionqualities[i] <= 70) {
+            var string = "#sectionquality" + i;
+            $(string).css('color', '#ffbb00');
         }
-        else if (sectionqualities[i]>66&&sectionqualities[i]<=100){
-            var string ="#sectionquality"+i
-            $(string).css('color','#7cbb00');
+        else if (sectionqualities[i] > 70 && sectionqualities[i] <= 100) {
+            var string = "#sectionquality" + i;
+            $(string).css('color', '#7cbb00');
         }
     }
-    
 
-    
 
     // render graphs
     showBarGraph("sectionsBar", extractOverallData());
@@ -619,8 +615,8 @@ function loadResults() {
 
 function evaluateVariable(arr) {
 
-    let n = arr.length;   
-    var percentageArray=[];
+    let n = arr.length;
+    var percentageArray = [];
     var percentageSum = 0;
 
     for (var i = 0; i < n; i++) {
@@ -628,7 +624,7 @@ function evaluateVariable(arr) {
     }
 
     for (var i = 0; i < n; i++) {
-        percentageArray[i]=(arr[i]/percentageSum)*100;
+        percentageArray[i] = (arr[i] / percentageSum) * 100;
     }
 
     //average computation
