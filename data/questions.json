@@ -42,8 +42,8 @@
       ]
     },
     "question2": {
-      "text": "Hetereogenity of area of origin (on the basis of the project scope: e.g. International)",
-      "description": "The variable expresses the variety of cultures in the team. This helps having different perspectives on the problem. We assume the project aims to be valid internationally, so in this case the defect classes would be the 5 continents. In the case of a project that is more restricted geographically, it could be of high interest to introduce other different representations of cultural variety. (es. different provinces in italy)",
+      "text": "Hetereogenity of area of origin (e.g. project scope: International)",
+      "description": "The variety of ethnicity/culture helps having different perspectives of the problem. In case the project aims to be valid internationally the classes should be the 5 continents, while for a more geographically restricted project might be introduced different representations of cultural variety. (ex. different regions in Italy)",
       "boolean": false,
       "classes": [
         "Europe",
@@ -112,7 +112,7 @@
   },
   "section3": {
     "question1": {
-      "text": "Heterogeneity of gender - Consider values as percentages",
+      "text": "Heterogeneity of gender - Insert percentage values (e.g. 60 - 40)",
       "description": "The variable expresses the proportion between male and female members of the team. It is the ratio between the most represented gender and the least represented one. In order to compile the information correctly the user must calculate the number of females and males and compile the cells below. ",
       "boolean": false,
       "classes": [
@@ -121,8 +121,8 @@
       ]
     },
     "question2": {
-      "text": "Hetereogenity of area of origin (on the basis of the project scope: e.g. International) - Consider values as percentages",
-      "description": "The variable expresses the variety of cultures in the team. This helps having different perspectives on the problem. We assume the project aims to be valid internationally, so in this case the defect classes would be the 5 continents. In the case of a project that is more restricted geographically, it could be of high interest to introduce other different representations of cultural variety. (es. different provinces in italy).",
+      "text": "Hetereogenity of area of origin (e.g. project scope: International) - Insert percentage values",
+      "description": "The variety of ethnicity/culture helps having different perspectives of the problem. In case the project aims to be valid internationally the classes should be the 5 continents, while for a more geographically restricted project might be introduced different representations of cultural variety. (ex. different regions in Italy)",
       "boolean": false,
       "classes": [
         "Europe",
@@ -133,7 +133,7 @@
       ]
     },
     "question3": {
-      "text": "Heterogeneity of age - Consider values as percentages",
+      "text": "Heterogeneity of age - Insert percentage values (e.g. 30 - 50 - 20)",
       "description": "The variable expresses the variety in terms of age of the team members. This variety helps having different perspectives about the problem. ",
       "boolean": false,
       "classes": [

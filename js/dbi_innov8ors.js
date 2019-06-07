@@ -196,7 +196,7 @@ function startquestionnaire() {
                     intermediate = false;
                     //$("#btn-circle").toggleClass("hide");
                 }
-                $(".leftbox").css('height', '220%');
+                $(".leftbox").css('height', '190%');
                 $("nav a").removeClass("active");
                 $(this).addClass("active");
                 current_section = this.id;
