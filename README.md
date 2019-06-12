@@ -1,7 +1,7 @@
 # Fight the Bias
 
 ## Working website
-See our work: https://fightthebias.herokuapp.com
+See our work: https://figththebias.azurewebsites.net
 
 ## Introduction
 This project is part of the Digital Business Innovation Lab, a university course taken at Politecnico di Milano by professors Raffaello Balocco and Riccardo Mangiaracina. 
