@@ -20,7 +20,7 @@ var sectionqualities;
 
 //Parse the JSON with the questions when the page is loaded
 $(document).ready(function () {
-    $.getJSON("./data/questions.json", function (json) { // show the JSON file content into console
+    $.getJSON("./website/data/questions.json", function (json) { // show the JSON file content into console
         sections = json;
         current_section_name = displayCurrentSection(1);
 
@@ -102,11 +102,8 @@ $(document).ready(function () {
         });
         context = $(this).text();
         displaySectionsPage();
-        console.log(context.toLowerCase()+"CCCCC")
-        var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
-        console.log(suggweights+"BBBB")
+        var path = "./website/data/suggested_weights_" + context.toLowerCase() + ".json";
         $.getJSON(path, function (json) { // show the JSON file content into console
-            console.log(suggweights+"AAAA")
             suggweights = json;
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
