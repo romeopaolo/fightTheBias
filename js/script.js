@@ -102,8 +102,11 @@ $(document).ready(function () {
         });
         context = $(this).text();
         displaySectionsPage();
+        console.log(context.toLowerCase()+"CCCCC")
         var path = "./data/suggested_weights_" + context.toLowerCase() + ".json";
+        console.log(suggweights+"BBBB")
         $.getJSON(path, function (json) { // show the JSON file content into console
+            console.log(suggweights+"AAAA")
             suggweights = json;
             $("#intermediateintro").empty();
             //$("#intermediateintro").append('<div class="row">')
