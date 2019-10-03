@@ -7,9 +7,6 @@ It has been developed with the inspiring collaboration and support of Roberto D'
 ## Goal
 The main goal of the project is to raise awareness about the presence of biases while approaching an AI based project.
 
-## Working website
-You can check the working prototype at the following link: https://figththebias.azurewebsites.net
-
 ## Structure of the repository
 - website: contains the source code of the website;
 - excel: contains the excel version of the framework;
